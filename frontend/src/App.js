@@ -1,8 +1,19 @@
 import React from 'react';
 import {Router, Route, Switch } from 'react-router-dom';
-import logo from './logo.svg';
-import './App.css';
+import { history } from './Utils/history';
+import { PrivateRoute, HomeRoute } from './Components/PrivateRoutes/privateRoute';
+import Landing from './Containers/Landing/landing';
 
+
+const App = () => (
+  <Router history={history}>
+    <Switch>
+      <Route exact path="/" component={Landing}/>
+    </Switch>
+  </Router>
+);
+
+/*
 function App() {
   return (
     <div className="App">
@@ -23,18 +34,13 @@ function App() {
     </div>
   );
 }
+*/
 
 export default App;
 
 /*
 Framework for app:
 
-  const App = () => (
-  <Router history={history}>
-    <Switch>
 
-    </Switch>
-  </Router>
-);
 
 */
