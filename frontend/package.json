@@ -13,6 +13,7 @@
     "formik": "^2.1.4",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
+    "react-burger-menu": "^2.6.13",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
