@@ -13,7 +13,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -42,5 +42,22 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "https://api.kroger.com/v1/connect/oauth2/token",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Authorization": "Basic {{base64(“CLIENT_ID:CLIENT_SECRET”)}}"
+  },
+  "data": {
+    "grant_type": "client_credentials",
+    "scope": "{{scope}}"
+  }
+}
+
+
 
 module.exports = app;
