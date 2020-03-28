@@ -22,7 +22,7 @@ nextApp
         server.use(
             session({
                 secret: "Needs a Long and Random string",
-                resave: false;
+                resave: false,
                 saveUninitialized: false
             })
         );
