@@ -1,48 +1,47 @@
-const nextJS = require('next');
-const express = require('express');
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-// authentication and authorization
-const passport = require('passport');
-const session  = require('express-session');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var mealsRouter  = require('./routes/meals');
+var loginRouter = require('./routes/login')
+var groceryList = require('./routes/groceryList')
+var app = express();
 
-// import divided backend
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 
+// add app engine
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-const dev = process.env.NODE_ENV !== "production";
-const nextApp = nextJS({ dev });
-const nextRequestHandler = nextApp.getRequestHandler();
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/meals', mealsRouter);
+app.use('/groceryList', groceryList);
 
-nextApp
-    .prepare()
-    .then(() => {
-        const server = express();
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
 
-        //Middleware
-        server.use(express.urlencoded({ extended: false }));
-        server.use(
-            session({
-                secret: "Needs a Long and Random string",
-                resave: false,
-                saveUninitialized: false
-            })
-        );
-        server.use(passport.initialize());
-        server.use(passport.session());
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-        //our own routes and middelware
-        setAuthentication(server, nextApp);
-        //setUpDatabase();
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
 
-        server.all("*", nextRequestHandler);
-
-        //Starting server
-        server.listen(httpsPost, err => {
-            if (err) throw err;
-            console.log("The Munchies server has started on port ", httpsPort);
-        });
-    })
-    .catch(ex => {
-        console.log(ex.stack);
-        closeDatabase();
-        process.exit(1);
-    })
+module.exports = app;
