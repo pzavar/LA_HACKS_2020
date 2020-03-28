@@ -1,18 +1,21 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('passport')
+var passport = require('passport');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
+  // show landing page
   res.render('index', { title: 'Express' });
 });
 
-router.post('/login',
-  passport.authenticate('local'),
-  function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
-    res.redirect('/users/' + req.user.username);
-  });
+// show register form
+router.get("/register", (req, res) => {
+  res.render('register', { title: 'Register' });
+});
+
+// show login form
+router.get("/login", (req, res) => {
+  res.render("login");
+});
 
 module.exports = router;
