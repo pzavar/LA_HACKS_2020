@@ -1,0 +1,48 @@
+{
+
+        "backend/app.js": {
+                "type": "bmain"
+        },
+        "backend/utils/*.json": {
+                "type": "butils"
+        },
+        "backend/routes/*.js": {
+                "type": "routes"
+        },
+
+        "frontend/src/App.js": {
+                "type": "fmain"
+        },
+        "frontend/src/Redux/*.js": {
+                "type": "redux"
+        },
+        "frontend/src/Utils/*.js": {
+                "type": "futils"
+        },
+        "frontend/src/Components/*.js": {
+                "type": "components"
+        },
+        "frontend/src/Containers/*.js": {
+                "type": "containers"
+        },
+
+        "*": {
+                "makery": {
+                        "start": {
+                                "makeprg": "yarn start"
+                        },
+                        "lint": {
+                                "compiler": "eslint"
+                        },
+                        "tags": {
+                                "makeprg": "es-ctags -R src"
+                        },
+                        "build": {
+                                "makeprg": "yarn build"
+                        },
+                        "test": {
+                                "compiler": "jest"
+                        }
+                }
+        }
+}

@@ -19,6 +19,42 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/success', function(req,res,next){
+	console.log("Auth success")
+	console.log(req)
+})
+
+// Authorization code redirect initiated by 'login' event from Sign In button
+function redirectToLogin() {
+    // Must define all scopes needed for application
+    //const scope = encodeURIComponent('product.personalized cart.basic:rw profile.full');
+    //const scope = 'product.personalized cart.basic:rw profile.full';
+    const scope = ('product.compact');
+    // Build authorization URL
+	console.log(config)
+    const url =
+        // Base URL (https://api.kroger.com/v1/connect/oauth2)
+        `${config.oauth2BaseUrl}/authorize?` +
+        // ClientId (specified in .env file)
+        `client_id=${(config.clientId)}` +
+        // `client_id=${encodeURIComponent(config.clientId)}` +
+        // Pre-configured redirect URL (http://localhost:3000/callback)
+        // `&redirect_uri=${encodeURIComponent(config.redirectUrl)}` +
+        `&redirect_uri=${(config.redirectUrl)}` +
+        // Grant type
+        `&response_type=code` +
+        // Scope specified above
+        `&scope=${scope}`;
+    // Browser redirects to the OAuth2 /authorize page
+
+	console.log(url)
+	return	fetch(`${url}`).then(res => {
+		console.log(res)
+		console.log(res.json)
+		return res;
+	})
+}
+
 router.get('/',
   passport.authenticate('local'),
   function(req, res) {
@@ -27,50 +63,5 @@ router.get('/',
     //res.redirect('/users/' + req.user.username);
     res.redirect('/users/');
   });
-
-  
-// REGISTRATION LOGIC
-router.post('/register', (req, res) => {
-  var newUser = new User({ username: req.body.username });
-  //register() is provided by LocalStrategy
-  //password stored as hash
-  User.register(newUser, req.body.password, (err, user) => {
-    if (err) {
-      console.log(err);
-      //return ensures we get out of this function body safely
-      return res.render("register");
-    }
-    //successful signup
-    //logs in and redirects to main page
-    passport.authenticate("local")(req, res, () => {
-      res.redirect("/main");
-    });
-  });
-});
-
-// handling login route
-router.post("/login", passport.authenticate("local",
-  {
-    //middleware
-    successRedirect: "/users/" + req.user.username,
-    failureRedirect: "/login"
-  }), (req, res)=> {
-    //nothing
-  });
-
-
-  // logout logic
-router.get("/logout", (req, res) => {
-    req.logout();
-    res.redirect("/main");
-});
-
-// isLoggedIn middleware
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect = router;
-}
 
 module.exports = router;
