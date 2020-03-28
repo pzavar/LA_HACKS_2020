@@ -3,12 +3,14 @@ import {Router, Route, Switch } from 'react-router-dom';
 import { history } from './Utils/history';
 import { PrivateRoute, HomeRoute } from './Components/PrivateRoutes/privateRoute';
 import Landing from './Containers/Landing/landing';
+import Login from './Containers/Login/login';
 
 
 const App = () => (
   <Router history={history}>
     <Switch>
-      <Route exact path="/" component={Landing}/>
+      <Route exact path="/" component={Landing} />
+      <Route exact path="/login" component={Login} />
     </Switch>
   </Router>
 );
@@ -37,10 +39,3 @@ function App() {
 */
 
 export default App;
-
-/*
-Framework for app:
-
-
-
-*/
