@@ -2,6 +2,11 @@ var mongoose = require('mongoose');
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var UserSchema = new mongoose.Schema({
+    firstname: String,
+    lastname: String,
+    email: String,
+    dietaryrestriction: String,
+    goal: String,
     username: String,
     password: String
 });

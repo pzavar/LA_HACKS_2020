@@ -8,18 +8,28 @@ var usersRouter = require('./routes/users');
 var mealsRouter  = require('./routes/meals');
 var loginRouter = require('./routes/auth')
 var groceryList = require('./routes/groceryList')
+const mongoose = require('mongoose');
 var app = express();
 
+
+// ===============
+//     PASSPORT
+// ===============
 var passport      = require("passport");
 var LocalStrategy = require("passport-local");
 var User = require("./models/user")
 
-// const MongoClient = require('mongodb').MongoClient;
-// const ObjectId = require('mongodb').ObjectID;
-
-var passport = require('passport');
-var LocalStrategy = require('passport-local');
-var User = require('./models/user');
+// ==================
+//      MongoDB
+// ==================
+const connectDB = require('./db');
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+connectDB();
+app.use(express.json({extended: false}));
+app.use('/api/userModel', require('./API/User'));
 
 
 // view engine setup
@@ -32,7 +42,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// PASSPORT CONFIGURATION
+
+// =============================
+//    PASSPORT CONFIGURATION
+// =============================
 app.use(require('express-session')({
 	secret: " some long string",
 	resave: false,
@@ -50,12 +63,19 @@ app.use((req, res, next) => {
 });
 
 
+// ======================
+//      USE ROUTES
+// ======================
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/meals', mealsRouter);
 app.use('/groceryList', groceryList);
 
+
+// ===========================
+//       ERROR HANDLING
+// ===========================
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -72,6 +92,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+// =================
+//     SETTINGS
+// =================
 var settings = {
   "async": true,
   "crossDomain": true,
@@ -88,9 +112,6 @@ var settings = {
 }
 
 
-// app.listen(3000, () => {
-//   MongoClient.connect()
-// })
 
 
 module.exports = app;
