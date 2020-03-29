@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Card, Row, Table } from 'react-bootstrap';
 import MealCards from './mealCards';
 
+import "../Styles/styles.css"
 
 
 /*
@@ -57,19 +58,19 @@ export function Week(props) {
 
     return (
         <Row>
-            <header style={{marginBottom: 15, marginTop: 10}}>
-                <h2>My Weekly Meals</h2>
+            <header style={{ marginBottom: 15, marginTop: 10}}>
+                <h2 className="BodyFont">My Weekly Meals</h2>
             </header>
             <Table responsive>
                 <thead>
                     <tr>
-                        <th>Sun</th>
-                        <th>Mon</th>
-                        <th>Tue</th>
-                        <th>Wed</th>
-                        <th>Thu</th>
-                        <th>Fri</th>
-                        <th>Sat</th>
+                        <th className="BodyFont">Sun</th>
+                        <th className="BodyFont">Mon</th>
+                        <th className="BodyFont">Tue</th>
+                        <th className="BodyFont">Wed</th>
+                        <th className="BodyFont">Thu</th>
+                        <th className="BodyFont">Fri</th>
+                        <th className="BodyFont">Sat</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -144,9 +145,9 @@ export function Week(props) {
                         <td>
                             <Card bg={"warning"} text={'white'} style={{width: '8rem'}}>
                                 <Card.Body>
-                                    <Card.Title>Breakfast</Card.Title>
+                                    <Card.Title className="BodyFont2">Breakfast</Card.Title>
                                     <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                    <Card.Text>Handomse and creamy mac and cheese.</Card.Text>
+                                    <Card.Text>Handsom and creamy mac and cheese.</Card.Text>
                                 </Card.Body>
                             </Card>
                         </td>

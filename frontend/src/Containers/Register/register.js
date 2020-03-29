@@ -6,7 +6,6 @@ import DietRestrict from '../../Components/Survey/DietRestrict';
 import DietLifestyle from '../../Components/Survey/DietLifestyle';
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
 import { history } from '../../Utils/history';
-
 import './register.css';
 
 
@@ -81,7 +80,7 @@ export default class Register extends Component {
                     <h2 className="title-header">Registration</h2>
                     <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="registration-survey">
                         <Tab eventKey={1} title="1">
-                            <h3 className="title">User Information</h3>
+                            <h3 className="title" >User Information</h3>
                             <p>Please enter your account setup information.</p>
                             <UserInfo 
                                 handleChange={this.handleChange}

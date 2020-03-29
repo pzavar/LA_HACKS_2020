@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC|Karla|Lato|Montserrat|Raleway|Roboto|Spartan&display=swap');
+
+.HeaderFont {
+    font-family: 'Amatic SC', cursive;
+    text-align: center;
+    width: 100%; 
+    padding: 10px;
+    color: #A6CC9F;
+}
+
+.SubheaderFont{
+    font-family:'Lato', sans-serif;
+    font-weight: 700;
+    color: #A6CC9F;
+    text-align: center;
+    
+}
+
+.BodyFontB{ 
+    font-family:'Lato', sans-serif;
+    font-weight: 500;
+}
+
+.BodyFont {
+    font-family:'Lato', sans-serif;
+}
+
