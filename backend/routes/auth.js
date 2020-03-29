@@ -1,4 +1,8 @@
+var fetch = require('node-fetch')
+const { base64encode, base64decode } = require('nodejs-base64');
 var express = require('express');
+const request = require('request')
+const config = require('../config')
 var router = express.Router();
 var passport = require('passport')
 
@@ -45,13 +49,14 @@ function redirectToLogin() {
         // Scope specified above
         `&scope=${scope}`;
     // Browser redirects to the OAuth2 /authorize page
-
+	
 	console.log(url)
-	return	fetch(`${url}`).then(res => {
-		console.log(res)
-		console.log(res.json)
-		return res;
-	})
+	return url;
+	// return	fetch(`${url}`).then(res => {
+	// 	console.log(res)
+	// 	console.log(res.json)
+	// 	return res;
+	//})
 }
 
 router.get('/',
@@ -62,5 +67,55 @@ router.get('/',
     //res.redirect('/users/' + req.user.username);
     res.redirect('/users/');
   });
+
+function callback(error, response, body) {
+	// console.log(error)
+	// console.log(response)
+	// console.log(body)
+	console.log(response)
+		
+	console.log(response.statusCode)
+    if (!error && response.statusCode == 200) {
+        console.log(body);
+    }
+}
+
+
+router.get('/isLoggedIn',
+  async function(req, res) {
+    //Check databse if user is still logged in
+	  //Else request token and save it
+console.log("isLoggedIn")	 
+
+	   const encoded = Buffer.from(`${config.clientId}:${config.clientSecret}`, `ascii`);
+  // ClientId and clientSecret must be encoded
+  const authorization = "Basic " + encoded.toString("base64");
+  // Base URL (https://api.kroger.com/v1/connect/oauth2)
+  // Version/Endpoint (/v1/token)
+  const tokenUrl = 'https://api.kroger.com/v1/connect/oauth2/token';
+
+	  console.log(tokenUrl)
+	  console.log(authorization)
+	  		
+	  // token request
+  let tokenResponse = await fetch(tokenUrl, {
+    method: "POST",
+    headers: {
+      "User-Agent": "",
+      Authorization: authorization,
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: 'grant_type=client_credentials&scope=product.compact'
+  });
+	  console.log(tokenResponse)
+	  var json = await tokenResponse.json()
+	  console.log(json)
+
+	  return json
+	  	
+	  	
+  });
+
+
 
 module.exports = router;
