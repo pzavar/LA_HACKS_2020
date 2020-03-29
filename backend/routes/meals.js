@@ -1,3 +1,4 @@
+const measurement = require('../utils/measurements')
 const config = require('../config')
 var CLIENT_ID = "munchies-9c7559789a50c8102c9dc870913c43521328125745489412562"
 var CLIENT_SECRET="kAGjcYPS4wOtGg9TIabQ8nTp1d49Fw9RbTckwnaM"
@@ -15,6 +16,67 @@ require('dotenv').config();
 
 
 /* GET home page. */
+router.get('/:search', async function(req, res, next) {
+	console.log(req)
+	var search = req.search
+	fetch(`https://api.edamam.com/search?q=${search}&app_id=3344f1e2&app_key=e947ca2f0edac72a9ea37ef3af57ea54&from=0&to=1`)
+	    .then(res => {
+		    return res.json()
+	    })
+	    .then(json => {
+		    console.log(json["hits"])
+		    var ingr = json["hits"][0]["recipe"]["ingredientLines"]
+		    console.log(ingr)
+		    var map = ingr.map(elem => {
+			    return elem.split(',')[0];
+		    })
+		    //Go until number or measurement
+		    var result = map.map(elem => {
+			    elem = elem.split(' ')
+			    var length = elem.length
+			    var end = length;
+			    var start = 0;
+			    console.log(elem)
+			    for(var i = length - 1; i > 0; i--){
+				    console.log(elem[i])
+				    if(measurement.includes(elem[i])){
+					    console.log("1 true")
+					    console.log(i)
+					    start = i + 1;
+					    console.log(start)
+					    return elem.slice(start,end)
+				    }
+				    else if(elem[i].indexOf("/") >= 0){
+					    //Found fraction?
+					    console.log("found fraction true")
+					    console.log(i)
+					    start = i + 1;
+					    console.log(start)
+					    return elem.slice(start,end)
+				    }
+				    else if(elem[i].match(/^-{0,1}\d+$/)){
+					    //valid integer (positive or negative)
+					    console.log("2 true")
+					    console.log(i)
+					    start = i + 1;
+					    console.log(start)
+					    return elem.slice(start,end)
+				    }else if(elem[i].match(/^\d+\.\d+$/)){
+					    //valid float
+					    console.log("3 true")
+					    console.log(i)
+					    start = i + 1;
+					    console.log(start)
+					    return elem.slice(start,end)
+				    }
+			    }
+			    return elem;
+		    })
+		    return res.send(result)
+		    return res.send(json["hits"][0]["recipe"]["ingredientLines"])
+		    res.send(json["hits"])
+	    });
+});
 router.get('/:meal', async function(req, res, next) {
 	console.log(req)
 	var meal = req.meal
