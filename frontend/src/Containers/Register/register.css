@@ -17,10 +17,14 @@
 .title-header {
     margin-top: 10px;
     margin-bottom: 20px;
+    color: red;
 }
 
 .btn {
     margin-top: 20px;
+    background-color: #547C8F;
+    border: #547C8F;
+    
 }
 
 #two-button-group {

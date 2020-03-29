@@ -8,7 +8,7 @@ export default class UserInfo extends Component {
         return (
             <Form>
                 <Form.Group controlId="name">
-                    <Form.Label>Full Name</Form.Label>
+                    <Form.Label className="BodyFontB">Full Name</Form.Label>
                     <Form.Control 
                         type="string" 
                         name="name"
@@ -18,7 +18,7 @@ export default class UserInfo extends Component {
                 </Form.Group>
 
                 <Form.Group controlId="email">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label className="BodyFontB">Email</Form.Label>
                     <Form.Control 
                         type="email" 
                         placeholder="Enter email"
@@ -29,7 +29,7 @@ export default class UserInfo extends Component {
                 </Form.Group>
 
                 <Form.Group controlId="password">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label className="BodyFontB">Password</Form.Label>
                     <Form.Control 
                         type="password" 
                         placeholder="Enter password"
