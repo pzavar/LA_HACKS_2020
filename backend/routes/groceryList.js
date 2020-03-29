@@ -12,6 +12,7 @@ var foods = require('../utils/food');
 /* GET home page. */
 //query would be day and meal
 //We would get this information from our database
+//In our DB we'll store a week
 router.get('/', function(req, res, next) {
 	console.log(foods)
 	var meal = req.query.meal

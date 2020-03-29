@@ -1,3 +1,4 @@
+const measurement = require('../utils/measurements')
 const config = require('../config')
 var CLIENT_ID = "munchies-9c7559789a50c8102c9dc870913c43521328125745489412562"
 var CLIENT_SECRET="kAGjcYPS4wOtGg9TIabQ8nTp1d49Fw9RbTckwnaM"
@@ -15,6 +16,40 @@ require('dotenv').config();
 
 
 /* GET home page. */
+router.get('/week', async function(req, res, next) {
+	console.log(req)
+	var searchList = ["chicken", "steak", "salad","turkey","spinach","sandwich"]
+	var searchOne = await fetch(`https://api.edamam.com/search?q=${searchList[0]}&app_id=3344f1e2&app_key=e947ca2f0edac72a9ea37ef3af57ea54&from=0&to=21`)
+	var json = await searchOne.json()
+	var hits = json["hits"]
+	console.log(hits)
+		
+	var week = []
+	for(var i = 0; i < 7; i++){
+		for(var j = 0; j < 3; j++){
+			var mealType = "breakfast"
+			if(j == 1) mealType = "lunch"
+			else if(j == 2) mealType = "dinner"
+			var meal = hits[i]["recipe"]
+			console.log(meal)
+			var day = {}
+			day["label"] = meal["label"]
+			console.log(meal["label"])
+			day["calories"] = meal["calories"]
+			console.log(meal["calories"])
+			day["yield"] = meal["yield"]
+			console.log(meal["yield"])
+			day["healthLabels"] = meal["healthLabels"]
+			console.log(meal["healthLabels"])
+			day["mealType"] = mealType
+			console.log(mealType)
+			day["recipe"] = meal["ingredientLines"]
+			week.push(day)
+		}
+	}
+	res.send(week)
+});
+
 router.get('/:meal', async function(req, res, next) {
 	console.log(req)
 	var meal = req.meal

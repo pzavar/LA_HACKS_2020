@@ -5,8 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var mealsRouter = require('./routes/meals');
-var loginRouter = require('./routes/auth')
+var mealsRouter  = require('./routes/meals');
+var authRouter  = require('./routes/auth')
 var groceryList = require('./routes/groceryList')
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -147,7 +147,7 @@ app.use((req, res, next) => {
 // ======================
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/login', loginRouter);
+app.use('/auth', authRouter);
 app.use('/meals', mealsRouter);
 app.use('/groceryList', groceryList);
 
