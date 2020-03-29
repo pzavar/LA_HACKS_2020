@@ -1,0 +1,37 @@
+
+.tab-wrapper {
+    margin-right: auto;
+    margin-left: auto;
+
+    max-width: 500px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    border: 2px solid lightgray;
+}
+
+.title {
+    margin-top: 10px;
+
+}
+
+.title-header {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    margin-top: 20px;
+    margin: 20px;
+}
+
+#two-button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+#one-button-group {
+    display: flex;
+    justify-content: flex-end;
+}

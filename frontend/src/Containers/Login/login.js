@@ -5,6 +5,8 @@ import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
+import '../../Components/Styles/styles.css';
+
 const schema = yup.object({
     password : yup.string()
     .matches(/^[a-zA-Z]/, "password must start with an alphabet letter")
@@ -29,10 +31,6 @@ class Login extends Component {
         this.handleLogin = this.handleLogin.bind(this)
       }
     
-      componentDidMount() {
-        document.body.style.backgroundColor = '#e1edfc';
-      }
-    
       handleLogin(values){
         this.setState({submitted: true, changed: false});
         const { email, password } = values;
@@ -42,8 +40,12 @@ class Login extends Component {
 
     render() {
         return(
-            <Container className="main border rounded mid p-3">
-                <p className="sign">Sign In</p>
+            <div >
+            <header>
+                <Link to="/" style={{textDecoration: 'none'}}><h1 className="HeaderFont">Munchies</h1></Link>
+            </header>
+            <Container className="main border rounded mid p-3 page">
+                <p className="BodyFontB">Sign In</p>
                 <Formik
                     initialValues = {{email: '', password: ''}}
                     onSubmit={values => {
@@ -116,6 +118,7 @@ class Login extends Component {
                 </Formik>  
  
             </Container>
+            </div>
         )
     }
 }
