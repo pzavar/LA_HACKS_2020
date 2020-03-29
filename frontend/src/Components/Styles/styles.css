@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC|Karla|Lato|Montserrat|Raleway|Roboto|Spartan&display=swap');
+
+.HeaderFont {
+    font-family: 'Amatic SC', cursive;
+    text-align: center;
+    width: 100%; 
+    padding: 10px;
+    color: #A6CC9F;
+    font-size: 220px;
+}
+
+.SubheaderFont{
+    font-family:'Spartan', sans-serif;
+    font-weight: 700;
+    color: #A6CC9F;
+    text-align: center;
+    
+}
+
+.BodyFontB{ 
+    font-family:'Spartan', sans-serif;
+    font-weight: 500;
+}
+
+.BodyFont {
+    font-family:'Spartan', sans-serif;
+}
+
+.BodyFontC{
+    font-family: 'Spartan', sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+.main{
+    margin-top: 5%;
+    width: 50%;
+}
+
+.page {
+    background-color: #F7E9D4;
+    background-size: cover;
+    margin-bottom: 0px;
+    border: 60px solid transparent;
+}
+
