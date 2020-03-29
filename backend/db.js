@@ -1,27 +1,35 @@
-const { MongoClient } = require('mongodb');
+// const mongoose = require('mongoose');
 
-const dbConnectionUrl = "mongodb+srv://pzavar:<password>@cluster0-rf1yl.gcp.mongodb.net/test?retryWrites=true&w=majority";
+// const URI = "mongodb+srv://pzavar:Munchies135@cluster0-rf1yl.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
-function initialize(
-    munchies_db,
-    Users,
-    successCallback,
-    failureCallback
-) {
+// const connectDB = async () => {
+//     await mongoose.connect(URI, {
+//         useUnifiedTopology: true,
+//         useNewUrlParser: true
+//     });
+//     console.log('db connected');
+// }
+
+// module.exports = connectDB;
+
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
+
+const dbConnectionUrl = 'mongodb+srv://lahacker20:Munchies135@cluster0-rf1yl.gcp.mongodb.net/test?retryWrites=true&w=majority';
+
+function initialize(dbName, dbCollectionName, successCallback, failureCallback) {
     MongoClient.connect(dbConnectionUrl, (err, dbInstance) => {
         if (err) {
             console.log(`[MongoDB connection] ERROR: ${err}`);
-            failureCallback(err); //this should be "caught" by the calling function
+			failureCallback(err);        // this should be "caught" by the calling function
         } else {
-            const dbObject = dbInstance.db(munchies_db);
-            const dbCollection = dbObject.collection(Users);
-            console.log("[MongoDB connection] SUCCESS");
+            const dbObject = dbInstance.db(dbName);
+            const dbCollection = dbObject.collection(dbCollectionName);
 
-            successCallback(dbCollection);
+            console.log("[MongoDB connection] SUCCESS");
+			successCallback(dbCollection);
         }
     });
 }
 
-module.exports = {
-    initialize
-};
+module.exports = { initialize };
