@@ -32,3 +32,15 @@
     text-align: center;
 }
 
+.main{
+    margin-top: 5%;
+    width: 50%;
+}
+
+.page {
+    background-color: #F7E9D4;
+    background-size: cover;
+    margin-bottom: 0px;
+    border: 60px solid transparent;
+}
+
