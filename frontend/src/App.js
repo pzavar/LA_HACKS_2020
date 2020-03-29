@@ -6,7 +6,6 @@ import Landing from './Containers/Landing/landing';
 import Login from './Containers/Login/login';
 import Home from './Containers/Home/home';
 import Recipes from './Containers/Recipes/recipes';
-import Grocery from './Containers/Grocery/grocery';
 import Register from './Containers/Register/register';
 import History from './Containers/Settings/history';
 import Settings from './Containers/Settings/settings';
@@ -20,7 +19,6 @@ const App = () => (
       <Route exact path="/register" component={Register} />
       <Route exact path="/home" component={Home} />
       <Route exact path="/recipes" component={Recipes} />
-      <Route exact path="/grocery" component={Grocery} />
       <Route exact path="/history" component={History} />
       <Route exact path="/settings" component={Settings} />
     </Switch>
