@@ -17,11 +17,11 @@ route.post('/', async (req, res) => {
     let user = {};
     user.firstname = firstname;
     user.lastname = lastname;
-    // user.email = email;
-    // user.password = password;
-    // user.username = username;
-    // user.dietaryrestriction = dietaryrestriction;
-    // user.goal = goal;
+    user.email = email;
+    user.password = password;
+    user.username = username;
+    user.dietaryrestriction = dietaryrestriction;
+    user.goal = goal;
 
     let userModel = new User(user);
     await userModel.save();
