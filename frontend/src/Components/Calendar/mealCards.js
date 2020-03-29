@@ -19,14 +19,14 @@ export default class MealCards extends Component {
             <Card>
                 <Card.Img />
                 <Card.Body>
-                    <Card.Title>{this.props.label}</Card.Title>
-                    <Card.Subtitle>{this.props.source}</Card.Subtitle>
-                        <Card.Text>
+                    <Card.Title className="BodyFontB">{this.props.label}</Card.Title>
+                    <Card.Subtitle  className="BodyFont">{this.props.source}</Card.Subtitle>
+                        <Card.Text  className="BodyFont">
                             Servings: {this.props.yield} {"\n"}
                             Calories: {this.props.calories}
                         </Card.Text>
                 </Card.Body>
-                <Card.Footer>
+                <Card.Footer  className="BodyFont">
                     <div className="tag-wrapper">
                         {this.props.healthLabels.map(label => (
                             <p className="tag-item">{label}</p>

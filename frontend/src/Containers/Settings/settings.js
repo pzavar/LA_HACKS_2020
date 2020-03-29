@@ -87,6 +87,7 @@ export default class Settings extends Component {
 
                     <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="registration-survey">
                         <Tab eventKey={1} title="1">
+                            <div style={{margin:10}}/>
                             <h3 className="title" className="BodyFont">User Information</h3>
                             <p className="BodyFont" >Change your personal information.</p>
                             <UserInfo 
@@ -101,6 +102,7 @@ export default class Settings extends Component {
                             
                         </Tab>
                         <Tab eventKey={2} title="2">
+                            <div style={{margin:10}}/>
                             <h3 className="title" className="BodyFont">Diet Preferences</h3>
                             <p className="BodyFont"> Change your diet preference.</p>
                             <DietPref 
@@ -111,6 +113,7 @@ export default class Settings extends Component {
                             </Row>
                         </Tab>
                         <Tab eventKey={3} title="3">
+                            <div style={{margin:10}}/>
                             <h3 className="title" className="BodyFont">Diet Lifestyles</h3>
                             <p className="BodyFont">Change any dietary lifestyles.</p>
                             <DietLifestyle 
@@ -122,6 +125,7 @@ export default class Settings extends Component {
                             </Row>
                         </Tab>
                         <Tab eventKey={4} title="4">
+                            <div style={{margin:10}}/>
                             <h3 className="title" className="BodyFont">Diet Restrictions</h3>
                             <p className="BodyFont">Change any dietary restrictions you may have.</p>
                             <DietRestrict

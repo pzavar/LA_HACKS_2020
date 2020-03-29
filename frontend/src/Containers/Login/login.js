@@ -29,10 +29,6 @@ class Login extends Component {
         this.handleLogin = this.handleLogin.bind(this)
       }
     
-      componentDidMount() {
-        document.body.style.backgroundColor = '#e1edfc';
-      }
-    
       handleLogin(values){
         this.setState({submitted: true, changed: false});
         const { email, password } = values;

@@ -10,7 +10,8 @@ export default class History extends Component {
                 <SideBar pageWrapId={"page-wrap"} outerContainerId={"home"}/>
                 <Container id="page-wrap">
                     <NavigationBar />
-                    <h1>History</h1>
+                    <h1 className="SubheaderFont">History</h1>
+                    <div style={{margin:30}}/>
                     <Table>
                         <thead>
                             <tr>

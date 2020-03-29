@@ -61,18 +61,18 @@ export default class Home extends Component {
                 <Container id="page-wrap">
                     <NavigationBar />
                     <header>
-                        <h3>Today's Delicious Meals</h3>
+                        <h3 className="BodyFontB">Today's Delicious Meals</h3>
                     </header>
                     <div style={{margin:20}} />
                     <Row>
                         <Col>
-                            <h4>Breakfast</h4>
+                            <h4 className="BodyFont">Breakfast</h4>
                         </Col>
                         <Col>
-                            <h4>Lunch</h4>
+                            <h4 className="BodyFont">Lunch</h4>
                         </Col>
                         <Col>
-                            <h4>Dinner</h4>
+                            <h4 className="BodyFont">Dinner</h4>
                         </Col>
                     </Row>
                     <div style={{margin:10}} />
@@ -84,24 +84,24 @@ export default class Home extends Component {
                         <Col>
                             <div className="nutrient-info-wrapper">
                             <header>
-                                <h4>Daily Nutrient Intake</h4>
+                                <h4 className="BodyFont">Daily Nutrient Intake</h4>
                             </header>
                             <div style={{margin:'10%'}} />
                             <ListGroup variant="flush" style={{width:'70%'}}>
-                                <ListGroup.Item>Total Calories: </ListGroup.Item>
-                                <ListGroup.Item>Total Fat: </ListGroup.Item>
-                                <ListGroup.Item>Total Cholestral: </ListGroup.Item>
-                                <ListGroup.Item>Total Sodium: </ListGroup.Item>
-                                <ListGroup.Item>Total Sugar: </ListGroup.Item>
-                                <ListGroup.Item>Total Protein: </ListGroup.Item>
-                                <ListGroup.Item>Total Carbs: </ListGroup.Item>
+                                <ListGroup.Item className="BodyFont">Total Calories: </ListGroup.Item>
+                                <ListGroup.Item className="BodyFont">Total Fat: </ListGroup.Item>
+                                <ListGroup.Item className="BodyFont">Total Cholestral: </ListGroup.Item>
+                                <ListGroup.Item className="BodyFont">Total Sodium: </ListGroup.Item>
+                                <ListGroup.Item className="BodyFont">Total Sugar: </ListGroup.Item>
+                                <ListGroup.Item className="BodyFont">Total Protein: </ListGroup.Item>
+                                <ListGroup.Item className="BodyFont">Total Carbs: </ListGroup.Item>
                             </ListGroup>
                             </div>
                         </Col>
                         <Col>
                             <div className="pie-chart-wrapper">
                             <header>
-                                <h4>Macros</h4>
+                                <h4 className="BodyFont">Macros</h4>
                             </header>
                             <PieChart
                                 animate={false}
@@ -133,9 +133,9 @@ export default class Home extends Component {
                             </div>
                             <div style={{margin:30}}/>
                             <ListGroup variant="flush">
-                                <ListGroup.Item style={{color: '#E38627'}}>Fat: {fat} %</ListGroup.Item>
-                                <ListGroup.Item style={{color: '#C13C37'}}>Protein: {protein} %</ListGroup.Item>
-                                <ListGroup.Item style={{color: '#6A2135'}}>Carbs: {carbs} %</ListGroup.Item>
+                                <ListGroup.Item  className="BodyFont" style={{color: '#E38627'}}>Fat: {fat} %</ListGroup.Item>
+                                <ListGroup.Item  className="BodyFont" style={{color: '#C13C37'}}>Protein: {protein} %</ListGroup.Item>
+                                <ListGroup.Item  className="BodyFont" style={{color: '#6A2135'}}>Carbs: {carbs} %</ListGroup.Item>
                             </ListGroup>
                         </Col>
                     </Row>
