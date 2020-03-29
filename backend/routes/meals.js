@@ -16,67 +16,40 @@ require('dotenv').config();
 
 
 /* GET home page. */
-router.get('/:search', async function(req, res, next) {
+router.get('/week', async function(req, res, next) {
 	console.log(req)
-	var search = req.search
-	fetch(`https://api.edamam.com/search?q=${search}&app_id=3344f1e2&app_key=e947ca2f0edac72a9ea37ef3af57ea54&from=0&to=1`)
-	    .then(res => {
-		    return res.json()
-	    })
-	    .then(json => {
-		    console.log(json["hits"])
-		    var ingr = json["hits"][0]["recipe"]["ingredientLines"]
-		    console.log(ingr)
-		    var map = ingr.map(elem => {
-			    return elem.split(',')[0];
-		    })
-		    //Go until number or measurement
-		    var result = map.map(elem => {
-			    elem = elem.split(' ')
-			    var length = elem.length
-			    var end = length;
-			    var start = 0;
-			    console.log(elem)
-			    for(var i = length - 1; i > 0; i--){
-				    console.log(elem[i])
-				    if(measurement.includes(elem[i])){
-					    console.log("1 true")
-					    console.log(i)
-					    start = i + 1;
-					    console.log(start)
-					    return elem.slice(start,end)
-				    }
-				    else if(elem[i].indexOf("/") >= 0){
-					    //Found fraction?
-					    console.log("found fraction true")
-					    console.log(i)
-					    start = i + 1;
-					    console.log(start)
-					    return elem.slice(start,end)
-				    }
-				    else if(elem[i].match(/^-{0,1}\d+$/)){
-					    //valid integer (positive or negative)
-					    console.log("2 true")
-					    console.log(i)
-					    start = i + 1;
-					    console.log(start)
-					    return elem.slice(start,end)
-				    }else if(elem[i].match(/^\d+\.\d+$/)){
-					    //valid float
-					    console.log("3 true")
-					    console.log(i)
-					    start = i + 1;
-					    console.log(start)
-					    return elem.slice(start,end)
-				    }
-			    }
-			    return elem;
-		    })
-		    return res.send(result)
-		    return res.send(json["hits"][0]["recipe"]["ingredientLines"])
-		    res.send(json["hits"])
-	    });
+	var searchList = ["chicken", "steak", "salad","turkey","spinach","sandwich"]
+	var searchOne = await fetch(`https://api.edamam.com/search?q=${searchList[0]}&app_id=3344f1e2&app_key=e947ca2f0edac72a9ea37ef3af57ea54&from=0&to=21`)
+	var json = await searchOne.json()
+	var hits = json["hits"]
+	console.log(hits)
+		
+	var week = []
+	for(var i = 0; i < 7; i++){
+		for(var j = 0; j < 3; j++){
+			var mealType = "breakfast"
+			if(j == 1) mealType = "lunch"
+			else if(j == 2) mealType = "dinner"
+			var meal = hits[i]["recipe"]
+			console.log(meal)
+			var day = {}
+			day["label"] = meal["label"]
+			console.log(meal["label"])
+			day["calories"] = meal["calories"]
+			console.log(meal["calories"])
+			day["yield"] = meal["yield"]
+			console.log(meal["yield"])
+			day["healthLabels"] = meal["healthLabels"]
+			console.log(meal["healthLabels"])
+			day["mealType"] = mealType
+			console.log(mealType)
+			day["recipe"] = meal["ingredientLines"]
+			week.push(day)
+		}
+	}
+	res.send(week)
 });
+
 router.get('/:meal', async function(req, res, next) {
 	console.log(req)
 	var meal = req.meal
