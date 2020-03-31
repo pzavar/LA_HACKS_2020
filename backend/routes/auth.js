@@ -1,5 +1,4 @@
 var fetch = require('node-fetch')
-const { base64encode, base64decode } = require('nodejs-base64');
 var express = require('express');
 const request = require('request')
 const config = require('../config')
