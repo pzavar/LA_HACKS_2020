@@ -1,12 +1,36 @@
+.meals-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+
 .pie-chart-wrapper {
+    margin-right: auto;
+    margin-left: auto;
+
+    max-width: 80%;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    justify-content: center;
+}
+
+.macros-wrapper {
     margin-top: 25px;
     margin-right: auto;
     margin-left: auto;
 
-    max-width: 200px;
-    padding-top: 10px;
     padding-right: 10px;
     padding-left: 10px;
+
+    border-style: solid;
+    border-width: 3px;
+    border-color:rgba(84, 124, 143, 0.304);
+    border-radius: 5px;
 
     justify-content: center;
 }
@@ -16,10 +40,45 @@
     margin-right: auto;
     margin-left: auto;
 
-    max-width: 200px;
-    padding-top: 10px;
+    padding-top: 45px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 45px;
+
+    border-style: solid;
+    border-width: 3px;
+    border-color:rgba(84, 124, 143, 0.304);
+    border-radius: 5px;
+
+    justify-content: center;
+}
+
+.nutrient-header {
+    font-size: 15px;
+}
+
+.macros-list {
+    width: 50%;
+
+    margin-top: 25px;
+    margin-right: auto;
+    margin-left: auto;
+
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 15px;
+
+    justify-content: center;
+}
+
+.macros-item {
+    margin-right: auto;
+    margin-left: auto;
+
     padding-right: 10px;
     padding-left: 10px;
 
     justify-content: center;
+
+    border: none;
 }

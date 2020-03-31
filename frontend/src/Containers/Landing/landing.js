@@ -33,7 +33,7 @@ class Landing extends Component {
     render() {
         return (
             <div className="page" >
-            <Container>
+            <Container className="page">
                 <Row>
                     <Col>
                         <h1  className="HeaderFont">Munchies</h1>

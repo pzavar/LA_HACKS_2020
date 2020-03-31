@@ -3,10 +3,13 @@ import MealCards from './mealCards';
 import { Card, CardDeck } from 'react-bootstrap';
 
 function populateCards(props) {
+    console.log("populateCards props = " + JSON.stringify(props))
+
     var cards = [];
     for (let i = 0; i < props.length; i++) {
         cards.push(
             <MealCards
+                key={i}
                 url={props[i].url}
                 image={props[i].image}
                 label={props[i].label}

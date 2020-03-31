@@ -35,6 +35,9 @@ router.get('/week', async function(req, res, next) {
 			var day = {}
 			day["label"] = meal["label"]
 			console.log(meal["label"])
+			day["image"] = meal["image"]
+			day["source"] = meal["source"]
+			day["url"] = meal["url"]
 			day["calories"] = meal["calories"]
 			console.log(meal["calories"])
 			day["yield"] = meal["yield"]

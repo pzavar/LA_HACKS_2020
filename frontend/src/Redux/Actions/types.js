@@ -1,0 +1,5 @@
+export const mealsConstants = {
+    WEEK_REQUEST: 'MEALS_WEEK_REQUEST',
+    WEEK_SUCCESS: 'MEALS_WEEK_SUCCESS',
+    WEEK_FAILURE: 'MEALS_WEEK_FAILURE',
+}
