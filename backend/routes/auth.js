@@ -9,17 +9,17 @@ var User = require('../models/user')
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	console.log("Inside login router")
-		
-  passport.authenticate('local'),
-  function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
-    //res.redirect('/users/' + req.user.username);
-	  console.log("Successful auth")
-	  	
-    res.redirect('/users/');
-  };
-  res.render('index', { title: 'Express' });
+
+	passport.authenticate('local'),
+		function(req, res) {
+			// If this function gets called, authentication was successful.
+			// `req.user` contains the authenticated user.
+			//res.redirect('/users/' + req.user.username);
+			console.log("Successful auth")
+
+			res.redirect('/users/');
+		};
+	res.render('index', { title: 'Express' });
 });
 
 router.get('/success', function(req,res,next){
@@ -31,21 +31,21 @@ router.get('/success', function(req,res,next){
 //    REGISTRATION LOGIC
 // ========================
 router.post("/register", (req, res) => {
-  var newUser = new User({username: req.body.username});
-  User.register(new User(newUser), req.body.password, (err, user) => {
-    if (err) {
-      console.log(err);
-      return res.render("register");
-    }
-    passport.authenticate("local")(req, res, () => {
+	var newUser = new User({username: req.body.username});
+	User.register(new User(newUser), req.body.password, (err, user) => {
+		if (err) {
+			console.log(err);
+			return res.render("register");
+		}
+		passport.authenticate("local")(req, res, () => {
 			res.redirect("/campgrounds");
 		});
-  });
+	});
 });
 
 // LOGIN LOGIC
 router.get("/login", (req, res) => {
-  res.render("login");
+	res.render("login");
 });
 
 router.post("/login", passport.authenticate("local", 
@@ -54,8 +54,8 @@ router.post("/login", passport.authenticate("local",
 		successRedirect: "/main", 
 		failureRedirect: "/login"
 	}), function (req, res) {
-	//nothing
-});
+		//nothing
+	});
 
 // LOG OUT LOGIC
 router.get("/logout", (req, res) => {
@@ -76,48 +76,45 @@ function callback(error, response, body) {
 	// console.log(response)
 	// console.log(body)
 	console.log(response)
-		
+
 	console.log(response.statusCode)
-    if (!error && response.statusCode == 200) {
-        console.log(body);
-    }
+	if (!error && response.statusCode == 200) {
+		console.log(body);
+	}
 }
 
 
 router.get('/isLoggedIn',
-  async function(req, res) {
-    //Check databse if user is still logged in
-	  //Else request token and save it
-console.log("isLoggedIn")	 
+	async function(req, res) {
+		//Check databse if user is still logged in
+		//Else request token and save it
+		console.log("isLoggedIn")	 
 
-	   const encoded = Buffer.from(`${config.clientId}:${config.clientSecret}`, `ascii`);
-  // ClientId and clientSecret must be encoded
-  const authorization = "Basic " + encoded.toString("base64");
-  // Base URL (https://api.kroger.com/v1/connect/oauth2)
-  // Version/Endpoint (/v1/token)
-  const tokenUrl = 'https://api.kroger.com/v1/connect/oauth2/token';
+		const encoded = Buffer.from(`${config.clientId}:${config.clientSecret}`, `ascii`);
+		// ClientId and clientSecret must be encoded
+		const authorization = "Basic " + encoded.toString("base64");
+		// Base URL (https://api.kroger.com/v1/connect/oauth2)
+		// Version/Endpoint (/v1/token)
+		const tokenUrl = 'https://api.kroger.com/v1/connect/oauth2/token';
 
-	  console.log(tokenUrl)
-	  console.log(authorization)
-	  		
-	  // token request
-  let tokenResponse = await fetch(tokenUrl, {
-    method: "POST",
-    headers: {
-      "User-Agent": "",
-      Authorization: authorization,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body: 'grant_type=client_credentials&scope=product.compact'
-  });
-	  console.log(tokenResponse)
-	  var json = await tokenResponse.json()
-	  console.log(json)
+		console.log(tokenUrl)
+		console.log(authorization)
 
-	  return json
-	  	
-	  	
-  });
+		// token request
+		let tokenResponse = await fetch(tokenUrl, {
+			method: "POST",
+			headers: {
+				"User-Agent": "",
+				Authorization: authorization,
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body: 'grant_type=client_credentials&scope=product.compact'
+		});
+		console.log(tokenResponse)
+		var json = await tokenResponse.json()
+		console.log(json)
+		return json
+	});
 
 
 
