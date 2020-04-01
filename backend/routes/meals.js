@@ -1,14 +1,10 @@
 const measurement = require('../utils/measurements')
-const config = require('../config')
-var CLIENT_ID = "munchies-9c7559789a50c8102c9dc870913c43521328125745489412562"
-var CLIENT_SECRET="kAGjcYPS4wOtGg9TIabQ8nTp1d49Fw9RbTckwnaM"
 var express = require('express');
 var router = express.Router();
 var foods = require('../utils/food');
 var async  = require('express-async-await')
 var fetch = require('node-fetch')
-require('dotenv').config();
-
+var config = require('../config')
 // Get recipes by meal
 // All breakfast
 // All lunch
@@ -19,7 +15,7 @@ require('dotenv').config();
 router.get('/week', async function(req, res, next) {
 	console.log(req)
 	var searchList = ["chicken", "steak", "salad","turkey","spinach","sandwich"]
-	var searchOne = await fetch(`https://api.edamam.com/search?q=${searchList[0]}&app_id=3344f1e2&app_key=e947ca2f0edac72a9ea37ef3af57ea54&from=0&to=21`)
+	var searchOne = await fetch(`https://api.edamam.com/search?q=${searchList[0]}&app_id=${config.recipeId}&app_key=${config.recipeApiKey}&from=0&to=21`)
 	var json = await searchOne.json()
 	var hits = json["hits"]
 	console.log(hits)
@@ -68,7 +64,7 @@ router.get('/:meal', async function(req, res, next) {
 			break;
 	}
 	var recipe = day[index]["recipe"]
-	fetch(`https://api.edamam.com/search?q=chicken&app_id=3344f1e2&app_key=e947ca2f0edac72a9ea37ef3af57ea54&from=0&to=3&calories=591-722&health=alcohol-free`)
+	fetch(`https://api.edamam.com/search?q=chicken&app_id=${config.recipeId}&app_key=${config.recipeApiKey}&from=0&to=3&calories=591-722&health=alcohol-free`)
 	    .then(res => {
 		    console.log(res)
 		    	
