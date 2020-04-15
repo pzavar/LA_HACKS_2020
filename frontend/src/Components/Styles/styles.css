@@ -1,9 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC|Karla|Lato|Montserrat|Raleway|Roboto|Spartan&display=swap');
 
+/* navigation */
+.NavBarText {
+    font-family: 'Amatic SC', cursive;
+    text-align: center;
+    padding: 10px;
+    color: #A6CC9F;
+    font-size: 80px;
+}
+.NavBarText:hover {
+    color: wheat;
+    text-decoration: none;
+}
+
+/* font styling */
 .HeaderFont {
     font-family: 'Amatic SC', cursive;
     text-align: center;
-    width: 100%; 
     padding: 10px;
     color: #A6CC9F;
     font-size: 220px;
@@ -18,6 +31,7 @@
 }
 
 .BodyFontB{ 
+    font-size: 12px;;
     font-family:'Spartan', sans-serif;
     font-weight: 500;
 }
@@ -32,6 +46,19 @@
     text-align: center;
 }
 
+.BodyFontD{
+    font-family: 'Spartan', sans-serif;
+    font-size: 12px;
+    line-height: 2;
+}
+
+.BodyFontE{
+    font-family: 'Spartan', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* container alignments */
 .centered {
     position: fixed;
     top: 50%;
@@ -52,3 +79,13 @@
     border: 60px solid transparent;
 }
 
+
+/* boot strap buttons */
+.btn.btn-primary:hover {
+    background-color: #A9C1CC;
+}
+.btn:active {
+    background-color: #A9C1CC !important;
+    outline: thin;
+    outline-color: #A6CC9F;
+}

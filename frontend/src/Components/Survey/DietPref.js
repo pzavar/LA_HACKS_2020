@@ -6,6 +6,7 @@ export default class DietPref extends Component {
         return (
             <Form>
                 <Form.Check
+                    custom
                     type='radio'
                     name="Diet"
                     id='balancedDiet'
@@ -13,8 +14,10 @@ export default class DietPref extends Component {
                     value="balanced"
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontD"
                 />
                 <Form.Check
+                    custom
                     type='radio'
                     name="Diet"
                     id='highFiber'
@@ -22,8 +25,10 @@ export default class DietPref extends Component {
                     value="high-fiber"
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontD"
                 />
                 <Form.Check
+                    custom
                     type='radio'
                     name="Diet"
                     id='highProtein'
@@ -31,8 +36,10 @@ export default class DietPref extends Component {
                     value="high-protein"
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontD"
                 />
                 <Form.Check
+                    custom
                     type='radio'
                     name="Diet"
                     id='lowCarb'
@@ -40,8 +47,10 @@ export default class DietPref extends Component {
                     value='low-carb'
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontD"
                 />
                 <Form.Check
+                custom
                     type='radio'
                     name="Diet"
                     id='lowFat'
@@ -49,8 +58,10 @@ export default class DietPref extends Component {
                     value='low-fat'
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontD"
                 />
                 <Form.Check
+                custom
                     type='radio'
                     name="Diet"
                     id="lowSodium"
@@ -58,6 +69,7 @@ export default class DietPref extends Component {
                     value='low-sodium'
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontD"
                 />
             </Form>
         )

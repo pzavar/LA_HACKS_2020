@@ -1,9 +1,13 @@
 import React from'react';
-import { Nav, Navbar } from 'react-bootstrap';
-import "../Styles/styles.css"
+import { Navbar } from 'react-bootstrap';
+import Logo from '../../Assets/carrot.png';
+import "../Styles/styles.css";
 
 export const NavigationBar = () => (
     <Navbar>
-        <Navbar.Brand href="/home" className="HeaderFont">Munchies</Navbar.Brand>
+        <div className="logo-wrapper">
+            <img id="navbar-logo" src={Logo}/>
+            <a className="NavBarText" href="/home">Munchies</a>
+        </div>
     </Navbar>
 )
