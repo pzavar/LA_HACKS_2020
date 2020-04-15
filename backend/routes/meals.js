@@ -18,6 +18,7 @@ router.get('/week', async function(req, res, next) {
 	var searchOne = await fetch(`https://api.edamam.com/search?q=${searchList[0]}&app_id=${config.recipeId}&app_key=${config.recipeApiKey}&from=0&to=21`)
 	var json = await searchOne.json()
 	var hits = json["hits"]
+	console.log("Search hits")
 	console.log(hits)
 		
 	var week = []
@@ -26,7 +27,8 @@ router.get('/week', async function(req, res, next) {
 			var mealType = "breakfast"
 			if(j == 1) mealType = "lunch"
 			else if(j == 2) mealType = "dinner"
-			var meal = hits[i]["recipe"]
+			//A little bit of a magic number but this us numbers 0 -20 inclusive
+			var meal = hits[j+(3 *i)]["recipe"]
 			console.log(meal)
 			var day = {}
 			day["label"] = meal["label"]
