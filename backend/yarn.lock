@@ -26,6 +26,9 @@ acorn@^2.1.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-2.7.0.tgz#ab6e7d9d886aaca8b085bc3312b79a198433f0e7"
   integrity sha1-q259nYhqrKiwhbwzEreaGYQz8Oc=
+  
+acorn@^5.7.4:
+  version "5.7.4"
 
 ajax@^0.0.4:
   version "0.0.4"
