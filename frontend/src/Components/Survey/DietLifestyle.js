@@ -4,8 +4,9 @@ import { Form } from 'react-bootstrap';
 export default class DietLifestyle extends Component {
     render() {
         return (
-            <Form>
+            <Form className="lifestyle-form">
                 <Form.Check
+                custom
                     type='checkbox'
                     name="dp"
                     id='keto'
@@ -13,8 +14,10 @@ export default class DietLifestyle extends Component {
                     value="keto-friendly"
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontE"
                 />
                 <Form.Check
+                custom
                     type='checkbox'
                     name="dp"
                     id='kosher'
@@ -22,8 +25,10 @@ export default class DietLifestyle extends Component {
                     value="kosher"
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontE"
                 />
                 <Form.Check
+                custom
                     type='checkbox'
                     name="dp"
                     id='paleo'
@@ -31,8 +36,10 @@ export default class DietLifestyle extends Component {
                     value='paleo'
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontE"
                 />
                 <Form.Check
+                custom
                     type='checkbox'
                     name="dp"
                     id='pescatarian'
@@ -40,8 +47,10 @@ export default class DietLifestyle extends Component {
                     value='pecatarian'
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontE"
                 />
                 <Form.Check
+                custom
                     type='checkbox'
                     name="dp"
                     id='vegan'
@@ -49,8 +58,10 @@ export default class DietLifestyle extends Component {
                     value='vegan'
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontE"
                 />
                 <Form.Check
+                custom
                     type='checkbox'
                     name="dp"
                     id='vegetarian'
@@ -58,6 +69,7 @@ export default class DietLifestyle extends Component {
                     value='vegetarian'
                     onChange={this.props.handleChange}
                     style={{marginBottom:5}}
+                    className="BodyFontE"
                 />
 
             </Form>

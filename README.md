@@ -1,1 +1,1 @@
-# LA_HACKS_2020
+# Munchies & Co

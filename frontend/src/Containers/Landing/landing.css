@@ -1,16 +1,38 @@
-#two-button-group {
-    width: 50%;
-    margin-left:25%;
-    margin-top: 15%;
-}
-.icon {
-    margin-top: 30px;
-    margin-left: 45%;
-}
-
 .page {
     background-color: #F7E9D4;
     background-size: cover;
     margin-bottom: 0px;
     border: 60px solid transparent;
 }
+.logo-container {
+    display: inline-flex;
+    text-align: center;
+    margin-right: 25%;
+}
+#logo-font {
+    font-family: 'Amatic SC', cursive;
+    color: #A6CC9F;
+    font-size: 220px;
+}
+#logo {
+    max-width: 220px;
+    max-height: 220px;
+    margin-top: 20px;
+    margin-right: 0px;
+    -webkit-transform:rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    -ms-transform: rotate(-30deg);
+    -o-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+}
+#button {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 30px;
+}
+#attribution {
+    text-align: center;
+    margin-top:10%;
+    font-size: 10px;
+}
+

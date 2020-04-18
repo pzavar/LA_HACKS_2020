@@ -1,0 +1,21 @@
+const measurement = [
+ "teaspoon",
+ "tablespoon",
+"tablespoon",
+"cup",
+"ounce",
+"pint",
+"quart",
+"gallon",
+"pound",
+ "teaspoons",
+ "tablespoons",
+"tablespoons",
+"cups",
+"ounces",
+"pints",
+"quarts",
+"gallons",
+"pounds",
+]
+module.exports = measurement;

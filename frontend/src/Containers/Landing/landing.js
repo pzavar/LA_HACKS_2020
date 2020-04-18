@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { history } from '../../Utils/history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCarrot } from '@fortawesome/free-solid-svg-icons';
+import Logo from '../../Assets/carrot.png';
 
 import './landing.css';
 import '../../Components/Styles/styles.css';
@@ -13,19 +14,12 @@ import '../../Components/Styles/styles.css';
 class Landing extends Component {
     constructor(props) {
         super(props);
-
-        this.handleLogin = this.handleLogin.bind(this);
-        this.handleRegister = this.handleRegister.bind(this);
+        this.handleLogin = this.handleStart.bind(this);
     }
 
 
 
-    handleLogin(e) {
-        e.preventDefault();
-        history.push('/login');
-    }
-
-    handleRegister(e) {
+    handleStart(e) {
         e.preventDefault();
         history.push('/register');
     }
@@ -33,20 +27,22 @@ class Landing extends Component {
     render() {
         return (
             <div className="page" >
-            <Container>
+            <Container className="page">
                 <Row>
                     <Col>
-                        <h1  className="HeaderFont">Munchies</h1>
+                        <div className="logo-container">
+                            <img id="logo" src={Logo} />
+                            <h1  id="logo-font">Munchies</h1>
+                        </div>
                         <p className="subtitle" className="BodyFontC" >Meal planning made easy to ease the munchies</p>
-                        <FontAwesomeIcon className="icon" icon={faCarrot} size='8x' color='orange' />
                     </Col>
                 </Row>
                 <Row>   
-                    <div id="two-button-group" className="d-flex flex-column ">
-                        <Button onClick={this.handleLogin}>Login</Button>
-                        <Button onClick={this.handleRegister}>Register</Button>
+                    <div id="button" className="d-flex flex-column ">
+                        <Button onClick={this.handleStart}>Start</Button>
                     </div>
                 </Row>
+                <p id="attribution">Icon made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a href="https://www.flaticon.com">www.flaticon.com</a></p>
             </Container>
             </div>
         )
