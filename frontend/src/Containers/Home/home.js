@@ -49,6 +49,8 @@ class Home extends Component {
         }
     }
 
+    
+
     getTodaysMeals(weeklyMeals) {
 
         const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = weeklyMeals;
@@ -104,10 +106,10 @@ class Home extends Component {
                     <NavigationBar />
                     <div style={{margin:20}} />
                     <header>
-                        <h3 className="date-header" className="BodyFontB" >{day}'s Delicious Meals</h3>
+                        <h3 className="date-header" className="BodyFontC" >{day}'s Delicious Meals</h3>
                     </header>
                     <div style={{margin:20}} />
-                    <Row>
+                    <Row className="meals-wrapper">
                         <Col>
                             <h4 className="BodyFont">Breakfast</h4>
                         </Col>

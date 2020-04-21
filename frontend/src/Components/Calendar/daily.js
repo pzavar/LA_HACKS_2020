@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import MealCards from './mealCards';
-import { Card, CardDeck } from 'react-bootstrap';
+import { CardDeck } from 'react-bootstrap';
+import './calendar.css';
 
 function populateCards(props) {
     console.log("populateCards props = " + JSON.stringify(props))
