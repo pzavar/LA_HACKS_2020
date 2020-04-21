@@ -3,7 +3,8 @@
     margin-right: auto;
     margin-left: auto;
 
-    margin-top: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
     max-width: 500px;
     padding-top: 10px;
     padding-right: 10px;
@@ -118,7 +119,7 @@
 }
 
 #one-button-group {
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     display: flex;
@@ -133,7 +134,7 @@
 
 
 .tab-pane {
-    height: 465px;
+    min-height: 465px;
 }
 
 /* forms */

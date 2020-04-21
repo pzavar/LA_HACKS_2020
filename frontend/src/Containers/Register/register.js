@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Container, Col, Row, Form, Tab, Tabs, Button, Nav } from 'react-bootstrap';
+import { Container, Row, Tab, Button, Nav } from 'react-bootstrap';
 import UserInfo from '../../Components/Survey/UserInfo';
 import DietPref from '../../Components/Survey/DietPref';
 import DietRestrict from '../../Components/Survey/DietRestrict';
 import DietLifestyle from '../../Components/Survey/DietLifestyle';
-import { NavigationBar } from '../../Components/Navigation/navigationBar';
+import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import { history } from '../../Utils/history';
 import './register.css';
 
@@ -14,21 +14,44 @@ export default class Register extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            key: 1,
-            currentStep: 1,
-            name: '',
-            email: '',
-            password: '',
-            mealsPerDay: 0,
-            budget: 0,
-            Diet: '',
-            Health: [],
-            step1: "",
-            step2: "",
-            step3: "",
-            step4: "",
+        console.log(this.props.history.location)
+
+        if(this.props.history.location.state.populated) {
+            this.state = {
+                key: 1,
+                currentStep: 1,
+                email: this.props.history.location.state.email,
+                password: this.props.history.location.state.password,
+                age: 0,
+                employment: '',
+                mealsPerDay: 0,
+                budget: 0,
+                Diet: '',
+                Health: [],
+                step1: "",
+                step2: "",
+                step3: "",
+                step4: "",
+            }
+        } else {
+            this.state = {
+                key: 1,
+                currentStep: 1,
+                email: '',
+                password: '',
+                age: 0,
+                employment: '',
+                mealsPerDay: 0,
+                budget: 0,
+                Diet: '',
+                Health: [],
+                step1: "",
+                step2: "",
+                step3: "",
+                step4: "",
+            }
         }
+
 
         this.handleChange = this.handleChange.bind(this)
         this.handleHealthChange = this.handleHealthChange.bind(this)
@@ -109,7 +132,8 @@ export default class Register extends Component {
         this.setState({
             [name]: value
         })
-        console.log(this.state.Health)
+        console.log(this.state.age)
+        console.log(this.state.employment)
     }
 
     handleSubmit = (e) => {
@@ -131,7 +155,7 @@ export default class Register extends Component {
         const step4 = this.state.step4;
         return (
             <Container>
-                <NavigationBar />
+                <NavBarEntry />
                 <div className="tab-wrapper">
                     <h2 className="title-header">Setup your meal plan</h2>
                     <Tab.Container activeKey={this.state.key} onSelect={this.handleSelect} id="registration-survey">
@@ -160,8 +184,11 @@ export default class Register extends Component {
                                         name={this.state.name}
                                         email={this.state.email}
                                         password={this.state.password}
+                                        age={this.state.age}
                                         mealsPerDay={this.state.mealsPerDay}
-                                        budget={this.props.budget}
+                                        budget={this.state.budget}
+                                        employment={this.state.employment}
+                                        populated={this.state.populated}
                                     />
                                     <Row id="one-button-group">
                                         <Button id="button2 button" onClick={(e) => this.handleSelect(2, "next", e)}>Next</Button>
@@ -207,58 +234,3 @@ export default class Register extends Component {
         )
     }
 }
-
-
-/*
-                    <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="registration-survey">
-                        <Tab eventKey={1} title="1">
-                            <h3 className="title" >User Information</h3>
-                            <p>Please enter your account setup information.</p>
-                            <UserInfo 
-                                handleChange={this.handleChange}
-                                name={this.state.name}
-                                email={this.state.email}
-                                password={this.state.password}
-                            />
-                            <Row id="one-button-group">
-                                <Button id="button2 button" onClick={(e) => this.handleSelect(2, e)}>Next</Button>
-                            </Row>
-                            
-                        </Tab>
-                        <Tab eventKey={2} title="2">
-                            <h3 className="title">Diet Preferences</h3>
-                            <p> Please enter a diet preference.</p>
-                            <DietPref 
-                                handleChange={this.handleChange}/>
-                            <Row id="two-button-group">
-                                <Button id="button1 button" onClick={(e) => this.handleSelect(1, e)}>Previous</Button>
-                                <Button id="button2 button" onClick={(e) => this.handleSelect(3, e)}>Next</Button>
-                            </Row>
-                        </Tab>
-                        <Tab eventKey={3} title="3">
-                            <h3 className="title">Diet Lifestyles</h3>
-                            <p>Please check any boxes for dietaryy lifestyles you have (or wish to have).</p>
-                            <DietLifestyle 
-                                handleChange={this.handleHealthChange}
-                                />
-                            <Row id="two-button-group">
-                                <Button id="button1 button" onClick={(e) => this.handleSelect(2, e)}>Previous</Button>
-                                <Button id="button2 button" onClick={(e) => this.handleSelect(4, e)}>Next</Button>
-                            </Row>
-                        </Tab>
-                        <Tab eventKey={4} title="4">
-                            <h3 className="title">Diet Restrictions</h3>
-                            <p>Please check any boxes for dietary restrictions you may have.</p>
-                            <DietRestrict 
-                                handleChange={this.handleHealthChange}
-                                />
-                            <Row id="two-button-group">
-                                <Button id="button1 button" onClick={(e) => this.handleSelect(3, e)}>Previous</Button>
-                                <Button variant="success" id="button2" onClick={this.handleSubmit}>Submit</Button>
-                            </Row>
-                        </Tab>
-                    </Tabs>
-
-
-
-*/

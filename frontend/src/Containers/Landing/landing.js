@@ -1,50 +1,156 @@
 import React, { component, Component } from 'react';
-import { Container, Col, Row, Button } from 'react-bootstrap';
+import { Container, Col, Row, Button, Navbar, Nav, Card, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { history } from '../../Utils/history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCarrot } from '@fortawesome/free-solid-svg-icons';
-import Logo from '../../Assets/carrot.png';
+import { faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import NavBarEntry from '../../Components/Navigation/navBarEnty';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
 import './landing.css';
 import '../../Components/Styles/styles.css';
 
 
+const validSchema = yup.object ({
+    email: yup.string()
+    .email("Must be a valid email address")
+    .max(30, "Email must be less than 30 characters")
+    .required("Required"),
+    password: yup.string()
+    .min(8, "Must be 8 characters")
+    .required("Required"),
+    passwordConfirm: yup.string()
+    .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .required("Required")
+})
+
 
 class Landing extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            email: '',
+            password: '',
+            changed: false,
+        }
         this.handleLogin = this.handleStart.bind(this);
     }
 
 
 
-    handleStart(e) {
-        e.preventDefault();
-        history.push('/register');
+    handleStart(values) {
+
+        history.push({
+            pathname: '/register',
+            state: {
+                populated: true,
+                email: values.email,
+                password: values.password
+            }
+        });
     }
 
     render() {
         return (
-            <div className="page" >
-            <Container className="page">
+            <Container>
+                <NavBarEntry />
+                <div className="section-margin"/>
                 <Row>
+                    <Col xs={8}>
+                        <h3 className="title BodyFontC" >Meal planning made easy to ease the munchies</h3>
+                        <div className="section-margin" />
+                        <p className="BodyFontC">Ready to have a plan?</p>
+                        <FontAwesomeIcon className="icon" icon={faCalendarCheck} size="4x" />
+                    </Col>
                     <Col>
-                        <div className="logo-container">
-                            <img id="logo" src={Logo} />
-                            <h1  id="logo-font">Munchies</h1>
-                        </div>
-                        <p className="subtitle" className="BodyFontC" >Meal planning made easy to ease the munchies</p>
+                        <Card>
+                            <Card.Title id="card-title">Get your free plan now!</Card.Title>
+                            <Card.Body>
+                                <Formik
+                                    initialValues = {{email: '', password: '', passwordConfirm: ''}}
+                                    onSubmit={ (values, e) => this.handleStart(values, e)}
+                                    validationSchema={validSchema}
+                                >
+
+                                {({
+                                    errors,
+                                    touched,
+                                    handleChange,
+                                    handleSubmit,
+                                    values,
+                                    handleBlur,
+                                }) => (
+                                    <Form onSubmit={handleSubmit}>
+                                        <Form.Group controlId="Email">
+                                            <Form.Label id="form-label">Email</Form.Label>
+                                            <Form.Control 
+                                                type="email" 
+                                                placeholder="Enter Email" 
+                                                className="BodyFontD form-input"
+                                                name="email"
+                                                value={values.email}
+                                                onChange={ (e) => {
+                                                    handleChange(e);
+                                                    this.setState({changed: true});
+                                                }}
+                                                onBlur={handleBlur}
+                                                isInvalid={(touched.email && errors.email)}
+                                                />
+                                            <Form.Control.Feedback type="invalid" id="form-label">{errors.email}</Form.Control.Feedback>
+                                        </Form.Group>
+
+                                        <Form.Group>
+                                            <Form.Label id="form-label">Password</Form.Label>
+                                            <Form.Control 
+                                                type="password" 
+                                                placeholder="Enter Password" 
+                                                className="BodyFontD form-input"
+                                                name="password"
+                                                value={values.password}
+                                                onChange={ (e) => {
+                                                    handleChange(e);
+                                                    this.setState({changed: true})
+                                                }}
+                                                onBlur={handleBlur}
+                                                isInvalid={(touched.password && errors.password)}
+                                            />
+                                            <Form.Control.Feedback type="invalid" id="form-label">{errors.password}</Form.Control.Feedback>
+                                        </Form.Group>
+
+                                        <Form.Group>
+                                            <Form.Label id="form-label">Confirm Password</Form.Label>
+                                            <Form.Control 
+                                                type="password" 
+                                                placeholder="Confirm Password" 
+                                                className="BodyFontD form-input"
+                                                name="passwordConfirm"
+                                                value={values.passwordConfirm}
+                                                onChange={ (e) => {
+                                                    handleChange(e);
+                                                    this.setState({changed: true})
+                                                }}
+                                                onBlur={handleBlur}
+                                                isInvalid={(touched.passwordConfirm && errors.passwordConfirm)}
+                                                />
+                                            <Form.Control.Feedback type="invalid" id="form-label">{errors.passwordConfirm}</Form.Control.Feedback>
+                                        </Form.Group>
+
+                                        <Button type="submit" className="button">GET STARTED</Button>
+                                    </Form>
+                                )}
+                                </Formik>
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
-                <Row>   
-                    <div id="button" className="d-flex flex-column ">
-                        <Button onClick={this.handleStart}>Start</Button>
-                    </div>
-                </Row>
-                <p id="attribution">Icon made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a href="https://www.flaticon.com">www.flaticon.com</a></p>
+                <footer>
+                    <p id="attribution">Icon made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a href="https://www.flaticon.com">www.flaticon.com</a></p>
+                 </footer>
+               
             </Container>
-            </div>
+
         )
     }
 }

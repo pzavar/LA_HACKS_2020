@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, InputGroup } from 'react-bootstrap';
+import { Form, InputGroup, Col, Row } from 'react-bootstrap';
 
 export default class UserInfo extends Component {
 
@@ -18,6 +18,30 @@ export default class UserInfo extends Component {
                         className="BodyFontD"
                     />
                 </Form.Group>
+
+                <Form.Group controlId="password">
+                    <Form.Label className="BodyFontB">Password</Form.Label>
+                    <Form.Control 
+                        type="password" 
+                        placeholder="Enter password"
+                        name="password"
+                        value={this.props.password}
+                        onChange={this.props.handleChange}
+                        className="BodyFontD"
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="passwordConfirm">
+                    <Form.Label className="BodyFontB">Confirm Password</Form.Label>
+                    <Form.Control 
+                        type="password" 
+                        placeholder="Confirm password"
+                        name="password"
+                        value={this.props.password}
+                        className="BodyFontD"
+                    />
+                </Form.Group>
+
                 <Form.Group controlId="mealsPerWk">
                     <Form.Label className="BodyFontB">No. Meals per Day</Form.Label>
                     <Form.Control 
@@ -54,6 +78,157 @@ export default class UserInfo extends Component {
                         />
                     </InputGroup>
                 </Form.Group>
+
+                <Row style={{marginTop: '5%',}}>
+                    <Col>
+                        <Form.Group controlId="age-range">
+                            <Form.Label className="BodyFontB">Age</Form.Label>
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name='age'
+                                id="18-24"
+                                label='18-24 years old'
+                                value="18-24"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="age"
+                                id="25-40"
+                                label='25-40 years old'
+                                value="25-40"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="age"
+                                id="41-64"
+                                label='41-64 years old'
+                                value="41-64"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="age"
+                                id="65+"
+                                label='65+ years old'
+                                value="65+"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="age"
+                                id="undisclosed"
+                                label='undisclosed'
+                                value="undisclosed"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="occupation">
+                            <Form.Label className="BodyFontB">Employment Status</Form.Label>
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="employment"
+                                id="employed"
+                                label='Employed for wages'
+                                value="employed"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="employment"
+                                id="self-employed"
+                                label='Self-employed'
+                                value="self-employed"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="employment"
+                                id="homemaker"
+                                label='Homemaker'
+                                value="homemaker"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="employment"
+                                id="student"
+                                label='Student'
+                                value="student"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="employment"
+                                id="military"
+                                label='Military'
+                                value="military"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="employment"
+                                id="retired"
+                                label='Retired'
+                                value="retired"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+                            <Form.Check
+                                custom
+                                type='radio'
+                                name="employment"
+                                id="other"
+                                label='Other'
+                                value="other"
+                                onChange={this.props.handleChange}
+                                style={{marginBottom:5}}
+                                className="BodyFontD"
+                            />
+
+
+                    
+                        </Form.Group>
+                    </Col>
+                </Row>
+
+
 
 
             </Form>

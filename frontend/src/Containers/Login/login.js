@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Button, Form, Container,
-    Col, Row, Nav } from 'react-bootstrap';
+    Col, Row,Card } from 'react-bootstrap';
+import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 
 import '../../Components/Styles/styles.css';
+import './login.css';
 
 const schema = yup.object({
     password : yup.string()
@@ -40,12 +42,12 @@ class Login extends Component {
 
     render() {
         return(
-            <div >
-            <header>
-                <Link to="/" style={{textDecoration: 'none'}}><h1 className="HeaderFont">Munchies</h1></Link>
-            </header>
-            <Container className="main border rounded mid p-3 page">
-                <p className="BodyFontB">Sign In</p>
+            <Container>
+                <NavBarEntry />
+                <div className="section-margin" />
+                <Col md={{ span: 5, offset: 4 }}>
+                <Card>
+                <Card.Title className="BodyFontC title">Sign In</Card.Title>
                 <Formik
                     initialValues = {{email: '', password: ''}}
                     onSubmit={values => {
@@ -63,6 +65,7 @@ class Login extends Component {
                     }) => (
                     <Form onSubmit={handleSubmit}>
                     <Form.Group controlId = "Email">
+                        <Form.Label id="form-label">Email</Form.Label>
                         <Form.Control 
                         type="email"
                         className="inputbox" 
@@ -77,11 +80,12 @@ class Login extends Component {
                         isInvalid={(touched.email && errors.email)}
                         />
                         
-                    <Form.Control.Feedback type="invalid">
+                    <Form.Control.Feedback type="invalid" id="form-label">
                         {errors.email}
                     </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="Password">
+                        <Form.Label id="form-label">Password</Form.Label>
                         <Form.Control 
                         type="password"
                         placeholder="Password" 
@@ -95,30 +99,36 @@ class Login extends Component {
                         onBlur={handleBlur}
                         isInvalid={(touched.password && errors.password)}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <Form.Control.Feedback type="invalid" id="form-label">
                         {errors.password}
                         </Form.Control.Feedback>
                     </Form.Group>
                     <Row>
-                    <Col xs={6}>
                         <Button variant="primary" type="submit" className="button">
-                            Submit
+                            Sign In
                         </Button>
-                    </Col>
-                    <Col xs={6} className="d-flex justify-content-end">
-                        <Link to="/Register">
-                        <Button className="button">
-                            Register
-                        </Button>
-                        </Link>
-                    </Col>
                     </Row>
                 </Form>
                 )}
                 </Formik>  
- 
+                <div className="divider">OR</div>
+                <div className="login-button-wrapper">
+                    <Button id="external-login-btn">Facebook</Button>
+                    <Button id="external-login-btn">Google</Button>
+                </div>
+                </Card>
+                <p id="sign-up-text"> Don't have an account? <s/>
+                    <Link to={{
+                        pathname:"/register",
+                        state: { populated: false } 
+                        }} 
+                        id="sign-up-link"
+                    >
+                        SIGN UP
+                    </Link>
+                    </p>
+                </Col>
             </Container>
-            </div>
         )
     }
 }

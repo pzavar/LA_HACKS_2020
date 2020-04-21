@@ -1,5 +1,46 @@
+/* Entry Nav Bar */
+.brand-logo-wrapper {
+  display: inline-flex;
+  flex-direction: row;
+  width: 30%;
+}
 
-/* Nav Bar Styling */
+.brand-logo-img {
+  max-width: 30px;
+  max-height: 30px;
+  margin-top: 7px;
+  -webkit-transform:rotate(-30deg);
+  -moz-transform: rotate(-30deg);
+  -ms-transform: rotate(-30deg);
+  -o-transform: rotate(-30deg);
+  transform: rotate(-30deg);
+}
+
+.brand-logo-text {
+  font-size: 35px;
+  font-family: 'Amatic SC', cursive;
+  color: #A6CC9F;
+}
+
+.brand-logo-text:hover {
+  text-decoration: none;
+  color:  #A6CC9F;
+}
+
+#link-text {
+  margin-left: 10px;
+  text-decoration: none;
+  font-family: 'Spartan', sans-serif;
+  font-size: 14px;
+  color: #989898;
+}
+
+#link-text:hover {
+  color: wheat;
+}
+
+
+/* Nav Bar Post Entry Styling */
 #navbar-logo {
   max-width: 50px;
   max-height: 50px;
