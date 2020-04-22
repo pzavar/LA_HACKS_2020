@@ -51,6 +51,56 @@ router.get('/week', async function(req, res, next) {
 	res.send(week)
 });
 
+//id: 17281,
+// title: "Spicy Tuna Tartare",
+// image: "https://spoonacular.com/recipeImages/17281-312x231.jpg",
+// imageType: "jpg",
+// calories: 459,
+// protein: "29g",
+// fat: "26g",
+// carbs: "33g"
+//https://api.spoonacular.com/recipes/716429/information?apiKey=YOUR-API-KEY&includeNutrition=true.
+router.get('/test', async function(req, res, next) {
+	var search = await fetch(`https://api.spoonacular.com/recipes/findByNutrients/?apiKey=${config.spoonacularApiKey}&minCarbs=10&maxCarbs=50&number=21`)
+	var json = await search.json()
+	// res.send(json)
+	var week = []
+	for(var i = 0; i < 7; i++){
+		for(var j = 0; j < 3; j++){
+			var mealType = "breakfast"
+			if(j == 1) mealType = "lunch"
+			else if(j == 2) mealType = "dinner"
+			//A little bit of a magic number but this us numbers 0 - 20 inclusive
+			var meal = json[j+(3 *i)]
+			console.log(meal)
+			var day = meal
+			day["mealType"] = mealType
+			week.push(day)
+		}
+	}
+	res.send(week)
+});
+
+//Gives all relavent info
+//Cost per serving
+//Nutrition
+//Ingredients
+router.get('/groceryList',async function(req,res,next){
+	var ids = "17281,90629,175323"
+	console.log(ids)
+	
+	var search = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${config.spoonacularApiKey}&ids=${ids}&includeNutrition=true`)
+	var json = await search.json()
+	res.send(json)
+	
+	//Pseudocode for extrating recipes
+	//list of meals -> meal["extendedIngredients"]
+	//list of indredients -> ingredient["original"]
+})
+
+//Get Analyzed Recipe Instructions
+//Can be called few times, basically just when user wants to actually create meal
+
 router.get('/:meal', async function(req, res, next) {
 	console.log(req)
 	var meal = req.meal
