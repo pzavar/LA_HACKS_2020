@@ -86,12 +86,20 @@ router.get('/test', async function(req, res, next) {
 //Nutrition
 //Ingredients
 router.get('/groceryList',async function(req,res,next){
-	var ids = "17281,90629,175323"
+	var ids = "17281,175323"
 	console.log(ids)
 	
 	var search = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${config.spoonacularApiKey}&ids=${ids}&includeNutrition=true`)
 	var json = await search.json()
-	res.send(json)
+	console.log(json)
+	var result = []
+	json.forEach(meal => {
+		meal["extendedIngredients"].forEach(ingredient => {
+			result.push(ingredient["original"])
+		})
+	})
+	console.log(result)
+	res.send(result)
 	
 	//Pseudocode for extrating recipes
 	//list of meals -> meal["extendedIngredients"]
