@@ -6,7 +6,7 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var UserSchema = new mongoose.Schema({
     firstname:          { type: String },
     lastname:           { type: String }
-    // email:              { type: String }
+	meals:              [ { type: mongoose.Schema.Types.ObjectId, ref : 'recipeSchema' } ]
     // dietaryrestriction: { type: String },
     // goal:               { type: String },
     // username:           { type: String },

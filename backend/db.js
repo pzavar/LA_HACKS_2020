@@ -1,4 +1,4 @@
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // const URI = "mongodb+srv://pzavar:Munchies135@cluster0-rf1yl.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -12,24 +12,28 @@
 
 // module.exports = connectDB;
 
-const mongodb = require('mongodb');
-const MongoClient = mongodb.MongoClient;
+// ==================
+//      MongoDB
+// ==================
+// const connectDB = require('./db');
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 
+const dbName = "munchies_db";
+const collectionName = "Users";
+var db = null; 
+
+								//Writes to the test
 const dbConnectionUrl = 'mongodb+srv://jchou:klitz8@cluster0-rf1yl.gcp.mongodb.net/test?retryWrites=true&w=majority';
 
-function initialize(dbName, dbCollectionName, successCallback, failureCallback) {
-    MongoClient.connect(dbConnectionUrl, (err, dbInstance) => {
-        if (err) {
-            console.log(`[MongoDB connection] ERROR: ${err}`);
-			failureCallback(err);        // this should be "caught" by the calling function
-        } else {
-            const dbObject = dbInstance.db(dbName);
-            const dbCollection = dbObject.collection(dbCollectionName);
+mongoose.connect(dbConnectionUrl, { useNewUrlParser: true });
 
-            console.log("[MongoDB connection] SUCCESS");
-			successCallback(dbCollection);
-        }
-    });
-}
+//Get the default connection
+var db = mongoose.connection;
 
-module.exports = { initialize };
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+//module.exports = { initialize };
