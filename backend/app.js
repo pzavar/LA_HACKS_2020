@@ -8,6 +8,7 @@ var usersRouter = require('./routes/users');
 var mealsRouter  = require('./routes/meals');
 var authRouter  = require('./routes/auth')
 var groceryList = require('./routes/groceryList')
+const config = require('../backend/config')
 //
 //mongoose configures mongoose for later
 require('./db.js')
@@ -60,6 +61,24 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
+
+// Use the GoogleStrategy within Passport.
+//   Strategies in passport require a `verify` function, which accept
+//   credentials (in this case, a token, tokenSecret, and Google profile), and
+//   invoke a callback with a user object.
+passport.use(new GoogleStrategy({
+    consumerKey: config.googleClientId,
+    consumerSecret: config.googleClientSecret,
+    callbackURL: "localhost:4000/auth/google/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return done(err, user);
+      });
+  }
+));
 
 app.use((req, res, next) => {
 	res.locals.currentUser = req.user;

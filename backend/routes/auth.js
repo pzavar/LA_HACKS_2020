@@ -6,6 +6,17 @@ var router = express.Router();
 var passport = require('passport')
 var User = require('../models/user')
 
+
+router.get('/auth/google',
+  passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }))
+
+router.get('/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	console.log("Inside login router")
