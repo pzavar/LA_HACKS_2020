@@ -4,6 +4,9 @@ var mongoose = require('mongoose');
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var UserSchema = new mongoose.Schema({
+	googleId: {type: String},
+	name: {type:String},
+	displayName: {type:String},
 	firstname:          { type: String },
 	lastname:           { type: String },
 	meals:              [ { type: mongoose.Schema.Types.ObjectId, ref : 'recipeSchema' } ]
@@ -14,5 +17,6 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.plugin(passportLocalMongoose)
+
 
 module.exports = User = mongoose.model("User", UserSchema);

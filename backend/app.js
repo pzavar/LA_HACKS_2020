@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 //     PASSPORT
 // ===============
 var passport = require("passport");
-var LocalStrategy = require("passport-local");
 var User = require("./models/user")
 
 
@@ -58,28 +57,71 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// var LocalStrategy = require("passport-local");
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
-var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+
+});
+var GoogleStrategy = require('passport-google-oauth2').OAuthStrategy;
 
 // Use the GoogleStrategy within Passport.
 //   Strategies in passport require a `verify` function, which accept
 //   credentials (in this case, a token, tokenSecret, and Google profile), and
 //   invoke a callback with a user object.
-passport.use(new GoogleStrategy({
-    consumerKey: config.googleClientId,
-    consumerSecret: config.googleClientSecret,
-    callbackURL: "localhost:4000/auth/google/callback"
-  },
-  function(token, tokenSecret, profile, done) {
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return done(err, user);
-      });
-  }
-));
 
+
+var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+
+passport.use(new GoogleStrategy({
+	clientID:     config.googleClientId,
+	clientSecret: config.googleClientSecret,
+	callbackURL: "http://localhost:4000/auth/google/callback",
+	passReqToCallback   : true
+},
+	function(request, accessToken, refreshToken, profile, done) {
+		query = {googleId : profile.id}
+		console.log("Profile")
+		console.log(profile)
+		// Find the document
+			console.log("Called here")
+		User.findOneAndUpdate(query, {}, function(error, result) {
+			console.log("Called")
+			if (!error) {
+				// If the document doesn't exist
+				if (!result) {
+			console.log("Document not found")
+					// Create it
+					result = new User({googleId: profile.id, displayName: profile.displayName});
+				}
+				else{
+					console.log("Found User")
+				}
+				// Save the document
+				result.save(function(error) {
+					if (!error) {
+						console.log("Saved")
+						return done(null,result)
+						// Do something with the document
+					} else {
+						console.log("error: ")
+						console.log(error)
+						throw error;
+					}
+				});
+			}
+		});
+	})
+)
 app.use((req, res, next) => {
 	res.locals.currentUser = req.user;
 	next();
