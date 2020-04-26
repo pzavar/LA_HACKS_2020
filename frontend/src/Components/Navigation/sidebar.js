@@ -3,7 +3,7 @@ import React from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUtensils, faListUl, faHistory, faCog, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
+import { faHome, faSearch, faShoppingCart, faHistory, faCog, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
 import "./nav.css";
 
 function SideBar(props) {
@@ -14,11 +14,16 @@ function SideBar(props) {
                 Home
             </Link>
 
-            <Link to="/recipes" className="bm-item">
-                <FontAwesomeIcon icon={faUtensils} size="2x" style={{marginRight:20}}/>
-                Recipes
+            <Link to="/search" className="bm-item">
+                <FontAwesomeIcon icon={faSearch} size="2x" style={{marginRight:20}}/>
+                Search
             </Link>
 
+            <Link to="/grocery" className="bm-item">
+                <FontAwesomeIcon icon={faShoppingCart} size="2x" style={{marginRight:20}}/>
+                Grocery List
+            </Link>
+            
             <Link to="/history" className="bm-item">
                 <FontAwesomeIcon icon={faHistory} size="2x" style={{marginRight:10}}/>
                 History

@@ -58,3 +58,25 @@
     margin: 1px;
     overflow-wrap: break-word;
 }
+
+.horizontal-meal-card-img {
+    display: flex;
+    float: left;
+}
+
+.horizontal-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#horizontal-icon-left {
+    margin-right: 15px;
+    font-size: 25px;
+    color: #dddddd;
+}
+
+#horizontal-icon-right {
+    font-size: 25px;
+    color: #dddddd;
+}

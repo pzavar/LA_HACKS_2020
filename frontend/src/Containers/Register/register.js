@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Container, Row, Tab, Button, Nav } from 'react-bootstrap';
+import { Container, Row, Tab, Button, Nav, InputGroup, FormControl } from 'react-bootstrap';
 import UserInfo from '../../Components/Survey/UserInfo';
-import DietPref from '../../Components/Survey/DietPref';
 import DietRestrict from '../../Components/Survey/DietRestrict';
 import DietLifestyle from '../../Components/Survey/DietLifestyle';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
@@ -16,17 +15,21 @@ export default class Register extends Component {
 
         console.log(this.props.history.location)
 
-        if(this.props.history.location.state.populated) {
+        const historyProps = this.props.history.location.state;
+
+        if(typeof historyProps !== "undefined" && historyProps.populated) {
+            console.log("entered")
             this.state = {
                 key: 1,
                 currentStep: 1,
-                email: this.props.history.location.state.email,
-                password: this.props.history.location.state.password,
-                age: 0,
+                email: historyProps.email,
+                password: historyProps.password,
+                age: '',
                 employment: '',
                 mealsPerDay: 0,
                 budget: 0,
                 Diet: '',
+                targetCalories: '',
                 Health: [],
                 step1: "",
                 step2: "",
@@ -39,12 +42,13 @@ export default class Register extends Component {
                 currentStep: 1,
                 email: '',
                 password: '',
-                age: 0,
+                age: '',
                 employment: '',
                 mealsPerDay: 0,
                 budget: 0,
-                Diet: '',
-                Health: [],
+                diet: '',
+                exclude: [],
+                targetCalories: '',
                 step1: "",
                 step2: "",
                 step3: "",
@@ -54,7 +58,7 @@ export default class Register extends Component {
 
 
         this.handleChange = this.handleChange.bind(this)
-        this.handleHealthChange = this.handleHealthChange.bind(this)
+        this.handleExcludeChange = this.handleExcludeChange.bind(this)
         this.handleSelect = this.handleSelect.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleLinkVisit = this.handleLinkVisit.bind(this)
@@ -111,19 +115,19 @@ export default class Register extends Component {
         }
     }
 
-    handleHealthChange(e) {
+    handleExcludeChange(e) {
         const {value} = e.target
 
-        if (this.state.Health.includes(value)) {
+        if (this.state.exclude.includes(value)) {
             console.log("item exists")
-            const health = this.state.Health.filter((i) => i !== value)
-            this.setState({Health: health})
-            console.log(this.state.Health)
+            const items = this.state.exclude.filter((i) => i !== value)
+            this.setState({exclude: items})
+            console.log(this.state.exclude)
         } else {
             this.setState({
-                Health: [...this.state.Health, value]
+                exclude: [...this.state.exlcude, value]
             })
-            console.log(this.state.Health)
+            console.log(this.state.exclude)
         }
     }
 
@@ -132,18 +136,18 @@ export default class Register extends Component {
         this.setState({
             [name]: value
         })
-        console.log(this.state.age)
-        console.log(this.state.employment)
     }
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const { name, email, password, Diet } = this.state
+        const { email, password, budget, diet, exclude, targetCalories } = this.state
         alert(`Your registration detail: \n
-            Name: ${name} \n
             Email: ${email} \n
             Password: ${password} \n
-            Diet: ${Diet} \n
+            Diet: ${diet} \n
+            Budget: ${budget} \n
+            Exclude: ${exclude} \n
+            Target Calories: ${targetCalories} \n
         `)
         
         history.push('/home')
@@ -153,6 +157,9 @@ export default class Register extends Component {
         const step2 = this.state.step2;
         const step3 = this.state.step3;
         const step4 = this.state.step4;
+        const dietRestrictClassName = "reg-diet-restrict-form";
+        const dietLifestyleClassName = "reg-diet-lifestyle-form";
+        const dietPrefClassName = "reg-diet-pref-form";
         return (
             <Container>
                 <NavBarEntry />
@@ -196,19 +203,27 @@ export default class Register extends Component {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey={2}>
                                     <h3 className="title">Diet Preferences</h3>
-                                    <p> Please enter a diet preference.</p>
-                                    <DietPref 
-                                        handleChange={this.handleChange}/>
+                                    <p className="BodyFontF">Please check any boxes for dietaryy lifestyles you have (or wish to have).</p>
+                                    <DietLifestyle 
+                                        handleChange={this.handleChange}
+                                        className={dietLifestyleClassName}
+                                        type='radio'
+                                        api="spoonacular"
+                                        />
+
                                     <Row id="two-button-group">
                                         <Button id="button1 button" onClick={(e) => this.handleSelect(1, "prev", e)}>Previous</Button>
                                         <Button id="button2 button" onClick={(e) => this.handleSelect(3, "next", e)}>Next</Button>
                                     </Row>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey={3}>
-                                    <h3 className="title">Diet Lifestyles</h3>
-                                    <p>Please check any boxes for dietaryy lifestyles you have (or wish to have).</p>
-                                    <DietLifestyle 
-                                        handleChange={this.handleHealthChange}
+                                    <h3 className="title">Diet Restrictions</h3>
+                                    <p className="BodyFontF">Check any dietary restrictions to exclude in meals.</p>
+                                        <DietRestrict 
+                                            handleChange={this.handleExcludeChange}
+                                            className={dietRestrictClassName}
+                                            type='checkbox'
+                                            api="spoonacular"
                                         />
                                     <Row id="two-button-group">
                                         <Button id="button1 button" onClick={(e) => this.handleSelect(2, "prev", e)}>Previous</Button>
@@ -216,11 +231,23 @@ export default class Register extends Component {
                                     </Row>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey={4}>
-                                    <h3 className="title">Diet Restrictions</h3>
-                                    <p>Please check any boxes for dietary restrictions you may have.</p>
-                                    <DietRestrict 
-                                        handleChange={this.handleHealthChange}
-                                        />
+                                    <h3 className="title">Target Calories</h3>
+                                    <p className="BodyFontF">Enter a target calorie per day. (optional)</p>
+                                        <InputGroup>
+                                            <FormControl
+                                                type="number"
+                                                name="targetCalories"
+                                                placeholder="ex. 2000"
+                                                value={this.state.targetCalories}
+                                                onChange={this.handleChange}
+                                                className="BodyFontD"
+                                            />
+                                        <InputGroup.Append>
+                                            <InputGroup.Text className="BodyFontD" style={{paddingTop:3, paddingBottom:3,}}>cal</InputGroup.Text>
+                                        </InputGroup.Append>
+                                        </InputGroup> 
+
+
                                     <Row id="two-button-group">
                                         <Button id="button1 button" onClick={(e) => this.handleSelect(3, "prev", e)}>Previous</Button>
                                         <Button variant="success" id="button2" onClick={this.handleSubmit}>Submit</Button>

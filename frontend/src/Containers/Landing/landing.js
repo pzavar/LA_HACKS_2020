@@ -83,12 +83,12 @@ class Landing extends Component {
                                     handleBlur,
                                 }) => (
                                     <Form onSubmit={handleSubmit}>
-                                        <Form.Group controlId="Email">
-                                            <Form.Label id="form-label">Email</Form.Label>
+                                        <Form.Group controlId="Email" className="landing-form-group">
+                                            <Form.Label id="landing-form-label">Email</Form.Label>
                                             <Form.Control 
                                                 type="email" 
                                                 placeholder="Enter Email" 
-                                                className="BodyFontD form-input"
+                                                className="BodyFontD landing-form-input"
                                                 name="email"
                                                 value={values.email}
                                                 onChange={ (e) => {
@@ -98,15 +98,15 @@ class Landing extends Component {
                                                 onBlur={handleBlur}
                                                 isInvalid={(touched.email && errors.email)}
                                                 />
-                                            <Form.Control.Feedback type="invalid" id="form-label">{errors.email}</Form.Control.Feedback>
+                                            <Form.Control.Feedback type="invalid" id="landing-form-label">{errors.email}</Form.Control.Feedback>
                                         </Form.Group>
 
-                                        <Form.Group>
-                                            <Form.Label id="form-label">Password</Form.Label>
+                                        <Form.Group className="landing-form-group">
+                                            <Form.Label id="landing-form-label">Password</Form.Label>
                                             <Form.Control 
                                                 type="password" 
                                                 placeholder="Enter Password" 
-                                                className="BodyFontD form-input"
+                                                className="BodyFontD landing-form-input"
                                                 name="password"
                                                 value={values.password}
                                                 onChange={ (e) => {
@@ -116,15 +116,15 @@ class Landing extends Component {
                                                 onBlur={handleBlur}
                                                 isInvalid={(touched.password && errors.password)}
                                             />
-                                            <Form.Control.Feedback type="invalid" id="form-label">{errors.password}</Form.Control.Feedback>
+                                            <Form.Control.Feedback type="invalid" id="landing-form-label">{errors.password}</Form.Control.Feedback>
                                         </Form.Group>
 
-                                        <Form.Group>
-                                            <Form.Label id="form-label">Confirm Password</Form.Label>
+                                        <Form.Group className="landing-form-group">
+                                            <Form.Label id="landing-form-label">Confirm Password</Form.Label>
                                             <Form.Control 
                                                 type="password" 
                                                 placeholder="Confirm Password" 
-                                                className="BodyFontD form-input"
+                                                className="BodyFontD landing-form-input"
                                                 name="passwordConfirm"
                                                 value={values.passwordConfirm}
                                                 onChange={ (e) => {
@@ -134,10 +134,10 @@ class Landing extends Component {
                                                 onBlur={handleBlur}
                                                 isInvalid={(touched.passwordConfirm && errors.passwordConfirm)}
                                                 />
-                                            <Form.Control.Feedback type="invalid" id="form-label">{errors.passwordConfirm}</Form.Control.Feedback>
+                                            <Form.Control.Feedback type="invalid" id="landing-form-label">{errors.passwordConfirm}</Form.Control.Feedback>
                                         </Form.Group>
 
-                                        <Button type="submit" className="button">GET STARTED</Button>
+                                        <Button type="submit" className="landing-submit-btn">Get Started</Button>
                                     </Form>
                                 )}
                                 </Formik>

@@ -4,7 +4,7 @@ import { Form } from 'react-bootstrap'
 export default class DietPref extends Component {
     render() {
         return (
-            <Form>
+            <Form className={this.props.className}>
                 <Form.Check
                     custom
                     type='radio'
