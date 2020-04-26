@@ -1,0 +1,156 @@
+import React, { Component } from 'react';
+import { Form } from 'react-bootstrap';
+
+export default class MealType extends Component {
+    render() {
+        const type = this.props.type;
+
+        return (
+            <Form className={this.props.className}>
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='main'
+                    label='Main Course'
+                    value="main course"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='side'
+                    label='Side Dish'
+                    value="side dish"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='dessert'
+                    label='Dessert'
+                    value="dessert"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='appetizer'
+                    label='Appetizer'
+                    value="appetizer"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='bread'
+                    label='Bread'
+                    value="bread"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='breakfast'
+                    label='Breakfast'
+                    value="breakfast"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='soup'
+                    label='Soup'
+                    value="soup"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='beverage'
+                    label='Beverage'
+                    value="beverage"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='sauce'
+                    label='Sauce'
+                    value="sauce"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='marinade'
+                    label='Marinade'
+                    value="marinade"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='fingerfood'
+                    label='Fingerfood'
+                    value="fingerfood"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='snack'
+                    label='Snack'
+                    value="snack"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+                <Form.Check
+                    custom
+                    type={type}
+                    name="type"
+                    id='drink'
+                    label='Drink'
+                    value="drink"
+                    onChange={this.props.handleChange}
+                    style={{marginBottom:5}}
+                    className="BodyFontE"
+                />
+            </Form>
+        )
+    }
+}

@@ -1,65 +1,85 @@
 import React from 'react';
-import { Col, Card, Row, Table } from 'react-bootstrap';
-import MealCards from './mealCards';
+import { Col, Row, Table, Modal, Button } from 'react-bootstrap';
 
-import "../Styles/styles.css"
+import "../Styles/styles.css";
+import "../../Containers/Home/home.css";
 
 
 /*
-    props:
-        url
-        image
-        label
-        source
-        yield
-        calories
-        healthLabels
+                Props
+    -------------------------------------
+    name                description
+    -------------------------------------
+    meals               weekly meals list
+
 
 */
 
-function populateCards(props) {
+function parseMealsData(props) {
+    var breakfast = [];
+    var lunch = [];
+    var dinner = [];
+
+    for (let i = 0; i < props.length; i+=3) {
+        breakfast.push(props[i])
+        lunch.push(props[i+1])
+        dinner.push(props[i+2])
+    }
+
+    return ({breakfast, lunch, dinner})
+}
+
+
+function MyWeeklyCards(props) {
+    const meals = props.meals;
     var cards = [];
-    for (let i = 0; i < props.length; i++) {
+    for (let i = 0; i < meals.length; i++) {
         cards.push(
-            <MealCards
-                url={props[i].url}
-                image={props[i].image}
-                label={props[i].label}
-                source={props[i].source}
-                yield={props[i].yield}
-                calories={props[i].calories}
-                healthLabels={props[i].healthLabels}
-            />
+            <td key={i}>
+                <div onClick={props.onShow} className="BodyFontF" id="weekly-menu-item">{meals[i].label}</div>
+                <Modal
+                    show={props.modalShow}
+                    onHide = {props.onHide}
+                    size="lg"
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>{meals[i].label}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Row>
+                            <Col md={3} >
+                                <a href={meals[i].url}><img src={meals[i].image}/></a>
+                            </Col>
+                            <Col>
+                                <p>
+                                    calories: {meals[i].calories} <br/>
+                                    carbs: {meals[i].carbs} <br/>
+                                    protein: {meals[i].protein} <br/>
+                                    fat: {meals[i].fat} <br/>
+                                </p>
+                            </Col>
+                        </Row>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={props.onHide}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+            </td>
         );
     }
 
     return cards;
 }
 
-function fillTableRows(props) {
-    return(
-        <tr>
-            {props.map(card => (
-                <td>
-                    {card}
-                </td>
-            ))}
-        </tr>
-    )
-}
-
 export function Week(props) {
-
-    const breakfast = populateCards(props.meals.breakfast)
-    const lunch = populateCards(props.meals.lunch)
-    const dinner = populateCards(props.meals.dinner)
-
-    console.log(JSON.stringify(props.meals.dinner))
-
+    const [modalShow, setModalShow] = React.useState(false);
+    
+    const meals = parseMealsData(props.props)
     return (
-        <Row>
+        <Row className="weekly-table-wrapper">
             <header style={{ marginBottom: 15, marginTop: 10}}>
-                <h2 className="BodyFont">My Weekly Meals</h2>
+                <h2 className="BodyFontG">My Weekly Meals</h2>
             </header>
             <Table responsive>
                 <thead>
@@ -74,152 +94,32 @@ export function Week(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {fillTableRows(breakfast)}
-                    {fillTableRows(lunch)}
-                    {fillTableRows(dinner)}
+                    <tr>
+                        <MyWeeklyCards 
+                            meals={meals.breakfast}
+                            onHide={() => setModalShow(false)}
+                            onShow={() => setModalShow(true)}
+                            modalShow={modalShow}
+                        />
+                    </tr>
+                    <tr>
+                        <MyWeeklyCards 
+                            meals={meals.lunch}
+                            onHide={() => setModalShow(false)}
+                            onShow={() => setModalShow(true)}
+                            modalShow={modalShow}
+                        />
+                    </tr>
+                    <tr>
+                        <MyWeeklyCards 
+                            meals={meals.dinner}
+                            onHide={() => setModalShow(false)}
+                            onShow={() => setModalShow(true)}
+                            modalShow={modalShow}
+                        />
+                    </tr>
                 </tbody>
             </Table>
         </Row>
     )
 }
-
-/*
-
-                    
-                    
-
-
-        <div>
-            <table className="weekly-calendar">
-                <thead>
-                    <tr>
-                        <th>Sunday</th>
-                        <th>Monday</th>
-                        <th>Tueday</th>
-                        <th>Wednesday</th>
-                        <th>Thursday</th>
-                        <th>Friday</th>
-                        <th>Saturday</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>
-                            <Card bg={"warning"} style={{width: '10rem'}}>
-                                <Card.Body>
-                                    <Card.Title>Breakfast</Card.Title>
-                                    <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                    <Card.Text>Handomse and creamy mac and cheese.</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-*/
-
-
-/*
-
-  return (
-        <Row>
-            <header style={{marginBottom: 15, marginTop: 10}}>
-                <h2>My Weekly Meals</h2>
-            </header>
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th>Sun</th>
-                        <th>Mon</th>
-                        <th>Tue</th>
-                        <th>Wed</th>
-                        <th>Thu</th>
-                        <th>Fri</th>
-                        <th>Sat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <Card bg={"warning"} text={'white'} style={{width: '8rem'}}>
-                                <Card.Body>
-                                    <Card.Title className="BodyFont2">Breakfast</Card.Title>
-                                    <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                    <Card.Text>Handsom and creamy mac and cheese.</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </td>
-                        <td>
-                            <Card bg={"warning"} text={'white'} style={{width: '8rem'}}>
-                                <Card.Body>
-                                    <Card.Title>Breakfast</Card.Title>
-                                    <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                    <Card.Text>Handomse and creamy mac and cheese.</Card.Text>
-                                </Card.Body>
-                            </Card>
-                                    </td>
-                                    <td>
-                                        <Card bg={"warning"} text={'white'} style={{width: '8rem'}}>
-                                            <Card.Body>
-                                                <Card.Title>Breakfast</Card.Title>
-                                                <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                                <Card.Text>Handomse and creamy mac and cheese.</Card.Text>
-                                            </Card.Body>
-                                        </Card>
-                                    </td>
-                                    <td>
-                                    <Card bg={"warning"} text={'white'} style={{width: '8rem'}}>
-                                        <Card.Body>
-                                            <Card.Title>Breakfast</Card.Title>
-                                            <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                            <Card.Text>Handomse and creamy mac and cheese.</Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                </td>
-                                <td>
-                                <Card bg={"warning"} text={'white'} style={{width: '8rem'}}>
-                                    <Card.Body>
-                                        <Card.Title>Breakfast</Card.Title>
-                                        <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                        <Card.Text>Handomse and creamy mac and cheese.</Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </td>
-                            <td>
-                            <Card bg={"warning"} text={'white'} style={{width: '8rem'}}>
-                                <Card.Body>
-                                    <Card.Title>Breakfast</Card.Title>
-                                    <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                    <Card.Text>Handomse and creamy mac and cheese.</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </td>
-                        <td>
-                        <Card bg={"warning"} text={'white'} style={{width: '8rem'}}>
-                            <Card.Body>
-                                <Card.Title>Breakfast</Card.Title>
-                                <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                <Card.Text>Handomse and creamy mac and cheese.</Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <Card bg={"success"} text={'white'} style={{width: '8rem'}}>
-                                <Card.Body>
-                                    <Card.Title>Breakfast</Card.Title>
-                                    <Card.Subtitle>Macoroni & Cheese</Card.Subtitle>
-                                    <Card.Text>Handomse and creamy mac and cheese.</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </td>
-                    </tr>
-                </tbody>
-            </Table>
-        </Row>
-    )
-
-*/

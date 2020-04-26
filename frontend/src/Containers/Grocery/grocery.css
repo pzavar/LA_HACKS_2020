@@ -1,0 +1,43 @@
+
+/* title */
+#grocery-title {
+    font-size: 20px;
+    margin-bottom: 5%;
+}
+/* grocery list group */
+.grocery-list-item {
+    display: flex;
+    align-items: flex-start;
+}
+
+.grocery-list-wrapper {
+    margin-bottom: 10%;
+}
+
+/* checklist */
+.grocery-list-checkbox {
+    font-size: 15px;
+}
+.grocery-list-checkbox>.custom-control-input:checked ~ .custom-control-label::before {
+    height: 20px;
+    width: 20px;
+    background-color: #A6CC9F;
+    border-color: #A6CC9F;
+    border-radius: 10px;
+    padding-top: 5px;
+}
+
+.grocery-list-checkbox>.custom-control-input:checked ~ .custom-control-label::after {
+    height: 20px;
+    width: 20px;
+}
+
+.grocery-list-checkbox>.custom-control-input ~ .custom-control-label::before {
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    border-color: #dddddd;
+    padding-top: 5px;
+
+}
+

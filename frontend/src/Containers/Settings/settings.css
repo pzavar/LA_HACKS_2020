@@ -1,37 +1,71 @@
-
-.tab-wrapper {
-    margin-right: auto;
-    margin-left: auto;
-
-    max-width: 500px;
-    padding-top: 10px;
-    padding-right: 10px;
-    padding-left: 10px;
-
-    border: 2px solid lightgray;
-}
-
-.title {
-    margin-top: 10px;
-
-}
-
-.title-header {
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-.btn {
-    margin-top: 20px;
-    margin: 20px;
-}
-
-#two-button-group {
-    display: flex;
+/* card header */
+.settings-toggle-header {
+    display: inline-flex;
+    flex-direction: row;
     justify-content: space-between;
 }
 
-#one-button-group {
+#settings-toggle-icon {
+    color: #dddddd;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* card wrapper */
+.settings-card-first {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+}
+
+.settings-card {
+    border-radius: 0;
+    border-bottom: none;
+}
+
+.settings-card-last {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Title and directions */
+#settings-title {
+    font-family:'Spartan', sans-serif;
+    font-size: 20px;
+}
+
+#settings-directions {
+    font-family:'Spartan', sans-serif;
+    font-size: 15px;
+}
+
+
+/* forms */
+.settings-diet-lifestyle-form {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 150px;
+    width: auto;
+}
+
+.settings-diet-restrict-form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 150px;
+    width: auto;
+}
+
+/* button wrapper */
+.settings-button-wrapper {
+    display: inline-flex;
+    justify-content: space-between;
+    margin-top: 5%;
+    width: 100%;
+}
+
+#settings-btn {
+    width: 150px;
+    height: auto;
 }

@@ -38,6 +38,7 @@
 
 .BodyFont {
     font-family:'Spartan', sans-serif;
+    font-size: 18px;
 }
 
 .BodyFontC{
@@ -57,6 +58,17 @@
     font-size: 12px;
     line-height: 1.5;
 }
+
+.BodyFontF{
+    font-family: 'Spartan', sans-serif;
+    font-size: 13px;
+}
+
+.BodyFontG{
+    font-family: 'Spartan', sans-serif;
+    font-size: 22px;
+}
+
 
 /* container alignments */
 .centered {
@@ -81,11 +93,65 @@
 
 
 /* boot strap buttons */
-.btn.btn-primary:hover {
+.btn.btn-primary {
+    background-color: #547C8F;
+    border: #547C8F;
+}
+
+.btn:hover {
     background-color: #A9C1CC;
 }
+
+.btn-primary:hover {
+    background-color: #A9C1CC;
+}
+
 .btn:active {
     background-color: #A9C1CC !important;
     outline: thin;
     outline-color: #A6CC9F;
 }
+
+.btn-success {
+    background-color: #A6CC9F;
+    border-color: #A6CC9F;
+}
+
+.btn-success:hover {
+    background-color: rgb(137, 191, 128) !important;
+    border-color: rgb(137, 191, 128);
+}
+
+/* bootstrap form checked box input */
+.custom-control-input:checked ~ .custom-control-label::before{
+    background-color: #547C8F;
+    border-color: #547C8F;
+}
+
+
+/* modal styling */
+.modal-backdrop.show {
+    opacity: 0.05;
+}
+
+/*
+.modal-backdrop.fade {
+    opacity: 0.5 !important;
+    filter: alpha(opacity=20);
+}
+
+.modal-backdrop.in {
+    opacity: 0.5 !important;
+    filter: alpha(opacity=20);
+}
+
+.modal-backdrop.fade {
+    opacity: 0.2 !important;
+    filter: alpha(opacity=20);
+}
+    
+.modal-backdrop.fade.in {
+    opacity: 0.2 !important;
+    filter: alpha(opacity=20);
+}
+*/

@@ -79,7 +79,23 @@
     margin-top: 15px;
 }
 
-.form-input {
+.landing-form-group {
+    position: relative;
+}
+
+#landing-form-label {
+    font-family: 'Spartan', sans-serif;
+    font-size: 12px;
+    margin-right: auto;
+    margin-left: 12%;
+    display: flex;
+    align-items: right;
+    justify-content: right;
+    width: 75%;
+    
+}
+
+.landing-form-input {
     margin-right: auto;
     margin-left: auto;
     display: flex;
@@ -93,15 +109,16 @@
 .icon {
     margin-top: 1em;
     display: flex;
-    align-items: center;
+    align-items: center -webkit-center;
     justify-content: center;
     margin-left: auto;
     margin-right: auto;
     color: #A9C1CC;
 }
 
-.button {
+.landing-submit-btn {
     width: 65% !important;
+    height: auto;
     margin-left: auto !important;
     margin-right: auto !important;
     display: flex;

@@ -14,7 +14,7 @@ import './calendar.css';
 
 */
 
-export default class MealCards extends Component {
+export default class VerticalMealCards extends Component {
     render() {
         return (
             <Card className="meal-card">

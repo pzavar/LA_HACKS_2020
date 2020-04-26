@@ -95,32 +95,26 @@
 
 /* buttons */
 #button {
-    max-width: 100px;
+    max-width: 100% !important;
 }
 
-.btn {
-    width: 100px;
-    background-color: #547C8F;
-    border: #547C8F;
-}
-.btn-success:hover {
-    background-color: #A6CC9F !important;
-}
 
 
 #two-button-group {
+    position: absolute;
     display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    right: 8%;
+    bottom: 1%;
+    width: 90%;
+    height: auto;
 }
 
 #one-button-group {
     position: relative;
-    bottom: 0;
+    bottom: 5px;
     width: 100%;
     display: flex;
     justify-content: flex-end;
@@ -138,18 +132,20 @@
 }
 
 /* forms */
-.restriction-form {
+.reg-diet-lifestyle-form {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    max-height: 300px;
+    height: 150px;
+    width: auto;
 }
 
-.lifestyle-form {
+.reg-diet-restrict-form {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    max-height: 300px;
+    height: 150px;
+    width: auto;
 }
 
 label {

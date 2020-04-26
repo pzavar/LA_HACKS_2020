@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import MealCards from './mealCards';
+import VerticalMealCards from './verticalMealCard';
 import { CardDeck } from 'react-bootstrap';
 import './calendar.css';
 
@@ -9,7 +9,7 @@ function populateCards(props) {
     var cards = [];
     for (let i = 0; i < props.length; i++) {
         cards.push(
-            <MealCards
+            <VerticalMealCards
                 key={i}
                 url={props[i].url}
                 image={props[i].image}

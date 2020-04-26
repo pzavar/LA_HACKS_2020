@@ -42,27 +42,8 @@ export default class UserInfo extends Component {
                     />
                 </Form.Group>
 
-                <Form.Group controlId="mealsPerWk">
-                    <Form.Label className="BodyFontB">No. Meals per Day</Form.Label>
-                    <Form.Control 
-                        as="select" 
-                        custom
-                        value={this.props.mealsPerDay}
-                        onChange={this.props.handleChange}
-                        className="BodyFontD"
-                    >
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                    </Form.Control>
-                </Form.Group>
                 <Form.Group controlId="budget">
-                    <Form.Label className="BodyFontB">Daily Budget</Form.Label>
+                    <Form.Label className="BodyFontB">Daily Budget (optional)</Form.Label>
                     <InputGroup>
                         <InputGroup.Prepend>
                             <InputGroup.Text id="budgetPrepend" className="BodyFontD" style={{paddingTop:3, paddingBottom:3,}}>$</InputGroup.Text>
@@ -162,17 +143,6 @@ export default class UserInfo extends Component {
                                 id="self-employed"
                                 label='Self-employed'
                                 value="self-employed"
-                                onChange={this.props.handleChange}
-                                style={{marginBottom:5}}
-                                className="BodyFontD"
-                            />
-                            <Form.Check
-                                custom
-                                type='radio'
-                                name="employment"
-                                id="homemaker"
-                                label='Homemaker'
-                                value="homemaker"
                                 onChange={this.props.handleChange}
                                 style={{marginBottom:5}}
                                 className="BodyFontD"

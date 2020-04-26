@@ -1,5 +1,9 @@
-import React, { Component } from 'react';
-import { Container, Col, Row, Form, Tab, Tabs, Button, Card } from 'react-bootstrap';
+import React, { Component, useState } from 'react';
+import { Container, Col, Row, FormControl, InputGroup, Card, Accordion, Button } from 'react-bootstrap';
+import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+
 import UserInfo from '../../Components/Survey/UserInfo';
 import DietPref from '../../Components/Survey/DietPref';
 import DietRestrict from '../../Components/Survey/DietRestrict';
@@ -12,45 +16,68 @@ import '../../Components/Styles/styles.css'
 import './settings.css';
 
 
+function CustomToggle({ children, eventKey }) {
+    const [open, setOpen] = useState(false);
+    const decoratedOnCLick = useAccordionToggle(eventKey, () => setOpen(!open))
+
+    if (!open) {
+        return (
+            <Card.Header
+                className="settings-toggle-header BodyFontD"
+                onClick={decoratedOnCLick}
+            >
+            {children} <FontAwesomeIcon icon={faPlus} id="settings-toggle-icon" />
+            </Card.Header>
+        )
+    } else {
+        return (
+            <Card.Header
+                className="settings-toggle-header BodyFontD"
+                onClick={decoratedOnCLick}
+            >
+            {children} <FontAwesomeIcon icon={faMinus} id="settings-toggle-icon" />
+            </Card.Header>
+        )
+    }
+
+}
+
 
 export default class Settings extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            key: 1,
-            currentStep: 1,
-            name: '',
             email: '',
             password: '',
-            Diet: '',
-            Health: [],
+            age: "",
+            employment: '',
+            mealsPerDay: 0,
+            budget: 0,
+            diet: '',
+            exclude: [],
+            targetCalories: '',
         }
 
         this.handleChange = this.handleChange.bind(this)
-        this.handleHealthChange = this.handleHealthChange.bind(this)
-        this.handleSelect = this.handleSelect.bind(this)
+        this.handleExcludeChange = this.handleExcludeChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleSelect(key) {
-        console.log(key)
-        this.setState({key})
-    }
 
-    handleHealthChange(e) {
+    handleExcludeChange(e) {
         const {value} = e.target
 
-        if (this.state.Health.includes(value)) {
+        if (this.state.exclude.includes(value)) {
             console.log("item exists")
-            const health = this.state.Health.filter((i) => i !== value)
-            this.setState({Health: health})
-            console.log(this.state.Health)
+            const items = this.state.exclude.filter((i) => i !== value)
+            this.setState({exclude: items})
+            console.log(this.state.exclude)
         } else {
             this.setState({
-                Health: [...this.state.Health, value]
+                exclude: [...this.state.exlcude, value]
             })
-            console.log(this.state.Health)
+            console.log(this.state.exclude)
         }
     }
 
@@ -76,68 +103,99 @@ export default class Settings extends Component {
     }
 
     render() {
+        const dietRestrictClassName = "settings-diet-restrict-form";
+        const dietLifestyleClassName = "settings-diet-lifestyle-form";
+
         return (
             <div id="home">
             <SideBar pageWrapId={"page-wrap"} outerContainerId={"home"}/>
             <Container>
                 <NavigationBar />
-                <div className="tab-wrapper">
-                    
-                    <h2 className="title-header" className="SubheaderFont">Settings</h2>
-
-                    <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="registration-survey">
-                        <Tab eventKey={1} title="1">
-                            <div style={{margin:10}}/>
-                            <h3 className="title" className="BodyFont">User Information</h3>
-                            <p className="BodyFont" >Change your personal information.</p>
-                            <UserInfo 
-                                handleChange={this.handleChange}
-                                name={this.state.name}
-                                email={this.state.email}
-                                password={this.state.password}
-                            />
-                            <Row id="one-button-group">
-                                <Button id="next" onClick={(e) => this.handleSelect(2, e)}>Next</Button>
-                            </Row>
-                            
-                        </Tab>
-                        <Tab eventKey={2} title="2">
-                            <div style={{margin:10}}/>
-                            <h3 className="title" className="BodyFont">Diet Preferences</h3>
-                            <p className="BodyFont"> Change your diet preference.</p>
-                            <DietPref 
-                                handleChange={this.handleChange}/>
-                            <Row id="two-button-group">
-                                <Button id="prev" onClick={(e) => this.handleSelect(1, e)}>Previous</Button>
-                                <Button id="button" onClick={(e) => this.handleSelect(3, e)}>Next</Button>
-                            </Row>
-                        </Tab>
-                        <Tab eventKey={3} title="3">
-                            <div style={{margin:10}}/>
-                            <h3 className="title" className="BodyFont">Diet Lifestyles</h3>
-                            <p className="BodyFont">Change any dietary lifestyles.</p>
-                            <DietLifestyle 
-                                handleChange={this.handleHealthChange}
-                                />
-                            <Row id="two-button-group">
-                                <Button id="prev" onClick={(e) => this.handleSelect(2, e)}>Previous</Button>
-                                <Button id="button" onClick={(e) => this.handleSelect(4, e)}>Next</Button>
-                            </Row>
-                        </Tab>
-                        <Tab eventKey={4} title="4">
-                            <div style={{margin:10}}/>
-                            <h3 className="title" className="BodyFont">Diet Restrictions</h3>
-                            <p className="BodyFont">Change any dietary restrictions you may have.</p>
-                            <DietRestrict
-                                handleChange={this.handleHealthChange}
-                                />
-                            <Row id="two-button-group">
-                                <Button id="prev" onClick={(e) => this.handleSelect(3, e)}>Previous</Button>
-                                <Button variant="success" id="button" onClick={this.handleSubmit}>Submit</Button>
-                            </Row>
-                        </Tab>
-                    </Tabs>
-                </div>
+                <Row style={{marginTop: '5%'}}>   
+                    <Col md={{span:8, offset:2}}>
+                        <h1 id="settings-title">Settings</h1>
+                        <Accordion>
+                            <Card className="settings-card-first">
+                                <CustomToggle eventKey="0">User Inforomation</CustomToggle>
+                                <Accordion.Collapse eventKey="0">
+                                    <Card.Body className="settings-card-body">
+                                    <p id="settings-directions">Change your personal information.</p>
+                                    <UserInfo 
+                                        handleChange={this.handleChange}
+                                        name={this.state.name}
+                                        email={this.state.email}
+                                        password={this.state.password}
+                                        age={this.state.age}
+                                        mealsPerDay={this.state.mealsPerDay}
+                                        budget={this.state.budget}
+                                        employment={this.state.employment}
+                                        populated={this.state.populated}
+                                    />
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        </Accordion>
+                        <Accordion>
+                            <Card className="settings-card">
+                                <CustomToggle eventKey="1">Diet Preferences</CustomToggle>
+                                <Accordion.Collapse eventKey="1">
+                                    <Card.Body className="settings-card-body">
+                                    <p id="settings-directions">Change your diet preference.</p>
+                                    <DietLifestyle 
+                                        handleChange={this.handleChange}
+                                        className={dietLifestyleClassName}
+                                        type='radio'
+                                        api="spoonacular"
+                                    />
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        </Accordion>
+                        <Accordion>
+                            <Card className="settings-card">
+                                <CustomToggle eventKey="2">Diet Restrictions</CustomToggle>
+                                <Accordion.Collapse eventKey="2">
+                                    <Card.Body className="settings-card-body">
+                                    <p id="settings-directions">Change your diet restrictions.</p>
+                                    <DietRestrict 
+                                        handleChange={this.handleExcludeChange}
+                                        className={dietRestrictClassName}
+                                        type='checkbox'
+                                        api="spoonacular"
+                                    />
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        </Accordion>
+                        <Accordion>
+                            <Card className="settings-card-last">
+                                <CustomToggle eventKey="3">Target Calories</CustomToggle>
+                                <Accordion.Collapse eventKey="3">
+                                    <Card.Body className="settings-card-body">
+                                        <p id="settings-directions">Change your target calories per day. (optional)</p>
+                                        <InputGroup>
+                                            <FormControl
+                                                type="number"
+                                                name="targetCalories"
+                                                placeholder="ex. 2000"
+                                                value={this.state.targetCalories}
+                                                onChange={this.handleChange}
+                                                className="BodyFontD"
+                                            />
+                                        <InputGroup.Append>
+                                            <InputGroup.Text className="BodyFontD" style={{paddingTop:3, paddingBottom:3,}}>cal</InputGroup.Text>
+                                        </InputGroup.Append>
+                                        </InputGroup> 
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        </Accordion>
+                        <div className="settings-button-wrapper" >
+                            <Button id="settings-btn">Cancel</Button>
+                            <Button id="settings-btn">Save</Button>
+                        </div>
+                    </Col>
+                </Row>
             </Container>
             </div>
         )

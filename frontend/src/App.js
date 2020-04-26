@@ -5,10 +5,11 @@ import { PrivateRoute, HomeRoute } from './Components/PrivateRoutes/privateRoute
 import Landing from './Containers/Landing/landing';
 import Login from './Containers/Login/login';
 import Home from './Containers/Home/home';
-import Recipes from './Containers/Recipes/recipes';
+import Search from './Containers/Recipes/Search';
 import Register from './Containers/Register/register';
 import History from './Containers/Settings/history';
 import Settings from './Containers/Settings/settings';
+import Grocery from './Containers/Grocery/Grocery';
 
 
 const App = () => (
@@ -18,9 +19,10 @@ const App = () => (
       <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
       <Route exact path="/home" component={Home} />
-      <Route exact path="/recipes" component={Recipes} />
+      <Route exact path="/search" component={Search} />
       <Route exact path="/history" component={History} />
       <Route exact path="/settings" component={Settings} />
+      <Route exact path="/grocery" component={Grocery} />
     </Switch>
   </Router>
 );
