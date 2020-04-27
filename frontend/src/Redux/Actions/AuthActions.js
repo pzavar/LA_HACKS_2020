@@ -1,7 +1,7 @@
 import {authConstants} from './types';
 import {history} from '../../Utils/history';
 import {api, auth_config} from '../../Utils/url';
-import axios from 'axios';
+
 
 
 export const authActions = {
@@ -32,10 +32,10 @@ function login(type, email, password) {
         case 'GOOGLE':
             return dispatch => {
                 dispatch(request())
-                api.post('/auth/google', data)
+                api.post('/auth/google')
                 .then((response) => {
                     localStorage.setItem('token', response.token)
-                    dispatch(success(reponse.token))
+                    dispatch(success(response.token))
                 })
                 .catch(error => {
                     dispatch(failure(error))

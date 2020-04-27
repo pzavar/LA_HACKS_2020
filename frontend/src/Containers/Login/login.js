@@ -5,9 +5,12 @@ import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
+import {connect} from 'react-redux';
+import { authActions } from '../../Redux/Actions/AuthActions';
 
 import '../../Components/Styles/styles.css';
 import './login.css';
+
 
 const schema = yup.object({
     password : yup.string()
@@ -31,12 +34,22 @@ class Login extends Component {
           loginerror: null
         };
         this.handleLogin = this.handleLogin.bind(this)
+        this.handleGoogleLogin = this.handleGoogleLogin.bind(this)
       }
     
       handleLogin(values){
         this.setState({submitted: true, changed: false});
         const { email, password } = values;
-        setTimeout(() => {this.props.login(email, password)}, 500);
+
+        this.props.login("LOCAL", email, password);
+
+      }
+
+      handleGoogleLogin(e){
+          e.preventDefault();
+          alert("Google Login")
+          this.setState({submitted: true, changed: false});
+          this.props.login("GOOGLE");
       }
 
 
@@ -65,7 +78,7 @@ class Login extends Component {
                     }) => (
                     <Form onSubmit={handleSubmit}>
                     <Form.Group controlId = "Email">
-                        <Form.Label id="form-label">Email</Form.Label>
+                        <Form.Label className="login-form-label">Email</Form.Label>
                         <Form.Control 
                         type="email"
                         className="inputbox" 
@@ -80,12 +93,12 @@ class Login extends Component {
                         isInvalid={(touched.email && errors.email)}
                         />
                         
-                    <Form.Control.Feedback type="invalid" id="form-label">
+                    <Form.Control.Feedback type="invalid" className="login-form-label">
                         {errors.email}
                     </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="Password">
-                        <Form.Label id="form-label">Password</Form.Label>
+                        <Form.Label className="login-form-label">Password</Form.Label>
                         <Form.Control 
                         type="password"
                         placeholder="Password" 
@@ -99,12 +112,12 @@ class Login extends Component {
                         onBlur={handleBlur}
                         isInvalid={(touched.password && errors.password)}
                         />
-                        <Form.Control.Feedback type="invalid" id="form-label">
+                        <Form.Control.Feedback type="invalid" className="login-form-label">
                         {errors.password}
                         </Form.Control.Feedback>
                     </Form.Group>
-                    <Row>
-                        <Button variant="primary" type="submit" className="button">
+                    <Row className="login-button-wrapper">
+                        <Button variant="primary" type="submit" className="login-button">
                             Sign In
                         </Button>
                     </Row>
@@ -113,8 +126,7 @@ class Login extends Component {
                 </Formik>  
                 <div className="divider">OR</div>
                 <div className="login-button-wrapper">
-                    <Button id="external-login-btn">Facebook</Button>
-                    <Button id="external-login-btn">Google</Button>
+                    <Button id="external-login-btn" onClick={this.handleGoogleLogin}>Google</Button>
                 </div>
                 </Card>
                 <p id="sign-up-text"> Don't have an account? <s/>
@@ -133,11 +145,12 @@ class Login extends Component {
     }
 }
 
-export default Login;
+function mapStateToProps (state) {
+    return(state)
+}
 
-/*
-                    { error != null && !this.state.changed 
-                    ? <h3 className="Words" style={{fontSize: '17.5px', color: 'red', marginTop: '5%'}}>{error.message}</h3> 
-                    : null }   
+const actionCreators = {
+    login: authActions.login,
+}
 
-*/
+export default connect(mapStateToProps, actionCreators)(Login);

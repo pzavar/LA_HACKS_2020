@@ -31,7 +31,7 @@
 
 }
 
-#form-label {
+.login-form-label {
     margin-right: auto;
     margin-left: 13%;
     font-family: 'Spartan', sans-serif;
@@ -43,6 +43,8 @@
     font-size: 15px;
     color: #989898;
     text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 .divider:before {
@@ -76,13 +78,19 @@
     justify-content: center;
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
+}
+
+.login-button{
+    margin-top: 20px;
     width: 75%;
 }
 #external-login-btn {
-    width: 95% !important;
+    width: 75% !important;
+    margin-bottom: 20px;
 }
 
-.button:active {
+.login-button:active {
     background-color: #dddddd !important;
 }
 

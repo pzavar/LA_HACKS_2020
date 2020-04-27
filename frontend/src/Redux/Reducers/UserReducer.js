@@ -23,11 +23,12 @@ export function user(state=initialState, action) {
                 regError: null,
             }
         case userConstants.USER_REG_SUCCESS:
+            {
             const {
                 email, 
                 budget, 
                 diet, 
-                exlude, 
+                exclude, 
                 targetCalories } = action.data;
             return {
                 ...state,
@@ -38,6 +39,7 @@ export function user(state=initialState, action) {
                 diet: diet,
                 exclude: exclude,
                 targetCalories: targetCalories,
+            }
             }
         case userConstants.USER_REG_FAILURE:
             return {
@@ -54,11 +56,12 @@ export function user(state=initialState, action) {
                 changeError: null
             }
         case userConstants.USER_CHANGE_SETTINGS_SUCCESS:
+            {
             const {
                 email, 
                 budget, 
                 diet, 
-                exlude, 
+                exclude, 
                 targetCalories } = action.data;
             return {
                 ...state,
@@ -69,12 +72,12 @@ export function user(state=initialState, action) {
                 diet: diet,
                 exclude: exclude,
                 targetCalories: targetCalories,
-            }
+            }}
         case userConstants.USER_CHANGE_SETTINGS_FAILURE:
             return {
                 ...state,
                 changeLoading: false,
-                changeError: error,
+                changeError: action.error,
             }
         
         /* Default */
