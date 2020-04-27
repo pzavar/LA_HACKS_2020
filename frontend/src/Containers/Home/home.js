@@ -5,9 +5,8 @@ import SideBar from '../../Components/Navigation/sidebar';
 import { Daily } from '../../Components/Calendar/daily';
 import PieChart from 'react-minimal-pie-chart';
 import Loading from '../../Components/Loading/Loading';
-import {connect} from 'react-redux';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
-
+import { connect } from 'react-redux';
 import { Week } from '../../Components/Calendar/week';
 import { meals } from './data';
 

@@ -85,10 +85,7 @@
     margin-top: 20px;
     width: 75%;
 }
-#external-login-btn {
-    width: 75% !important;
-    margin-bottom: 20px;
-}
+
 
 .login-button:active {
     background-color: #dddddd !important;
@@ -112,4 +109,19 @@
 
 #sign-up-link:hover {
     color: wheat;
+}
+
+#login-google-btn {
+    width: 75%;
+    margin-bottom: 10%;
+}
+
+#login-google-txt {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    color: #FFFFFF;
+    text-decoration: none;
+    margin-top:12px;
+    margin-left: 20px;
+    text-align: center;
 }

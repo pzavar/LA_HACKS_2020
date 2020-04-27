@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-const url = 'http://localhost:8080'
+export const url = 'http://localhost:4000'
 
 export const api = axios.create({
-    baseURL: url,
+    baseURL: 'http://localhost:4000',
 })
+
+console.log(api)
 
 export const auth_config = {
     headers: {
