@@ -11,5 +11,9 @@ config.recipeId = process.env.EDAMAM_RECIPE_ID_KEY
 config.recipeApiKey = process.env.EDAMAM_RECIPE_API_KEY 
 config.nutritionId = process.env.EDAMAM_NUTRITION_ID_KEY
 config.nutritionApiKey = process.env.EDAMAM_NUTRITION_API_KEY
+config.spoonacularApiKey = process.env.SPOONACULAR_API_KEY
+
+config.googleClientId = process.env.GOOGLE_CLIENT_ID
+config.googleClientSecret = process.env.GOOGLE_CLIENT_SECRET
 
 module.exports = config;

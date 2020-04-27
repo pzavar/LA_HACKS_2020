@@ -6,6 +6,27 @@ var router = express.Router();
 var passport = require('passport')
 var User = require('../models/user')
 
+router.get('/google',
+  passport.authenticate('google', { scope: 
+      [ 'https://www.googleapis.com/auth/plus.login',
+      , 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
+));
+
+router.get( '/google/callback', 
+    passport.authenticate( 'google', { 
+        successRedirect: '/auth/google/success',
+        failureRedirect: '/auth/google/failure'
+}));
+
+router.get('/google/success',function(req,res,next){
+	console.log("Google auth success")
+	res.redirect('http://localhost:3000/home')
+})
+
+router.get('/google/failure',function(req,res,next){
+	console.log(req)
+})
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	console.log("Inside login router")
@@ -20,11 +41,6 @@ router.get('/', function(req, res, next) {
 			res.redirect('/users/');
 		};
 	res.render('index', { title: 'Express' });
-});
-
-router.get('/success', function(req,res,next){
-	console.log("Auth success")
-	console.log(req)
 });
 
 // ========================

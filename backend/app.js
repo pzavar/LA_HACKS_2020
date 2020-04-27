@@ -8,7 +8,11 @@ var usersRouter = require('./routes/users');
 var mealsRouter  = require('./routes/meals');
 var authRouter  = require('./routes/auth')
 var groceryList = require('./routes/groceryList')
-const mongoose = require('mongoose');
+const config = require('../backend/config')
+//
+//mongoose configures mongoose for later
+require('./db.js')
+
 const bodyParser = require('body-parser');
 var app = express();
 
@@ -18,18 +22,9 @@ app.use(bodyParser.json());
 //     PASSPORT
 // ===============
 var passport = require("passport");
-var LocalStrategy = require("passport-local");
 var User = require("./models/user")
 
 
-// ==================
-//      MongoDB
-// ==================
-// const connectDB = require('./db');
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
 
 // connectDB();
 // app.use(connectDB);
@@ -37,77 +32,7 @@ mongoose.set('useUnifiedTopology', true);
 app.use(express.json({extended: false}));
 // app.use('/api/userModel', require('./API/User'));
 
-const db = require('./db');
-const dbName = "munchies_db";
-const collectionName = "Users";
-
-db.initialize(dbName, collectionName, function (dbCollection) {
-  dbCollection.find().toArray(function (err, result) {
-    if (err) throw err;
-    console.log(result);
-
-    // return respond to client
-  });
-
-  // ====================
-  //   DB CRUD ROUTES
-  // ====================
-
-  // POST - create a new user
-  app.post('/user', (req, res) => {
-    const item = req.body;
-    dbCollection.insertOne(item, (err, result) => {
-      if (err) throw err;
-
-      dbCollection.find().toArray((_error, _result) => {
-        if (_error) throw _error;
-        res.json(_result);
-      });
-    });
-  });
-
-  // GET - see a user by _id
-  app.get('/user/:id', (req, res) => {
-    const itemId = req.params.id;
-
-    dbCollection.findOne({
-      id: itemId
-    }, (error, result) => {
-      if (err) throw err;
-      // return item
-      this.response.json(result);
-    });
-  });
-
-  // GET - see all users
-  app.get('/user', (req, res) => {
-    dbCollection.find().toArray((error, result) => {
-      if (error) throw error;
-      res.json(result);
-    });
-  });
-
-  // DELETE - delete a user
-  app.delete('/user/:id', (req, res) => {
-    const itemId = req.params.id;
-    console.log('Delete item with ID: ', itemId);
-
-    dbCollection.deleteOne({
-      id: itemId
-    }, (err, result) => {
-      if (err) throw err;
-      // send back entire updated user list after successful request
-      dbCollection.find().toArray((_err, _result) => {
-        if (_err) throw _err;
-        res.json(_result);
-      });
-    })
-  });
-
-}, function(err) {
-  throw (err);
-});
-
+// const db = require('./db');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -116,7 +41,7 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
-  extended: false
+	extended: false
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -126,19 +51,80 @@ app.use(express.static(path.join(__dirname, 'public')));
 //    PASSPORT CONFIGURATION
 // =============================
 app.use(require('express-session')({
-  secret: " some long string",
-  resave: false,
-  saveUninitialized: false
+	secret: " some long string",
+	resave: false,
+	saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// var LocalStrategy = require("passport-local");
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+
+});
+var GoogleStrategy = require('passport-google-oauth2').OAuthStrategy;
+
+// Use the GoogleStrategy within Passport.
+//   Strategies in passport require a `verify` function, which accept
+//   credentials (in this case, a token, tokenSecret, and Google profile), and
+//   invoke a callback with a user object.
+
+
+var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+
+passport.use(new GoogleStrategy({
+	clientID:     config.googleClientId,
+	clientSecret: config.googleClientSecret,
+	callbackURL: "http://localhost:4000/auth/google/callback",
+	passReqToCallback   : true
+},
+	function(request, accessToken, refreshToken, profile, done) {
+		query = {googleId : profile.id}
+		console.log("Profile")
+		console.log(profile)
+		// Find the document
+			console.log("Called here")
+		User.findOneAndUpdate(query, {}, function(error, result) {
+			console.log("Called")
+			if (!error) {
+				// If the document doesn't exist
+				if (!result) {
+			console.log("Document not found")
+					// Create it
+					result = new User({googleId: profile.id, displayName: profile.displayName});
+				}
+				else{
+					console.log("Found User")
+				}
+				// Save the document
+				result.save(function(error) {
+					if (!error) {
+						console.log("Saved")
+						return done(null,result)
+						// Do something with the document
+					} else {
+						console.log("error: ")
+						console.log(error)
+						throw error;
+					}
+				});
+			}
+		});
+	})
+)
 app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  next();
+	res.locals.currentUser = req.user;
+	next();
 });
 
 
@@ -162,13 +148,13 @@ app.use('/groceryList', groceryList);
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+	// set locals, only providing error in development
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+	// render the error page
+	res.status(err.status || 500);
+	res.render('error');
 });
 
 
@@ -176,18 +162,18 @@ app.use(function (err, req, res, next) {
 //     SETTINGS
 // =================
 var settings = {
-  "async": true,
-  "crossDomain": true,
-  "url": "https://api.kroger.com/v1/connect/oauth2/token",
-  "method": "POST",
-  "headers": {
-    "Content-Type": "application/x-www-form-urlencoded",
-    "Authorization": "Basic {{base64(“CLIENT_ID:CLIENT_SECRET”)}}"
-  },
-  "data": {
-    "grant_type": "client_credentials",
-    "scope": "{{scope}}"
-  }
+	"async": true,
+	"crossDomain": true,
+	"url": "https://api.kroger.com/v1/connect/oauth2/token",
+	"method": "POST",
+	"headers": {
+		"Content-Type": "application/x-www-form-urlencoded",
+		"Authorization": "Basic {{base64(“CLIENT_ID:CLIENT_SECRET”)}}"
+	},
+	"data": {
+		"grant_type": "client_credentials",
+		"scope": "{{scope}}"
+	}
 }
 var port = 4000
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
