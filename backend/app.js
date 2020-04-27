@@ -87,6 +87,7 @@ passport.use(new GoogleStrategy({
 	passReqToCallback   : true
 },
 	function(request, accessToken, refreshToken, profile, done) {
+		newUser = false
 		query = {googleId : profile.id}
 		console.log("Profile")
 		console.log(profile)
@@ -99,7 +100,8 @@ passport.use(new GoogleStrategy({
 				if (!result) {
 			console.log("Document not found")
 					// Create it
-					result = new User({googleId: profile.id, displayName: profile.displayName});
+					newUser = true
+					result = new User({isNewUser: newUser, googleId: profile.id, displayName: profile.displayName, accessToken: accessToken, refreshToken: refreshToken});
 				}
 				else{
 					console.log("Found User")
@@ -108,6 +110,7 @@ passport.use(new GoogleStrategy({
 				result.save(function(error) {
 					if (!error) {
 						console.log("Saved")
+						//Essentially appends user to req in callback
 						return done(null,result)
 						// Do something with the document
 					} else {

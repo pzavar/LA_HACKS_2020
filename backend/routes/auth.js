@@ -20,7 +20,7 @@ router.get( '/google/callback',
 
 router.get('/google/success',function(req,res,next){
 	console.log("Google auth success")
-	res.redirect('http://localhost:3000/home')
+	res.json({accessToken: req.user.accessToken, isNewUser: req.user.isNewUser})
 })
 
 router.get('/google/failure',function(req,res,next){
