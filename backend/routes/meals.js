@@ -63,7 +63,8 @@ router.get('/week', async function(req, res, next) {
 // carbs: "33g"
 //https://api.spoonacular.com/recipes/716429/information?apiKey=YOUR-API-KEY&includeNutrition=true.
 router.get('/test', async function(req, res, next) {
-	var search = await fetch(`https://api.spoonacular.com/recipes/findByNutrients/?apiKey=${config.spoonacularApiKey}&minCarbs=10&maxCarbs=50&number=2`)
+	console.log(config.spoonacularApiKey)
+	var search = await fetch(`https://api.spoonacular.com/mealplanner/generate?apiKey=${config.spoonacularApiKey}&timeFrame=week`)
 	console.log("Test")
 	var json = await search.json()
 	// res.send(json)
