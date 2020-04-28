@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 var logger = require('morgan');
 var mealsRouter  = require('./routes/meals');
 var authRouter  = require('./routes/auth')
@@ -15,6 +16,18 @@ const bodyParser = require('body-parser');
 var app = express();
 
 app.use(bodyParser.json());
+
+
+// ====================
+//     COOKIE SETUP
+// ====================
+
+app.use(cookieSession({
+	name: 'session',
+	keys: ['123']
+}));
+
+app.use(cookieParser());
 
 // ===============
 //     PASSPORT
@@ -41,7 +54,7 @@ app.use(express.json());
 app.use(express.urlencoded({
 	extended: false
 }));
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -55,6 +68,8 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+const mongoose = require('mongoose');
 // var LocalStrategy = require("passport-local");
 // passport.use(new LocalStrategy(User.authenticate()));
 // passport.serializeUser(User.serializeUser());
@@ -65,17 +80,24 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
+	if(mongoose.Types.ObjectId.isValid(id))
+  		User.findById(id, function(err, user) {
+    		done(err, user);
   });
 
 });
+
+// ========================================
+//    PASSPORT GOOGLE OAUTH CONFIGURATION
+// ========================================
+
 var GoogleStrategy = require('passport-google-oauth2').OAuthStrategy;
 
 // Use the GoogleStrategy within Passport.
 //   Strategies in passport require a `verify` function, which accept
 //   credentials (in this case, a token, tokenSecret, and Google profile), and
 //   invoke a callback with a user object.
+
 
 
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
@@ -88,7 +110,7 @@ passport.use(new GoogleStrategy({
 },
 	function(request, accessToken, refreshToken, profile, done) {
 		newUser = false
-		query = {googleId : profile.id}
+		query = {userid : profile.id}
 		console.log("Profile")
 		console.log(profile)
 		// Find the document
@@ -98,10 +120,10 @@ passport.use(new GoogleStrategy({
 			if (!error) {
 				// If the document doesn't exist
 				if (!result) {
-			console.log("Document not found")
+					console.log("Document not found")
 					// Create it
 					newUser = true
-					result = new User({isNewUser: newUser, googleId: profile.id, displayName: profile.displayName, accessToken: accessToken, refreshToken: refreshToken});
+					result = new User({isNewUser: newUser, userid: profile.id, displayName: profile.displayName, accessToken: accessToken, refreshToken: refreshToken});
 				}
 				else{
 					console.log("Found User")

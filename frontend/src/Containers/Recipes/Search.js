@@ -85,7 +85,7 @@ export default class Search extends Component {
             <SideBar pageWrapId={"page-wrap"} outerContainerId={"home"}/>
             <Container id="page-wrap">
                 <NavigationBar />
-                <h3 className="page-title BodyFontC">Find a Recipe</h3>
+                <h3 className="page-title PageTitleFont">Find a Recipe</h3>
                 <Row >
                     <Col md={{ span: 8, offset: 2 }} >
                     <InputGroup className="search-wrapper">
@@ -202,7 +202,7 @@ export default class Search extends Component {
                     </Col>
                 </Row>
             
-                <Col md={{ span: 8, offset: 2 }} >
+                <Col md={{ span: 8, offset: 2 }} style={{marginTop: '5%'}}>
                     <HorizontalMealCard 
                         label="Mac and Cheese"
                         image="//placehold.it/150"

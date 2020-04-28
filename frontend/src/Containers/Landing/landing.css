@@ -87,11 +87,11 @@
     font-family: 'Spartan', sans-serif;
     font-size: 12px;
     margin-right: auto;
-    margin-left: 12%;
+    margin-left: 5%;
     display: flex;
     align-items: right;
     justify-content: right;
-    width: 75%;
+    width: 90%;
     
 }
 
@@ -102,7 +102,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
-    max-width: 75%;
+    max-width: 90%;
 
 }
 
@@ -117,11 +117,23 @@
 }
 
 .landing-submit-btn {
-    width: 65% !important;
+    width: 90% !important;
     height: auto;
     margin-left: auto !important;
     margin-right: auto !important;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.google-button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+}
+
+#landing-google-btn {
+    width: 90%;
 }

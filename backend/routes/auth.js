@@ -6,6 +6,9 @@ var router = express.Router();
 var passport = require('passport')
 var User = require('../models/user')
 
+// ============================
+// 		GOOGLE AUTH LOGIC
+// ============================
 router.get('/google',
   passport.authenticate('google', { scope: 
       [ 'https://www.googleapis.com/auth/plus.login',
@@ -18,13 +21,21 @@ router.get( '/google/callback',
         failureRedirect: '/auth/google/failure'
 }));
 
-router.get('/google/success',function(req,res,next){
+router.get('/google/success',function(req, res){
 	console.log("Google auth success")
-	res.json({accessToken: req.user.accessToken, isNewUser: req.user.isNewUser})
+	req.session.token = req.user.accessToken;
+	res.cookie('token', req.session.token)
+	
+	if (req.user.isNewUser) {
+		res.redirect('http://localhost:3000/register')
+	} else {
+		res.redirect('http://localhost:3000/home')
+	}
 })
 
 router.get('/google/failure',function(req,res,next){
 	console.log(req)
+	res.redirect('/')
 })
 
 /* GET home page. */

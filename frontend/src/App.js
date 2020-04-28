@@ -10,6 +10,7 @@ import Register from './Containers/Register/register';
 import History from './Containers/Settings/history';
 import Settings from './Containers/Settings/settings';
 import Grocery from './Containers/Grocery/Grocery';
+import Favorites from './Containers/Settings/Favorites';
 
 
 const App = () => (
@@ -23,6 +24,7 @@ const App = () => (
       <Route exact path="/history" component={History} />
       <Route exact path="/settings" component={Settings} />
       <Route exact path="/grocery" component={Grocery} />
+      <Route exact path="/favorites" component={Favorites} />
     </Switch>
   </Router>
 );

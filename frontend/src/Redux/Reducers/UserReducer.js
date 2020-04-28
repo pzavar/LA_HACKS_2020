@@ -2,8 +2,10 @@ import { userConstants } from '../Actions/types';
 
 const initialState = {
     regLoading: false,
+    getUserLoading: false,
     changeLoading: false,
     regError: null,
+    getUserError: null,
     changeError: null,
 
     email: '',
@@ -46,6 +48,31 @@ export function user(state=initialState, action) {
                 ...state,
                 regLoading: false,
                 regError: action.error,
+            }
+
+        /* Get User */
+        case userConstants.USER_GET_REQUEST:
+            return {
+                ...state,
+                getUserLoading: true,
+                getUserError: false,
+            }
+
+        case userConstants.USER_GET_SUCCESS:
+            return {
+                ...state,
+                getUserLoading: false,
+                email: action.data.email,
+                budget: action.data.budget,
+                diet: action.data.diet,
+                exclude: action.data.exclude,
+                targetCalories: action.data.targetCalories,
+            }
+        
+        case userConstants.USER_GET_FAILURE:
+            return {
+                getUserLoading: false,
+                getUserError: action.error,
             }
 
         /* Change Settings */

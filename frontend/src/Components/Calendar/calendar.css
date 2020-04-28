@@ -80,3 +80,11 @@
     font-size: 25px;
     color: #dddddd;
 }
+
+#horizontal-icon-right:hover {
+    color: #547C8F;
+}
+
+#horizontal-icon-left:hover {
+    color: #547C8F;
+}

@@ -12,6 +12,9 @@ import DietLifestyle from '../../Components/Survey/DietLifestyle';
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
 import SideBar from '../../Components/Navigation/sidebar';
 import { history } from '../../Utils/history';
+
+import {connect} from 'react-redux';
+import { usersActions } from '../../Redux/Actions/UserActions';
 import '../../Components/Styles/styles.css'
 import './settings.css';
 
@@ -42,8 +45,7 @@ function CustomToggle({ children, eventKey }) {
 
 }
 
-
-export default class Settings extends Component {
+class Settings extends Component {
     constructor(props) {
         super(props)
 
@@ -113,7 +115,7 @@ export default class Settings extends Component {
                 <NavigationBar />
                 <Row style={{marginTop: '5%'}}>   
                     <Col md={{span:8, offset:2}}>
-                        <h1 id="settings-title">Settings</h1>
+                        <h1 className="PageTiteFont" id="settings-title">Settings</h1>
                         <Accordion>
                             <Card className="settings-card-first">
                                 <CustomToggle eventKey="0">User Inforomation</CustomToggle>
@@ -201,3 +203,28 @@ export default class Settings extends Component {
         )
     }
 }
+
+function mapStateToProps(state) {
+    const {
+        email,
+        budget,
+        diet,
+        exclude,
+        targetCalories,
+    } = state.user;
+
+    return {        
+        email,
+        budget,
+        diet,
+        exclude,
+        targetCalories,}
+}
+
+const mapDispatchToProps = {
+    getUser: usersActions.getUser,
+    userChangeSettings: usersActions.userChangeSettings,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)
+

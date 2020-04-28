@@ -1,5 +1,7 @@
 import {mealsConstants} from '../Actions/types';
 
+import {dummyFavoriteList} from './dummy'
+
 const initialState = {
     mealsLoading: true,
     addFavLoading: false,
@@ -28,7 +30,7 @@ const initialState = {
     },
 
     history: [],
-    favorites: [],
+    favorites: dummyFavoriteList,
     grocery: [],
 }
 
