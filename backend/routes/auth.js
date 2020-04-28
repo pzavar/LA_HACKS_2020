@@ -3,8 +3,32 @@ var express = require('express');
 const request = require('request')
 const config = require('../config')
 var router = express.Router();
-var passport = require('passport')
+var passport = require('passport');
+const jwt = require('jsonwebtoken');
 var User = require('../models/user')
+
+// ============================
+// 		LOCAL AUTH LOGIC
+// ============================
+router.post('/login', function(req, res, next) {
+	passport.authenticate('local', {session: false}, (err, user, info) => {
+		if (err || !user) {
+			return res.status(400).json({
+				message: 'Something went wrong',
+				user: user
+			})
+		}
+
+		req.login(user, {session: false}, (err) => {
+			if (err) {
+				res.send(err);
+			}
+
+			const token = jwt.sign(user.userid, `${config.JWTSecret}`);
+			return res.json({user, token});
+		});
+	}) (req, res);
+});
 
 // ============================
 // 		GOOGLE AUTH LOGIC
@@ -23,13 +47,15 @@ router.get( '/google/callback',
 
 router.get('/google/success',function(req, res){
 	console.log("Google auth success")
-	req.session.token = req.user.accessToken;
-	res.cookie('token', req.session.token)
-	
+	const token = jwt.sign(req.user.userid, `${config.JWTSecret}`);
+	const redirectURL = '/saveToken?JWT=' + token;
+
 	if (req.user.isNewUser) {
-		res.redirect('http://localhost:3000/register')
+		const route = '&route=register';
+		res.redirect('http://localhost:3000' + redirectURL + route)
 	} else {
-		res.redirect('http://localhost:3000/home')
+		const route = '&route=home';
+		res.redirect('http://localhost:3000' + redirectURL + route)
 	}
 })
 

@@ -66,7 +66,7 @@ var Meal = require('../models/meals')
 //https://api.spoonacular.com/recipes/716429/information?apiKey=YOUR-API-KEY&includeNutrition=true.
 // json["week"]["monday"]["meals"][0,1,2]
 // json["week"]["monday"]["nutrients"]
-router.get('/week', verifyToken, async function(req, res, next) {
+router.get('/week', async function(req, res, next) {
 	console.log(config.spoonacularApiKey)
 	var search = await fetch(`https://api.spoonacular.com/mealplanner/generate?apiKey=${config.spoonacularApiKey}&timeFrame=week`)
 	console.log("Test")

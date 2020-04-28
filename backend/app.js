@@ -32,7 +32,7 @@ app.use(cookieParser());
 // ===============
 //     PASSPORT
 // ===============
-var passport = require("passport");
+const passport = require("passport");
 var User = require("./models/user")
 
 
@@ -69,23 +69,68 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 const mongoose = require('mongoose');
-// var LocalStrategy = require("passport-local");
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
+	done(null, user.id);
+  });
+  
 passport.deserializeUser(function(id, done) {
-	if(mongoose.Types.ObjectId.isValid(id))
-  		User.findById(id, function(err, user) {
-    		done(err, user);
+	  if(mongoose.Types.ObjectId.isValid(id))
+			User.findById(id, function(err, user) {
+			  done(err, user);
+	});
+  
   });
 
-});
+// ========================================
+//    PASSPORT JWT CONFIGURATION
+// ========================================
+const passportJWT = require('passport-jwt');
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+
+passport.use(new JWTStrategy({
+	jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+	secretOrKey: `${config.JWTSecret}`
+	}, 
+	function(jwtPayload, cb) {
+		console.log("Entered JWT Strategy")
+		return User.findOneById(jwtPayload.userid)
+			.then(user => {
+				return cb(null, user);
+			})
+			.catch(err => {
+				return cb(err);
+			});
+	}
+));
+
+
+
+// ========================================
+//    PASSPORT LOCAL CONFIGURATION
+// ========================================
+const LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy({
+		usernameField: 'email',
+		passwordField: 'password'
+	}, function(email, password, cb) {
+		return User.findOne({email, password})
+			.then(user => {
+				if(!user) {
+					return cb(null, false, {message: 'Invalid username or password.'})
+				} else {
+					return cb(null, user, {message: 'Logged in successfully.'});
+				}
+			})
+			.catch(err => cb(err));
+}));
+
+
+
 
 // ========================================
 //    PASSPORT GOOGLE OAUTH CONFIGURATION
@@ -122,8 +167,12 @@ passport.use(new GoogleStrategy({
 				if (!result) {
 					console.log("Document not found")
 					// Create it
-					newUser = true
-					result = new User({isNewUser: newUser, userid: profile.id, displayName: profile.displayName, accessToken: accessToken, refreshToken: refreshToken});
+					newUser = true;
+					result = new User({
+						isNewUser: newUser, 
+						userid: profile.id, 
+						email: profile.email
+					});
 				}
 				else{
 					console.log("Found User")
@@ -155,8 +204,8 @@ app.use((req, res, next) => {
 //      USE ROUTES
 // ======================
 app.use('/auth', authRouter);
-app.use('/meals', mealsRouter);
-app.use('/groceryList', groceryList);
+app.use('/meals', passport.authenticate('jwt', {session: false}), mealsRouter);
+app.use('/groceryList', passport.authenticate('jwt', {session: false}), groceryList);
 
 
 // ===========================

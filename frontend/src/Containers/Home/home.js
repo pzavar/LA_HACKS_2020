@@ -201,9 +201,6 @@ class Home extends Component {
         const { dailyCalories, dailyFat, dailyCholestral, dailySodium, dailySugar, dailyProtein, dailyCarbs } = daily;
         const { weeklyCalories, weeklyFat, weeklyCholestral, weeklySodium, weeklySugar, weeklyProtein, weeklyCarbs } = weekly;
 
-        const token = document.cookie;
-        console.log("token = " + token)
-
         return (
             <div id="home">
                 <SideBar pageWrapId={"page-wrap"} outerContainerId={"home"}/>

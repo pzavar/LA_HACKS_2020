@@ -11,6 +11,7 @@ import History from './Containers/Settings/history';
 import Settings from './Containers/Settings/settings';
 import Grocery from './Containers/Grocery/Grocery';
 import Favorites from './Containers/Settings/Favorites';
+import SaveToken from './Utils/SaveToken';
 
 
 const App = () => (
@@ -25,6 +26,7 @@ const App = () => (
       <Route exact path="/settings" component={Settings} />
       <Route exact path="/grocery" component={Grocery} />
       <Route exact path="/favorites" component={Favorites} />
+      <Route exact path="/saveToken" component={SaveToken} />
     </Switch>
   </Router>
 );

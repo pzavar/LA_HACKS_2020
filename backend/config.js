@@ -16,4 +16,6 @@ config.spoonacularApiKey = process.env.SPOONACULAR_API_KEY
 config.googleClientId = process.env.GOOGLE_CLIENT_ID
 config.googleClientSecret = process.env.GOOGLE_CLIENT_SECRET
 
+config.JWTSecret = process.env.JWTSecret
+
 module.exports = config;

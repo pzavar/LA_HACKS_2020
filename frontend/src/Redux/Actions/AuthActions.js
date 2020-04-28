@@ -24,7 +24,7 @@ function login(type, email, password) {
                 api.post('/auth/login', data)
                 .then((response) => {
                     localStorage.setItem('token', response.token)
-                    dispatch(success(response.token))
+                    dispatch(success(response.user))
                     history.push('/home')
                 })
                 .catch(error => {
