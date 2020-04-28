@@ -1,12 +1,17 @@
-import React, { component, Component } from 'react';
-import { Container, Col, Row, Button, Navbar, Nav, Card, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Container, Col, Row, Button, Card, Form } from 'react-bootstrap';
 import { history } from '../../Utils/history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import {url} from '../../Utils/url';
+
+import { authActions } from '../../Redux/Actions/AuthActions';
+import {connect} from 'react-redux';
+
+import GoogleIcon from '../../Icons/Google';
 
 import './landing.css';
 import '../../Components/Styles/styles.css';
@@ -36,12 +41,12 @@ class Landing extends Component {
             changed: false,
         }
         this.handleLogin = this.handleStart.bind(this);
+        this.handleGoogleSignUp = this.handleGoogleSignUp.bind(this);
     }
 
 
 
     handleStart(values) {
-
         history.push({
             pathname: '/register',
             state: {
@@ -50,6 +55,10 @@ class Landing extends Component {
                 password: values.password
             }
         });
+    }
+
+    handleGoogleSignUp() {
+        this.props.login('GOOGLE')
     }
 
     render() {
@@ -138,9 +147,16 @@ class Landing extends Component {
                                         </Form.Group>
 
                                         <Button type="submit" className="landing-submit-btn">Get Started</Button>
+
+                                        
                                     </Form>
                                 )}
                                 </Formik>
+
+                                <div className="divider">OR</div>
+                                <div className="google-button-wrapper">
+                                    <a href={`${url}/auth/google`} className="google-button" id="landing-google-btn"><GoogleIcon width="40px" height="40px" style={{marginRight:'12px'}}/><p id="google-button-txt">Sign up with Google</p></a>
+                                </div>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -155,4 +171,12 @@ class Landing extends Component {
     }
 }
 
-export default Landing;
+function mapStateToProps (state) {
+    return ("")
+}
+
+const actionCreators = {
+    login: authActions.login,
+}
+
+export default connect(mapStateToProps, actionCreators)(Landing);

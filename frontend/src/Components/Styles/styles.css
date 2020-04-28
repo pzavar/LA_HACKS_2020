@@ -134,24 +134,27 @@
     opacity: 0.05;
 }
 
-/*
-.modal-backdrop.fade {
-    opacity: 0.5 !important;
-    filter: alpha(opacity=20);
+
+/* Google Login Button */
+.google-button {
+    display: inline-flex;
+    background-color: #4285F4;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    max-height: 45px;
+
 }
 
-.modal-backdrop.in {
-    opacity: 0.5 !important;
-    filter: alpha(opacity=20);
+#google-button-txt {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    color: #FFFFFF;
+    text-decoration: none;
+    margin-top:12px;
+    margin-left: 5px;
 }
 
-.modal-backdrop.fade {
-    opacity: 0.2 !important;
-    filter: alpha(opacity=20);
+.google-button:hover {
+    text-decoration: none !important;
 }
-    
-.modal-backdrop.fade.in {
-    opacity: 0.2 !important;
-    filter: alpha(opacity=20);
-}
-*/

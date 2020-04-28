@@ -15,6 +15,8 @@ function login(type, email, password) {
         password: password
     }
 
+    console.log("type" + type)
+
     switch(type) {
         case 'LOCAL':
             return dispatch => {
@@ -32,10 +34,18 @@ function login(type, email, password) {
         case 'GOOGLE':
             return dispatch => {
                 dispatch(request())
-                api.post('/auth/google')
+                api.get('/auth/google')
                 .then((response) => {
-                    localStorage.setItem('token', response.token)
+                    console.log(response)
+                    localStorage.setItem('token', response.accessToken)
                     dispatch(success(response.token))
+
+                    if (response.data.isNewUser) {
+                        history.push('/register')
+                    } else {
+                        history.push('/home')
+                    }
+
                 })
                 .catch(error => {
                     dispatch(failure(error))

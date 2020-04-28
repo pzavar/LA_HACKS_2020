@@ -19,6 +19,8 @@ function getWeeklyMeals() {
         dispatch(request())
         api.get("/meals/week", "", auth_config)
         .then((response) =>{
+            console.log(response)
+
             // Variables
             var weekMeals = {
                 sunday: [],

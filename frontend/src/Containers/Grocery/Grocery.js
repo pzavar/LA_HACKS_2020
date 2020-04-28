@@ -3,7 +3,11 @@ import { Container, Col, Row, ListGroup, Form } from 'react-bootstrap';
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
 import SideBar from '../../Components/Navigation/sidebar';
 
+import {connect} from 'react-redux';
+import { mealsActions } from '../../Redux/Actions/MealsActions';
+
 import './grocery.css';
+import Loading from '../../Components/Loading/Loading';
 
 const data = [
     "potatoes",
@@ -16,7 +20,7 @@ const data = [
     "banana bread mix",
 ]
 
-export default class Grocery extends Component {
+class Grocery extends Component {
     constructor(props) {
         super(props);
 
@@ -27,6 +31,12 @@ export default class Grocery extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+
+    componentWillMount() {
+        console.log("Entered get grocery")
+        this.props.getGrocery()
+    }
+    
 
     handleChange(e) {
         const {name, value} = e.target;
@@ -44,37 +54,57 @@ export default class Grocery extends Component {
     }
 
     render() {
-        const groceryList = this.state.groceryList;
-        return (
-            <div id="home">
-            <SideBar pageWrapId={"page-wrap"} outerContainerId={"home"}/>
-            <Container id="page-wrap">
-                <NavigationBar />
-                <Row style={{marginTop: '5%'}}>
-                    <Col md={{span: 8, offset: 2}}>
-                        <h1 id="grocery-title" className="BodyFontD">This Week's Grocery List</h1>
-                        <ListGroup className="grocery-list-wrapper">
-                            { groceryList.map( item => (
-                                <ListGroup.Item className="grocery-list-item" key={item}>
-                                    <Form.Check
-                                        custom
-                                        type='checkbox'
-                                        name='groceryList'
-                                        id={item}
-                                        label={item}
-                                        value={item}
-                                        style={{marginBottom:5}}
-                                        className="BodyFontD grocery-list-checkbox"
-                                    />
-                                </ListGroup.Item>
-                                ))
-                            }
-                        </ListGroup>
-                    </Col>
-                </Row>
+        const groceryList = this.state.groceryList; // this.props.grocery
+        if (this.props.isLoading) {
+            return (<Loading />)
+        } else {
+            return (
+                <div id="home">
+                <SideBar pageWrapId={"page-wrap"} outerContainerId={"home"}/>
+                <Container id="page-wrap">
+                    <NavigationBar />
+                    <Row style={{marginTop: '5%'}}>
+                        <Col md={{span: 8, offset: 2}}>
+                            <h1 id="grocery-title" className="BodyFontD">This Week's Grocery List</h1>
+                            <ListGroup className="grocery-list-wrapper">
+                                { groceryList.map( item => (
+                                    <ListGroup.Item className="grocery-list-item" key={item}>
+                                        <Form.Check
+                                            custom
+                                            type='checkbox'
+                                            name='groceryList'
+                                            id={item}
+                                            label={item}
+                                            value={item}
+                                            style={{marginBottom:5}}
+                                            className="BodyFontD grocery-list-checkbox"
+                                        />
+                                    </ListGroup.Item>
+                                    ))
+                                }
+                            </ListGroup>
+                        </Col>
+                    </Row>
+    
+                </Container>
+                </div>
+            )
+        }
 
-            </Container>
-            </div>
-        )
     }
 }
+
+function mapStateToProps (state) {
+    const grocery = state.meals.grocery
+    const isLoading = state.meals.getGroceryLoading
+
+    return { grocery, isLoading }
+}
+
+const actionCreators = {
+    getGrocery: mealsActions.getGrocery,
+}
+
+export default connect(mapStateToProps, actionCreators)(Grocery);
+
+

@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import {connect} from 'react-redux';
 import { authActions } from '../../Redux/Actions/AuthActions';
+import {url} from '../../Utils/url';
+import GoogleIcon from '../../Icons/Google';
 
 import '../../Components/Styles/styles.css';
 import './login.css';
@@ -125,8 +127,11 @@ class Login extends Component {
                 )}
                 </Formik>  
                 <div className="divider">OR</div>
-                <div className="login-button-wrapper">
-                    <Button id="external-login-btn" onClick={this.handleGoogleLogin}>Google</Button>
+                <div className="google-button-wrapper">
+                    <a href={`${url}/auth/google`} className="google-button" id="login-google-btn">
+                        <GoogleIcon width="40px" height="40px" style={{marginRight:'12px'}}/>
+                            <p id="login-google-txt">Sign in with Google</p>
+                    </a>
                 </div>
                 </Card>
                 <p id="sign-up-text"> Don't have an account? <s/>
