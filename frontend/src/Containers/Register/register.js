@@ -5,11 +5,15 @@ import DietRestrict from '../../Components/Survey/DietRestrict';
 import DietLifestyle from '../../Components/Survey/DietLifestyle';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import { history } from '../../Utils/history';
+import {connect} from 'react-redux';
+import { usersActions } from '../../Redux/Actions/UserActions';
+
+
 import './register.css';
 
 
 
-export default class Register extends Component {
+class Register extends Component {
     constructor(props) {
         super(props)
 
@@ -141,16 +145,17 @@ export default class Register extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
         const { email, password, budget, diet, exclude, targetCalories } = this.state
-        alert(`Your registration detail: \n
-            Email: ${email} \n
-            Password: ${password} \n
-            Diet: ${diet} \n
-            Budget: ${budget} \n
-            Exclude: ${exclude} \n
-            Target Calories: ${targetCalories} \n
-        `)
         
-        history.push('/home')
+        const data = {
+            email: email,
+            password: password,
+            budget: budget,
+            diet: diet,
+            exclude: exclude,
+            targetCalories: targetCalories,
+        }
+
+        this.props.register(data)
     }
 
     render() {
@@ -261,3 +266,14 @@ export default class Register extends Component {
         )
     }
 }
+
+
+function mapStateToProps(state) {
+    return ("")
+}
+
+const mapDispatchToProps = {
+    register: usersActions.userRegistration,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

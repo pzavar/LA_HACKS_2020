@@ -10,6 +10,6 @@ console.log(api)
 
 export const auth_config = {
     headers: {
-        Authorization: `Token ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${document.cookie}`
     }
 }

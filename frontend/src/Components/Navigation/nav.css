@@ -8,7 +8,7 @@
 .brand-logo-img {
   max-width: 30px;
   max-height: 30px;
-  margin-top: 7px;
+  margin-top: 12px;
   -webkit-transform:rotate(-30deg);
   -moz-transform: rotate(-30deg);
   -ms-transform: rotate(-30deg);
@@ -17,7 +17,7 @@
 }
 
 .brand-logo-text {
-  font-size: 35px;
+  font-size: 40px;
   font-family: 'Amatic SC', cursive;
   color: #A6CC9F;
 }

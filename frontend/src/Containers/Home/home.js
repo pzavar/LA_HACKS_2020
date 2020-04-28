@@ -70,7 +70,8 @@ function MacrosCard(props) {
                 100,
                 100
                 ]}
-                style={{width:'50%', marginLeft:'25%', marginTop:'10%'}}
+                className="pie-chart"
+
             />
         </div>
     )
@@ -200,6 +201,9 @@ class Home extends Component {
         const { dailyCalories, dailyFat, dailyCholestral, dailySodium, dailySugar, dailyProtein, dailyCarbs } = daily;
         const { weeklyCalories, weeklyFat, weeklyCholestral, weeklySodium, weeklySugar, weeklyProtein, weeklyCarbs } = weekly;
 
+        const token = document.cookie;
+        console.log("token = " + token)
+
         return (
             <div id="home">
                 <SideBar pageWrapId={"page-wrap"} outerContainerId={"home"}/>
@@ -226,7 +230,7 @@ class Home extends Component {
                     </div>
 
                     <Row className="nutrition-wrapper">
-                        <Col xs={4}>
+                        <Col md={{span: 5, offset: 1}}>
                             <NutrionInfoCard
                                 title="Daily Nutrition Information"
                                 calories={dailyCalories}
@@ -238,7 +242,7 @@ class Home extends Component {
                                 carbs={dailyCarbs}
                             />
                         </Col>
-                        <Col>
+                        <Col md={{span: 5}}>
                             <MacrosCard title="Daily Macronutrient Information"/>
                         </Col>
                     </Row>
@@ -248,10 +252,10 @@ class Home extends Component {
                     </div>
 
                     <Row className="nutrition-wrapper">
-                        <Col>
+                        <Col md={{span: 5, offset: 1}}>
                             <MacrosCard title="Weekly Macronutrient Information"/>
                         </Col>
-                        <Col xs={4}>
+                        <Col md={{span: 5}}>
                             <NutrionInfoCard
                                 title="Weekly Nutrition Information"
                                 calories={weeklyCalories}

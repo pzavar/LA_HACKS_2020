@@ -69,3 +69,14 @@
     width: 150px;
     height: auto;
 }
+
+
+/* Favorites */
+.favorites-card {
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+#fav-title {
+    margin-bottom: 5%;
+}

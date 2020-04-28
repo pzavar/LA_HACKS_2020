@@ -160,7 +160,9 @@ router.get('/:meal', async function(req, res, next) {
 
 
 function verifyToken(req, res, next) {
-  const bearerHeader = req.headers['authorization'];
+  const bearerHeader = req.headers['Authorization'];
+
+  console.log(req.headers)
 
   if (bearerHeader) {
     const bearer = bearerHeader.split(' ');

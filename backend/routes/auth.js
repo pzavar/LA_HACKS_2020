@@ -23,7 +23,8 @@ router.get( '/google/callback',
 
 router.get('/google/success',function(req, res){
 	console.log("Google auth success")
-	res.cookie('token', req.user.accessToken)
+	req.session.token = req.user.accessToken;
+	res.cookie('token', req.session.token)
 	
 	if (req.user.isNewUser) {
 		res.redirect('http://localhost:3000/register')

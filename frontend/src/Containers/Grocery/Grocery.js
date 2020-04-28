@@ -65,7 +65,7 @@ class Grocery extends Component {
                     <NavigationBar />
                     <Row style={{marginTop: '5%'}}>
                         <Col md={{span: 8, offset: 2}}>
-                            <h1 id="grocery-title" className="BodyFontD">This Week's Grocery List</h1>
+                            <h1 id="grocery-title" className="PageTitleFont">This Week's Grocery List</h1>
                             <ListGroup className="grocery-list-wrapper">
                                 { groceryList.map( item => (
                                     <ListGroup.Item className="grocery-list-item" key={item}>

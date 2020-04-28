@@ -2,9 +2,10 @@ import {userConstants} from './types';
 import {history} from '../../Utils/history';
 import {api, auth_config} from '../../Utils/url';
 
-export const {
+export const usersActions = {
     userRegistration,
     userChangeSettings,
+    getUser,
 }
 
 function userRegistration(data) {
@@ -26,6 +27,22 @@ function userRegistration(data) {
     function failure(error) { return { type: userConstants.USER_REG_FAILURE, error: error}}
 }
 
+function getUser() {
+    return dispatch => {
+        dispatch(request)
+        api.get('/user/get', auth_config)
+        .then((response) => {
+            dispatch(success(response.data))
+        })
+        .catch(error => {
+            dispatch(failure(error))
+        })
+    }
+
+    function request() { return { type: userConstants.USER_GET_REQUEST}}
+    function success(data) { return { type: userConstants.USER_GET_SUCCESS, data: data}}
+    function failure(error) { return { type: userConstants.USER_GET_FAILURE, error: error}}
+}
 
 function userChangeSettings(data) {
     return dispatch => {

@@ -6,8 +6,13 @@
     padding-top: 10px;
     padding-right: 10px;
     padding-left: 10px;
+}
 
-    justify-content: center;
+.pie-chart {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20%;
 }
 
 .macros-wrapper {
@@ -28,6 +33,9 @@
 
 .nutrition-wrapper {
     margin-top: 5%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #dddd;
 }
 
 .nutrient-header {
@@ -50,6 +58,7 @@
 
 .macros-title {
     font-size: 18px;
+    margin-top: 5%;
 }
 
 .macros-item {
