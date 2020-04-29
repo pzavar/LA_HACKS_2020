@@ -204,8 +204,10 @@ app.use((req, res, next) => {
 //      USE ROUTES
 // ======================
 app.use('/auth', authRouter);
-app.use('/meals', passport.authenticate('jwt', {session: false}), mealsRouter);
-app.use('/groceryList', passport.authenticate('jwt', {session: false}), groceryList);
+app.use('/meals', passport.authenticate('jwt', { session: false,  successRedirect: '/', failureRedirect: '/auth/google' }
+), mealsRouter);
+app.use('/groceryList', passport.authenticate('jwt', {session: false, successRedirect: '/meals/groceryList',
+                                   failureRedirect: '/login' }), groceryList);
 
 
 // ===========================

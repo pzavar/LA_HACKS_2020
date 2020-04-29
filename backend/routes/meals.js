@@ -9,52 +9,6 @@ var mongoose = require('mongoose')
 
 var Week = require('../models/weeks')
 var Meal = require('../models/meals')
-// Get recipes by meal
-// All breakfast
-// All lunch
-// All dinner
-
-
-///* GET home page. */
-//router.get('/week', async function(req, res, next) {
-//	console.log(req)
-//	var searchList = ["chicken", "steak", "salad","turkey","spinach","sandwich"]
-//	var searchOne = await fetch(`https://api.edamam.com/search?q=${searchList[0]}&app_id=${config.recipeId}&app_key=${config.recipeApiKey}&from=0&to=21`)
-//	var json = await searchOne.json()
-//	var hits = json["hits"]
-//	console.log("Search hits")
-//	console.log(hits)
-
-//	var week = []
-//	for(var i = 0; i < 7; i++){
-//		for(var j = 0; j < 3; j++){
-//			var mealType = "breakfast"
-//			if(j == 1) mealType = "lunch"
-//			else if(j == 2) mealType = "dinner"
-//			//A little bit of a magic number but this us numbers 0 -20 inclusive
-//			var meal = hits[j+(3 *i)]["recipe"]
-//			console.log(meal)
-//			var day = {}
-//			day["label"] = meal["label"]
-//			console.log(meal["label"])
-//			day["image"] = meal["image"]
-//			day["source"] = meal["source"]
-//			day["url"] = meal["url"]
-//			day["calories"] = meal["calories"]
-//			console.log(meal["calories"])
-//			day["yield"] = meal["yield"]
-//			console.log(meal["yield"])
-//			day["healthLabels"] = meal["healthLabels"]
-//			console.log(meal["healthLabels"])
-//			day["mealType"] = mealType
-//			console.log(mealType)
-//			day["recipe"] = meal["ingredientLines"]
-//			week.push(day)
-//		}
-//	}
-//	res.send(week)
-//});
-
 //id: 17281,
 // title: "Spicy Tuna Tartare",
 // image: "https://spoonacular.com/recipeImages/17281-312x231.jpg",
@@ -160,8 +114,9 @@ router.get('/:meal', async function(req, res, next) {
 
 
 function verifyToken(req, res, next) {
+	console.log("Request")
+	console.log(req)
   const bearerHeader = req.headers['Authorization'];
-
   console.log(req.headers)
 
   if (bearerHeader) {
