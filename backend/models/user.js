@@ -21,6 +21,10 @@ var UserSchema = new mongoose.Schema({
 	// refreshToken: {type: String},
 });
 
+UserSchema.static('register', function(user) {
+    return this.find({ breed });
+});
+
 UserSchema.plugin(passportLocalMongoose)
 
 

@@ -6,8 +6,10 @@ const cookieSession = require('cookie-session');
 var logger = require('morgan');
 var mealsRouter  = require('./routes/meals');
 var authRouter  = require('./routes/auth')
+var userRouter = require('./routes/users')
 var groceryList = require('./routes/groceryList')
 const config = require('../backend/config')
+var cors = require('cors')
 //
 //mongoose configures mongoose for later
 require('./db.js')
@@ -16,7 +18,7 @@ const bodyParser = require('body-parser');
 var app = express();
 
 app.use(bodyParser.json());
-
+app.use(cors())
 
 // ====================
 //     COOKIE SETUP
@@ -112,22 +114,23 @@ passport.use(new JWTStrategy({
 // ========================================
 //    PASSPORT LOCAL CONFIGURATION
 // ========================================
-const LocalStrategy = require('passport-local').Strategy;
+// CURRENTLY TESTING IN ROUTES/USER
+// const LocalStrategy = require('passport-local').Strategy;
 
-passport.use(new LocalStrategy({
-		usernameField: 'email',
-		passwordField: 'password'
-	}, function(email, password, cb) {
-		return User.findOne({email, password})
-			.then(user => {
-				if(!user) {
-					return cb(null, false, {message: 'Invalid username or password.'})
-				} else {
-					return cb(null, user, {message: 'Logged in successfully.'});
-				}
-			})
-			.catch(err => cb(err));
-}));
+// passport.use(new LocalStrategy({
+// 		usernameField: 'email',
+// 		passwordField: 'password'
+// 	}, function(email, password, cb) {
+// 		return User.findOne({email, password})
+// 			.then(user => {
+// 				if(!user) {
+// 					return cb(null, false, {message: 'Invalid username or password.'})
+// 				} else {
+// 					return cb(null, user, {message: 'Logged in successfully.'});
+// 				}
+// 			})
+// 			.catch(err => cb(err));
+// }));
 
 
 
@@ -204,6 +207,8 @@ app.use((req, res, next) => {
 //      USE ROUTES
 // ======================
 app.use('/auth', authRouter);
+app.use('/user',userRouter);
+
 app.use('/meals', passport.authenticate('jwt', { session: false,  successRedirect: '/', failureRedirect: '/auth/google' }
 ), mealsRouter);
 app.use('/groceryList', passport.authenticate('jwt', {session: false, successRedirect: '/meals/groceryList',
