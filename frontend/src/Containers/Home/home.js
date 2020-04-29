@@ -10,7 +10,10 @@ import { connect } from 'react-redux';
 import { Week } from '../../Components/Calendar/week';
 import { meals } from './data';
 
+
+
 import './home.css'
+import { dummyData } from '../../Redux/Reducers/dummy';
 
 
 const daily = {
@@ -24,13 +27,13 @@ const daily = {
 }
 
 const weekly = {
-    weeklyCalories: "2500 cal",
-    weeklyFat: "25g",
-    weeklyCholestral: "10g",
-    weeklySodium: "150mg",
-    weeklySugar: "5g",
-    weeklyProtein: "15g",
-    weeklyCarbs: "150g"
+    weeklyCalories: "7200 cal",
+    weeklyFat: "125g",
+    weeklyCholestral: "120g",
+    weeklySodium: "5000mg",
+    weeklySugar: "55g",
+    weeklyProtein: "150g",
+    weeklyCarbs: "750g"
 }
 
 /*
@@ -151,9 +154,66 @@ class Home extends Component {
 
     
 
-    getTodaysMeals(weeklyMeals) {
+    getTodaysMeals(weeklyMeals) { 
+        var weekMeals = {
+            sunday: [],
+            monday: [],
+            tuesday: [],
+            wednesday: [],
+            thursday: [],
+            friday: [],
+            saturday: [],
+        };
 
-        const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = weeklyMeals
+    var i, j, chunk = 3;
+
+    // Parse data from backend to meals day of the week
+    for (i=0, j=weeklyMeals.length; i < j; i+=chunk) {
+        switch(i) {
+            // Sunday
+            case 0:
+                weekMeals.sunday = weeklyMeals.slice(i, i+chunk);
+                break;
+
+            // Monday
+            case 3:
+                weekMeals.monday = weeklyMeals.slice(i, i+chunk);
+                break;
+
+            // Tuesday
+            case 6:
+                weekMeals.tuesday = weeklyMeals.slice(i, i+chunk);
+                break;
+
+            // Wednesday
+            case 9:
+                weekMeals.wednesday = weeklyMeals.slice(i, i+chunk);
+                break;
+
+            // Thursday
+            case 12:
+                weekMeals.thursday = weeklyMeals.slice(i, i+chunk);
+                break;
+
+            // Friday
+            case 15:
+                weekMeals.friday = weeklyMeals.slice(i, i+chunk);
+                break;
+
+            // Saturday
+            case 18:
+                weekMeals.saturday = weeklyMeals.slice(i, i+chunk);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+
+        const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = weekMeals
+
+
     
         const date = new Date();
         const day = date.getDay();
@@ -273,7 +333,7 @@ class Home extends Component {
 }
 
 function mapStateToProps (state) {
-    const weeklyMeals = state.meals.weeklyMeals
+    const weeklyMeals = dummyData.dummyMeals
     const isLoading = state.meals.mealsLoading
 
     return { weeklyMeals, isLoading }

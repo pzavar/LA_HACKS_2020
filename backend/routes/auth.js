@@ -24,8 +24,12 @@ router.post('/login', function(req, res, next) {
 				res.send(err);
 			}
 
-			const token = jwt.sign(user.userid, `${config.JWTSecret}`);
-			return res.json({user, token});
+			
+
+			const signedToken = jwt.sign(user, `${config.JWTSecret}`);
+			const token = "Bearer " + signedToken;
+
+			return res.json({user: user, token: token});
 		});
 	}) (req, res);
 });
@@ -47,8 +51,15 @@ router.get( '/google/callback',
 
 router.get('/google/success',function(req, res){
 	console.log("Google auth success")
-	const token = jwt.sign(req.user.userid, `${config.JWTSecret}`);
+	console.log("Google user = " + req.user)
+	const payload = {userid: req.userid, _id: req._id}
+	//const token = "bearer " + jwt.sign(user, `${config.JWTSecret}`);
+	const signedToken = jwt.sign(payload, "MySecretToken");
+	const token = "Bearer " + signedToken;
 	const redirectURL = '/saveToken?JWT=' + token;
+
+	console.log("server.token = " + token);
+	
 
 	if (req.user.isNewUser) {
 		const route = '&route=register';

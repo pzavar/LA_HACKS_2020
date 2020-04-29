@@ -8,8 +8,11 @@ export const api = axios.create({
 
 const token = localStorage.getItem('token')
 
+console.log("client.token = " + token)
+
 export const auth_config = {
     headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `${token}`
     }
 }
+

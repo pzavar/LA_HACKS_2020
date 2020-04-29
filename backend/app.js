@@ -93,17 +93,30 @@ const ExtractJWT = passportJWT.ExtractJwt;
 
 passport.use(new JWTStrategy({
 	jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-	secretOrKey: `${config.JWTSecret}`
+	secretOrKey: "MySecretToken",
 	}, 
 	function(jwtPayload, cb) {
-		console.log("Entered JWT Strategy")
-		return User.findOneById(jwtPayload.userid)
+		console.log("jwtPayload = " + jwtPayload)
+		User.findOne({userid: jwtPayload.userid}, function(error, result) {
+			if (!error) {
+				if (!result) {
+					return cb(null, {message: 'Something went wrong!'});
+				}
+				else {
+					return cb(null, user)
+				}
+			} else {
+				return cb(null, error)
+			}
+		})
+		/*
 			.then(user => {
 				return cb(null, user);
 			})
 			.catch(err => {
 				return cb(err);
 			});
+			*/
 	}
 ));
 
@@ -143,8 +156,6 @@ var GoogleStrategy = require('passport-google-oauth2').OAuthStrategy;
 //   credentials (in this case, a token, tokenSecret, and Google profile), and
 //   invoke a callback with a user object.
 
-
-
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
 passport.use(new GoogleStrategy({
@@ -176,6 +187,7 @@ passport.use(new GoogleStrategy({
 				}
 				else{
 					console.log("Found User")
+					console.log("user = " + result)
 				}
 				// Save the document
 				result.save(function(error) {

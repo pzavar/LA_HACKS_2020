@@ -17,6 +17,9 @@ export const mealsActions ={
 function getWeeklyMeals() {
     return dispatch => {
         dispatch(request())
+
+        console.log(auth_config)
+
         api.get("/meals/week", auth_config)
         .then((response) =>{
             console.log(response)

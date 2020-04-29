@@ -12,9 +12,16 @@ export default function NavBarEnty() {
                 <a className="brand-logo-text" href="/">Munchies</a>
             </div>
             <Nav className="ml-auto">
-                <Nav.Item> <Link to="/" id="link-text">About</Link> </Nav.Item>
+                
                 <Nav.Item> <Link to="/login" id="link-text">Login</Link> </Nav.Item>
             </Nav>
     </Navbar>
     )
 }
+
+
+/*
+
+<Nav.Item> <Link to="/" id="link-text">About</Link> </Nav.Item>
+
+*/

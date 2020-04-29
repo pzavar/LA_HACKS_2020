@@ -10,12 +10,21 @@
 .meal-card-subtitle {
     font-family:'Spartan', sans-serif;
     font-size: 13px;
+    margin-bottom: 0;
+    
+}
+
+.meal-card-summary{
+    font-family:'Spartan', sans-serif;
+    font-size: 12px;
+    margin-bottom: 0;
+    margin-top: 3px;
 }
 
 .meal-card-text {
     font-family:'Spartan', sans-serif;
     font-size: 12px;
-    color: #A6CC9F;
+    color: #547C8F;
     margin-top: 5px;
 }
 

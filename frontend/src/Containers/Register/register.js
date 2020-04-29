@@ -34,7 +34,7 @@ class Register extends Component {
                 budget: 0,
                 Diet: '',
                 targetCalories: '',
-                Health: [],
+                exclude: [],
                 step1: "",
                 step2: "",
                 step3: "",
@@ -122,14 +122,19 @@ class Register extends Component {
     handleExcludeChange(e) {
         const {value} = e.target
 
+        console.log(value)
+
         if (this.state.exclude.includes(value)) {
             console.log("item exists")
             const items = this.state.exclude.filter((i) => i !== value)
             this.setState({exclude: items})
             console.log(this.state.exclude)
         } else {
+            var newExclude = this.state.exclude;
+            newExclude.push(value)
             this.setState({
-                exclude: [...this.state.exlcude, value]
+                
+                exclude: newExclude
             })
             console.log(this.state.exclude)
         }
@@ -155,7 +160,9 @@ class Register extends Component {
             targetCalories: targetCalories,
         }
 
-        this.props.register(data)
+        history.push('/home');
+
+        //this.props.register(data)
     }
 
     render() {
@@ -228,7 +235,7 @@ class Register extends Component {
                                             handleChange={this.handleExcludeChange}
                                             className={dietRestrictClassName}
                                             type='checkbox'
-                                            api="spoonacular"
+                                            api="spoonacular" 
                                         />
                                     <Row id="two-button-group">
                                         <Button id="button1 button" onClick={(e) => this.handleSelect(2, "prev", e)}>Previous</Button>
