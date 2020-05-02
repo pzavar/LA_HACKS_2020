@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var WeekSchema = new mongoose.Schema({
-    userId:           String,
+    userId:   String,
 	mealIds: [String],
     week: 	[Schema.Types.Mixed]
     // goal:               { type: String },

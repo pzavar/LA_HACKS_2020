@@ -30,11 +30,10 @@ class Register extends Component {
                 password: historyProps.password,
                 age: '',
                 employment: '',
-                mealsPerDay: 0,
-                budget: 0,
+                budget: -1,
                 Diet: '',
                 targetCalories: '',
-                Health: [],
+                exclude: [],
                 step1: "",
                 step2: "",
                 step3: "",
@@ -48,8 +47,7 @@ class Register extends Component {
                 password: '',
                 age: '',
                 employment: '',
-                mealsPerDay: 0,
-                budget: 0,
+                budget: -1,
                 diet: '',
                 exclude: [],
                 targetCalories: '',
@@ -126,12 +124,14 @@ class Register extends Component {
             console.log("item exists")
             const items = this.state.exclude.filter((i) => i !== value)
             this.setState({exclude: items})
-            console.log(this.state.exclude)
         } else {
+            var newExclude = this.state.exclude;
+            newExclude.push(value)
             this.setState({
-                exclude: [...this.state.exlcude, value]
+                
+                exclude: newExclude
             })
-            console.log(this.state.exclude)
+
         }
     }
 
@@ -144,11 +144,12 @@ class Register extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const { email, password, budget, diet, exclude, targetCalories } = this.state
+        const { email, password, budget, diet, exclude, targetCalories, age } = this.state
         
         const data = {
             email: email,
             password: password,
+            age: age,
             budget: budget,
             diet: diet,
             exclude: exclude,

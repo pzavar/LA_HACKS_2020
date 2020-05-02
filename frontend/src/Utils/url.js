@@ -10,6 +10,12 @@ const token = localStorage.getItem('token')
 
 export const auth_config = {
     headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `${token}`
     }
 }
+
+// export const auth_config = {
+//     headers: {
+//         Authorization: `Bearer ${token}`
+//     }
+// }

@@ -11,7 +11,7 @@ export const authActions = {
 
 function login(type, email, password) {
     const data = {
-        email: email,
+        username: email,
         password: password
     }
 
@@ -23,8 +23,8 @@ function login(type, email, password) {
                 dispatch(request())
                 api.post('/auth/login', data)
                 .then((response) => {
-                    localStorage.setItem('token', response.token)
-                    dispatch(success(response.user))
+                    localStorage.setItem('token', response.data.token)
+                    dispatch(success(response.data.user))
                     history.push('/home')
                 })
                 .catch(error => {

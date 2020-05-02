@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "ajax": "^0.0.4",
+    "bcrypt": "^4.0.1",
     "cookie-parser": "^1.4.5",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
@@ -28,7 +29,8 @@
     "passport-google-oauth2": "^0.2.0",
     "passport-jwt": "^4.0.0",
     "passport-local-mongoose": "^6.0.1",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0"
