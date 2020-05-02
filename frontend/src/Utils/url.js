@@ -16,3 +16,8 @@ export const auth_config = {
     }
 }
 
+// export const auth_config = {
+//     headers: {
+//         Authorization: `Bearer ${token}`
+//     }
+// }
