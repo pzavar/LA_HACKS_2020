@@ -44,19 +44,23 @@ function MyWeeklyCards(props) {
                     centered
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>{meals[i].label}</Modal.Title>
+                        <Modal.Title className="BodyFont" id="week-title">{meals[i].label}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
-                            <Col md={3} >
-                                <a href={meals[i].url}><img src={meals[i].image}/></a>
+                            <Col md={5} id="week-img-wrapper">
+                                <a href={meals[i].url} id="week-img"><img src={meals[i].image}/></a>
                             </Col>
                             <Col>
-                                <p>
-                                    calories: {meals[i].calories} <br/>
-                                    carbs: {meals[i].carbs} <br/>
-                                    protein: {meals[i].protein} <br/>
-                                    fat: {meals[i].fat} <br/>
+                                <p className="BodyFont" id="week-summary">{meals[i].summary}</p>
+                                <p className="BodyFont" id="week-body">
+                                    Servings: {meals[i].servings} <br />
+                                    Price per Serving: ${meals[i].pricePerServing} <br/>
+                                    Time: {meals[i].readyInMinutes} mins <br/>
+                                    Calories: {meals[i].calories} <br/>
+                                    Carbs: {meals[i].carbs} <br/>
+                                    Protein: {meals[i].protein} <br/>
+                                    Fat: {meals[i].fat} <br/>
                                 </p>
                             </Col>
                         </Row>

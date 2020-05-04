@@ -64,6 +64,7 @@ class Settings extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleExcludeChange = this.handleExcludeChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleCancel = this.handleCancel.bind(this)
     }
 
 
@@ -101,6 +102,12 @@ class Settings extends Component {
             Diet: ${Diet} \n
         `)
         
+        history.push('/home')
+    }
+
+    handleCancel = (e) => {
+        e.preventDefault()
+
         history.push('/home')
     }
 
@@ -193,8 +200,8 @@ class Settings extends Component {
                             </Card>
                         </Accordion>
                         <div className="settings-button-wrapper" >
-                            <Button id="settings-btn">Cancel</Button>
-                            <Button id="settings-btn">Save</Button>
+                            <Button onClick={this.handleCancel} id="settings-btn">Cancel</Button>
+                            <Button onClick={this.handleSubmit} id="settings-btn">Save</Button>
                         </div>
                     </Col>
                 </Row>

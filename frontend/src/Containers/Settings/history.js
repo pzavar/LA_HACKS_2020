@@ -53,7 +53,7 @@ class History extends Component {
                                     <th className="BodyFontF">3/15/20</th>
                                     <th className="BodyFontF">Hainan Chicken</th>
                                     <th className="BodyFontF">Wok the Talk</th>
-                                    <th><a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjWnvSRrb_oAhULqJ4KHRrUDhcQtwIwAHoECAgQAQ&url=https%3A%2F%2Fwww.allrecipes.com%2Frecipe%2F11679%2Fhomemade-mac-and-cheese%2F&usg=AOvVaw3B8O9fexBiY4qZHmzXXKd0">Link</a></th>
+                                    <th><a className="BodyFontF" href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjWnvSRrb_oAhULqJ4KHRrUDhcQtwIwAHoECAgQAQ&url=https%3A%2F%2Fwww.allrecipes.com%2Frecipe%2F11679%2Fhomemade-mac-and-cheese%2F&usg=AOvVaw3B8O9fexBiY4qZHmzXXKd0">Link</a></th>
                                 </tr>
                             </tbody>
                         </Table>

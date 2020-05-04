@@ -8,7 +8,8 @@ import Loading from '../../Components/Loading/Loading';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
 import { connect } from 'react-redux';
 import { Week } from '../../Components/Calendar/week';
-import { meals } from './data';
+
+
 
 
 
@@ -276,6 +277,7 @@ class Home extends Component {
         const wProtein = 150 / 1025;
         const wCarbs = 750 / 1025;
         const day = this.getDay()
+
         const { dailyCalories, dailyFat, dailyCholestral, dailySodium, dailySugar, dailyProtein, dailyCarbs } = daily;
         const { weeklyCalories, weeklyFat, weeklyCholestral, weeklySodium, weeklySugar, weeklyProtein, weeklyCarbs } = weekly;
 
@@ -330,7 +332,7 @@ class Home extends Component {
                     </Row>
 
                     <div id="week-wrapper">
-                        <Week props={meals} />
+                        <Week props={weeklyMeals} />
                     </div>
 
                     <Row className="nutrition-wrapper">
