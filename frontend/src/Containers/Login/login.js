@@ -44,7 +44,6 @@ class Login extends Component {
         const { email, password } = values;
 
         this.props.login("LOCAL", email, password);
-
       }
 
       handleGoogleLogin(e){

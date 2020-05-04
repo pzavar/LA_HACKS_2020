@@ -15,9 +15,14 @@ function populateCards(props) {
                 image={props[i].image}
                 label={props[i].label}
                 source={props[i].source}
-                yield={props[i].yield}
+                summary={props[i].summary}
+                pricePerServing={props[i].pricePerServing}
+                readyInMinutes={props[i].readyInMinutes}
+                servings={props[i].servings}
                 calories={props[i].calories}
-                healthLabels={props[i].healthLabels}
+                carbs={props[i].carbs}
+                fat={props[i].fat}
+                protein={props[i].protein}
             />
         );
     }

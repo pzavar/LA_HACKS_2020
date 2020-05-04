@@ -3,8 +3,36 @@ var express = require('express');
 const request = require('request')
 const config = require('../config')
 var router = express.Router();
-var passport = require('passport')
+var passport = require('passport');
+const jwt = require('jsonwebtoken');
 var User = require('../models/user')
+
+// ============================
+// 		LOCAL AUTH LOGIC
+// ============================
+router.post('/login', function(req, res, next) {
+
+	console.log(req.body)
+	console.log("Entered login")
+
+	passport.authenticate('local', (err, user) => {
+		console.log("Entered local login body")
+		if (err || !user) {
+			return res.status(400).json({
+				message: 'Something went wrong',
+				user: user
+			})
+		}
+		req.login(user, {session: false}, (err) => {
+			if (err) {
+				res.send(err);
+			}
+			const token = 'Bearer ' + jwt.sign(user.userid, `${config.JWTSecret}`);
+			const payload = {user: user, token: token}
+			return res.json(payload);
+		});
+	})(req, res, next);
+});
 
 // ============================
 // 		GOOGLE AUTH LOGIC
@@ -21,19 +49,28 @@ router.get( '/google/callback',
         failureRedirect: '/auth/google/failure'
 }));
 
-router.get('/google/success',function(req, res){
+router.get('/google/success', function(req, res){
 	console.log("Google auth success")
-	req.session.token = req.user.accessToken;
-	res.cookie('token', req.session.token)
-	
-	if (req.user.isNewUser) {
-		res.redirect('http://localhost:3000/register')
+
+	// create payload for token
+	const payload = {userid: req.result.user.userid}
+
+	// create token 
+	const token = 'Bearer ' + jwt.sign(payload, `${config.JWTSecret}`);
+
+	// create redirect url
+	const redirectURL = '/saveToken?JWT=' + token;
+
+	if (req.isNewUser) {
+		const route = '&route=register';
+		res.redirect('http://localhost:3000' + redirectURL + route)
 	} else {
-		res.redirect('http://localhost:3000/home')
+		const route = '&route=home';
+		res.redirect('http://localhost:3000' + redirectURL + route)
 	}
 })
 
-router.get('/google/failure',function(req,res,next){
+router.get('/google/failure',function(req, res){
 	console.log(req)
 	res.redirect('/')
 })
@@ -54,35 +91,35 @@ router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express' });
 });
 
-// ========================
-//    REGISTRATION LOGIC
-// ========================
-router.post("/register", (req, res) => {
-	var newUser = new User({username: req.body.username});
-	User.register(new User(newUser), req.body.password, (err, user) => {
-		if (err) {
-			console.log(err);
-			return res.render("register");
-		}
-		passport.authenticate("local")(req, res, () => {
-			res.redirect("/campgrounds");
-		});
-	});
-});
+// // ========================
+// //    REGISTRATION LOGIC
+// // ========================
+// router.post("/register", (req, res) => {
+// 	var newUser = new User({username: req.body.username});
+// 	User.register(new User(newUser), req.body.password, (err, user) => {
+// 		if (err) {
+// 			console.log(err);
+// 			return res.render("register");
+// 		}
+// 		passport.authenticate("local")(req, res, () => {
+// 			res.redirect("/campgrounds");
+// 		});
+// 	});
+// });
 
-// LOGIN LOGIC
-router.get("/login", (req, res) => {
-	res.render("login");
-});
+// // LOGIN LOGIC
+// router.get("/login", (req, res) => {
+// 	res.render("login");
+// });
 
-router.post("/login", passport.authenticate("local", 
-	{
-		//middelware
-		successRedirect: "/main", 
-		failureRedirect: "/login"
-	}), function (req, res) {
-		//nothing
-	});
+// router.post("/login", passport.authenticate("local", 
+// 	{
+// 		//middelware
+// 		successRedirect: "/main", 
+// 		failureRedirect: "/login"
+// 	}), function (req, res) {
+// 		//nothing
+// 	});
 
 // LOG OUT LOGIC
 router.get("/logout", (req, res) => {
@@ -90,58 +127,58 @@ router.get("/logout", (req, res) => {
 	res.redirect("/main");
 });
 
-//isLoggedIn middleware
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	res.redirect('/login');
-}
+// //isLoggedIn middleware
+// function isLoggedIn(req, res, next) {
+// 	if (req.isAuthenticated()) {
+// 		return next();
+// 	}
+// 	res.redirect('/login');
+// }
 
-function callback(error, response, body) {
-	// console.log(error)
-	// console.log(response)
-	// console.log(body)
-	console.log(response)
+// function callback(error, response, body) {
+// 	// console.log(error)
+// 	// console.log(response)
+// 	// console.log(body)
+// 	console.log(response)
 
-	console.log(response.statusCode)
-	if (!error && response.statusCode == 200) {
-		console.log(body);
-	}
-}
+// 	console.log(response.statusCode)
+// 	if (!error && response.statusCode == 200) {
+// 		console.log(body);
+// 	}
+// }
 
 
-router.get('/isLoggedIn',
-	async function(req, res) {
-		//Check databse if user is still logged in
-		//Else request token and save it
-		console.log("isLoggedIn")	 
+// router.get('/isLoggedIn',
+// 	async function(req, res) {
+// 		//Check databse if user is still logged in
+// 		//Else request token and save it
+// 		console.log("isLoggedIn")	 
 
-		const encoded = Buffer.from(`${config.clientId}:${config.clientSecret}`, `ascii`);
-		// ClientId and clientSecret must be encoded
-		const authorization = "Basic " + encoded.toString("base64");
-		// Base URL (https://api.kroger.com/v1/connect/oauth2)
-		// Version/Endpoint (/v1/token)
-		const tokenUrl = 'https://api.kroger.com/v1/connect/oauth2/token';
+// 		const encoded = Buffer.from(`${config.clientId}:${config.clientSecret}`, `ascii`);
+// 		// ClientId and clientSecret must be encoded
+// 		const authorization = "Basic " + encoded.toString("base64");
+// 		// Base URL (https://api.kroger.com/v1/connect/oauth2)
+// 		// Version/Endpoint (/v1/token)
+// 		const tokenUrl = 'https://api.kroger.com/v1/connect/oauth2/token';
 
-		console.log(tokenUrl)
-		console.log(authorization)
+// 		console.log(tokenUrl)
+// 		console.log(authorization)
 
-		// token request
-		let tokenResponse = await fetch(tokenUrl, {
-			method: "POST",
-			headers: {
-				"User-Agent": "",
-				Authorization: authorization,
-				"Content-Type": "application/x-www-form-urlencoded"
-			},
-			body: 'grant_type=client_credentials&scope=product.compact'
-		});
-		console.log(tokenResponse)
-		var json = await tokenResponse.json()
-		console.log(json)
-		return json
-	});
+// 		// token request
+// 		let tokenResponse = await fetch(tokenUrl, {
+// 			method: "POST",
+// 			headers: {
+// 				"User-Agent": "",
+// 				Authorization: authorization,
+// 				"Content-Type": "application/x-www-form-urlencoded"
+// 			},
+// 			body: 'grant_type=client_credentials&scope=product.compact'
+// 		});
+// 		console.log(tokenResponse)
+// 		var json = await tokenResponse.json()
+// 		console.log(json)
+// 		return json
+// 	});
 
 
 

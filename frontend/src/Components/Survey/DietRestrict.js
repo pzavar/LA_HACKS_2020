@@ -14,7 +14,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='dairy'
-                        name="intolerances"
+                        name="exclude"
                         label="Dairy"
                         value="Dairy"
                         onChange={this.props.handleChange}
@@ -24,7 +24,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='egg'
-                        name="intolerances"
+                        name="exclude"
                         label="Egg"
                         value="Egg"
                         onChange={this.props.handleChange}
@@ -34,7 +34,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='gluten'
-                        name="intolerances"
+                        name="exclude"
                         label="Gluten"
                         value="Gluten"
                         onChange={this.props.handleChange}
@@ -44,7 +44,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='grain'
-                        name="intolerances"
+                        name="exclude"
                         label="Grain"
                         value="Grain"
                         onChange={this.props.handleChange}
@@ -54,7 +54,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='peanut'
-                        name="intolerances"
+                        name="exclude"
                         label="Peanut"
                         value="Peanut"
                         onChange={this.props.handleChange}
@@ -64,7 +64,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='seafood'
-                        name="intolerances"
+                        name="exclude"
                         label="Seafood"
                         value="Seafood"
                         onChange={this.props.handleChange}
@@ -74,7 +74,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='seasame'
-                        name="intolerances"
+                        name="exclude"
                         label="Seasame"
                         value="Seasame"
                         onChange={this.props.handleChange}
@@ -84,7 +84,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='shellfish'
-                        name="intolerances"
+                        name="exclude"
                         label="Shellfish"
                         value="Shellfish"
                         onChange={this.props.handleChange}
@@ -94,7 +94,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='soy'
-                        name="intolerances"
+                        name="exclude"
                         label="Soy"
                         value="Soy"
                         onChange={this.props.handleChange}
@@ -104,7 +104,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='sulfite'
-                        name="intolerances"
+                        name="exclude"
                         label="Sulfite"
                         value="Sulfite"
                         onChange={this.props.handleChange}
@@ -114,7 +114,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='tree-nut'
-                        name="intolerances"
+                        name="exclude"
                         label="Tree Nut"
                         value="Tree Nut"
                         onChange={this.props.handleChange}
@@ -124,7 +124,7 @@ export default class DietRestrict extends Component {
                         custom
                         type={type}
                         id='wheat'
-                        name="intolerances"
+                        name="exclude"
                         label="Wheat"
                         value="Wheat"
                         onChange={this.props.handleChange}
@@ -188,7 +188,7 @@ export default class DietRestrict extends Component {
                     <Form.Check
                         custom
                         type={type}
-                        id='gluten'
+                        id='gluten2'
                         name='Health'
                         label="Gluten"
                         value='gluten-free'

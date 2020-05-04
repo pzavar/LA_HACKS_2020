@@ -2,12 +2,15 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-const cookieSession = require('cookie-session');
 var logger = require('morgan');
 var mealsRouter  = require('./routes/meals');
 var authRouter  = require('./routes/auth')
+var userRouter = require('./routes/users')
 var groceryList = require('./routes/groceryList')
 const config = require('../backend/config')
+var cors = require('cors')
+
+
 //
 //mongoose configures mongoose for later
 require('./db.js')
@@ -16,23 +19,13 @@ const bodyParser = require('body-parser');
 var app = express();
 
 app.use(bodyParser.json());
+app.use(cors())
 
-
-// ====================
-//     COOKIE SETUP
-// ====================
-
-app.use(cookieSession({
-	name: 'session',
-	keys: ['123']
-}));
-
-app.use(cookieParser());
 
 // ===============
 //     PASSPORT
 // ===============
-var passport = require("passport");
+const passport = require("passport");
 var User = require("./models/user")
 
 
@@ -69,23 +62,94 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 const mongoose = require('mongoose');
-// var LocalStrategy = require("passport-local");
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
+	done(null, user.id);
+  });
+  
 passport.deserializeUser(function(id, done) {
-	if(mongoose.Types.ObjectId.isValid(id))
-  		User.findById(id, function(err, user) {
-    		done(err, user);
+	  if(mongoose.Types.ObjectId.isValid(id))
+			User.findById(id, function(err, user) {
+			  done(err, user);
+	});
+  
   });
 
-});
+// ========================================
+//    PASSPORT JWT CONFIGURATION
+// ========================================
+const passportJWT = require('passport-jwt');
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+
+passport.use(new JWTStrategy({
+	jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+	secretOrKey: "MySecretToken",
+	}, 
+	function(jwtPayload, cb) {
+		console.log("jwtPayload = " + jwtPayload)
+		User.findOne({userid: jwtPayload.userid}, function(error, result) {
+			if (!error) {
+				if (!result) {
+					return cb(null, {message: 'Something went wrong!'});
+				}
+				else {
+					return cb(null, user)
+				}
+			} else {
+				return cb(null, error)
+			}
+		})
+		/*
+		console.log("Entered JWT Strategy")
+		return User.findOne({userid: jwtPayload.userid})
+			.then(user => {
+				if (user.isLoggedIn)
+					return cb(null, user);
+				else 
+					return cb(null, {message: "User is not logged in."})
+			})
+			.catch(err => {
+				return cb(err);
+			});
+			*/
+	}
+));
+
+
+
+// ========================================
+//    PASSPORT LOCAL CONFIGURATION
+// ========================================
+const LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy( function (username, password, done) {
+		const query = {email: username};
+		User.findOne(query, function(error, user) {
+			// error calling findOne
+			if (error) {
+				console.log("Error in finding user passport local")
+				return done(error)
+			}
+			
+			// Invalid username or password
+			if (!user)
+				return done(null, false)
+
+			// check password
+			user.comparePassword(password, user.password, function(err, isMatch) {
+				if (err) { return done(err) }
+				
+				if(!isMatch) { return done(null, false) }
+
+				return done(null, user);
+			})
+		})
+}));
+
+
 
 // ========================================
 //    PASSPORT GOOGLE OAUTH CONFIGURATION
@@ -98,8 +162,6 @@ var GoogleStrategy = require('passport-google-oauth2').OAuthStrategy;
 //   credentials (in this case, a token, tokenSecret, and Google profile), and
 //   invoke a callback with a user object.
 
-
-
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
 passport.use(new GoogleStrategy({
@@ -108,43 +170,51 @@ passport.use(new GoogleStrategy({
 	callbackURL: "http://localhost:4000/auth/google/callback",
 	passReqToCallback   : true
 },
-	function(request, accessToken, refreshToken, profile, done) {
-		newUser = false
+	function(profile, done) {
+		var isNewUser = false;
 		query = {userid : profile.id}
-		console.log("Profile")
-		console.log(profile)
+		console.log("Successful Google Login callback")
 		// Find the document
-			console.log("Called here")
-		User.findOneAndUpdate(query, {}, function(error, result) {
-			console.log("Called")
+		User.findOneAndUpdate(query, {}, function(error, user) {
 			if (!error) {
 				// If the document doesn't exist
-				if (!result) {
-					console.log("Document not found")
+				if (!user) {
+					console.log("No User Found: Creating new user")
 					// Create it
-					newUser = true
-					result = new User({isNewUser: newUser, userid: profile.id, displayName: profile.displayName, accessToken: accessToken, refreshToken: refreshToken});
+					isNewUser = true;
+					user = new User({
+						isLoggedIn: true,
+						userid: profile.id, 
+						email: profile.email,
+					});
 				}
 				else{
-					console.log("Found User")
+					console.log("Found user: Setting to isLoggedIn = true")
+					user.isLoggedIn = true;
 				}
 				// Save the document
-				result.save(function(error) {
+				user.save(function(error) {
 					if (!error) {
-						console.log("Saved")
+						console.log("Saved user information")
+						const payload = { result: user, isNewUser: isNewUser}
 						//Essentially appends user to req in callback
-						return done(null,result)
+						return done(null, payload)
 						// Do something with the document
 					} else {
-						console.log("error: ")
-						console.log(error)
+						console.log("Error saving user")
+						console.log("Error: " + error)
 						throw error;
 					}
 				});
+			} else {
+				console.log("Eror findining user in Google Login")
+				console.log("Error: " + error)
+				throw error;
 			}
 		});
 	})
 )
+
 app.use((req, res, next) => {
 	res.locals.currentUser = req.user;
 	next();
@@ -155,8 +225,12 @@ app.use((req, res, next) => {
 //      USE ROUTES
 // ======================
 app.use('/auth', authRouter);
-app.use('/meals', mealsRouter);
-app.use('/groceryList', groceryList);
+app.use('/user', userRouter);
+
+//app.use('/meals', passport.authenticate('jwt', { session: false,  successRedirect: '/week', failureRedirect: '/auth/google' }), mealsRouter);
+app.use('/meals', passport.authenticate('jwt', {session: false}), mealsRouter);
+app.use('/groceryList', passport.authenticate('jwt', {session: false, successRedirect: '/meals/groceryList',
+                                   failureRedirect: '/login' }), groceryList);
 
 
 // ===========================
