@@ -1,7 +1,7 @@
 /* Vertical Meal Card */
 .meal-card {
     position: relative;
-    max-height: 1.5% !important;
+    max-height: auto !important;
     width: auto;
 }
 

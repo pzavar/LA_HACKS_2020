@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import VerticalMealCards from './verticalMealCard';
 import { CardDeck } from 'react-bootstrap';
 import './calendar.css';
@@ -31,6 +31,7 @@ function populateCards(props) {
 }
 
 export function Daily(props) {
+    console.log(props)
     var todaysMeals = populateCards(props.daily)
     
     return(
