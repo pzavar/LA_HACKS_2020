@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Col, Row, Button, Card, Form } from 'react-dom'
+import { Container, Col, Row, Button, Card, Form } from 'react-bootstrap'
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
 
 
@@ -12,9 +12,17 @@ const aboutPara = "Munchies was founded by a group of like-minded UCLA students 
 export default class About extends Component {
     render() {
         return (
-            <div>
-                {aboutPara}
-            </div>
+            <Container>
+                <NavBarEntry />
+                <Row style={{marginTop: '5%'}}>
+                    <Col md={{span: 8, offset: 2}}>
+                        <h1 className="PageTitleFont">About</h1>
+                            <div className="BodyFontF" id="about-body">
+                                {aboutPara}
+                            </div>
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 }
