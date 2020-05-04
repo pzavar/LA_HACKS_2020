@@ -172,7 +172,7 @@ class Landing extends Component {
 }
 
 function mapStateToProps (state) {
-    return ("")
+    return (state)
 }
 
 const actionCreators = {

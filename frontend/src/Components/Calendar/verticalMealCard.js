@@ -37,8 +37,6 @@ export default class VerticalMealCards extends Component {
                     <Card.Title className="meal-card-title">{this.props.label}</Card.Title>
                     <Card.Subtitle  className="meal-card-subtitle">{this.props.source}</Card.Subtitle>
                     <Card.Text  className="meal-card-summary"> {this.props.summary}</Card.Text>
-                        <Row>
-                        <Col>
                         <Card.Text  className="meal-card-text">
                             Price per Serving: ${this.props.pricePerServing}.00 <br/>
                             Time: {this.props.readyInMinutes} mins<br />
@@ -48,12 +46,8 @@ export default class VerticalMealCards extends Component {
                             Fat: {this.props.fat} g<br/>
                             Carbs: {this.props.carbs} g<br />
                         </Card.Text>
-                        </Col>
-                        <Col xs={3} id="meal-card-icon-wrapper">
-                            <FontAwesomeIcon icon={faHeart} className="meal-card-icon" id="vertical-meal-card-icon"/>
-                        </Col>
-                        </Row>
                 </Card.Body>
+                <FontAwesomeIcon icon={faHeart} className="meal-card-icon" id="vertical-meal-card-icon"/>
             </Card>
         )
     }

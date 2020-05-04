@@ -32,6 +32,9 @@ function parseMealsData(props) {
 
 function MyWeeklyCards(props) {
     const meals = props.meals;
+
+    
+
     var cards = [];
     for (let i = 0; i < meals.length; i++) {
         cards.push(
@@ -41,6 +44,7 @@ function MyWeeklyCards(props) {
                     show={props.modalShow}
                     onHide = {props.onHide}
                     size="lg"
+                    
                     centered
                 >
                     <Modal.Header closeButton>
@@ -49,7 +53,7 @@ function MyWeeklyCards(props) {
                     <Modal.Body>
                         <Row>
                             <Col md={5} id="week-img-wrapper">
-                                <a href={meals[i].url} id="week-img"><img src={meals[i].image}/></a>
+                                <a href={meals[i].url} id="week-img"><img src={meals[i].image} id="week-img"/></a>
                             </Col>
                             <Col>
                                 <p className="BodyFont" id="week-summary">{meals[i].summary}</p>
@@ -73,6 +77,7 @@ function MyWeeklyCards(props) {
         );
     }
 
+  
     return cards;
 }
 
