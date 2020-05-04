@@ -124,7 +124,7 @@ export default class UserInfo extends Component {
                     </Col>
                     <Col>
                         <Form.Group controlId="occupation">
-                            <Form.Label className="BodyFontB">Employment Status</Form.Label>
+                            <Form.Label className="BodyFontB">Employment Status (optional)</Form.Label>
                             <Form.Check
                                 custom
                                 type='radio'

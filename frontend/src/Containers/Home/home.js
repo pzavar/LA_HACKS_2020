@@ -26,6 +26,7 @@ const daily = {
     dailyCarbs: "150g"
 }
 
+
 const weekly = {
     weeklyCalories: "7200 cal",
     weeklyFat: "125g",
@@ -45,37 +46,48 @@ const weekly = {
 
 */
 function MacrosCard(props) {
+    const fat = (props.fat * 100).toFixed(1);
+    const protein = (props.protein * 100).toFixed(1);
+    const carbs = (props.carbs * 100).toFixed(1);
+
     return (
         <div id="pie-chart-wrapper">
             <h4 className="BodyFont macros-title">{props.title}</h4>
-            <PieChart
-                animate={false}
-                animateDuration={500}
-                cx={50}
-                cy={50}
-                data={[
-                    { title: 'Fat', value: 10, color: '#E38627'},
-                    { title: 'Protein', value: 15, color: '#C13C37' },
-                    { title: 'Carb', value: 20, color: '#6A2135' },
-                ]}
-                label={true}
-                labelPosition={50}
-                lengthAngle={360}
-                lineWidth={100}
-                onClick={undefined}
-                onMouseOut={undefined}
-                onMouseOver={undefined}
-                paddingAngle={0}
-                radius={50}
-                rounded={false}
-                startAngle={0}
-                viewBoxSize={[
-                100,
-                100
-                ]}
-                className="pie-chart"
+            <Row>
+                <Col id="pie-chart-legend">
+                    <p className="BodyFont macros-item" style={{color: '#6A2135'}}>Carbs: {carbs}%</p>
+                    <p className="BodyFont macros-item" style={{color: '#C13C37'}}>Protein: {protein}%</p>
+                    <p className="BodyFont macros-item" style={{color: '#E38627'}}>Fat: {fat}%</p>
+                </Col>
+                <Col md={8}>
+                    <PieChart
+                        animate={false}
+                        animateDuration={500}
+                        cx={50}
+                        cy={50}
+                        data={[
+                            { title: 'Fat', value: props.fat, color: '#E38627'},
+                            { title: 'Protein', value: props.protein, color: '#C13C37' },
+                            { title: 'Carb', value: props.carbs, color: '#6A2135' },
+                        ]}
+                        lengthAngle={360}
+                        lineWidth={100}
+                        onClick={undefined}
+                        onMouseOut={undefined}
+                        onMouseOver={undefined}
+                        paddingAngle={0}
+                        radius={50}
+                        rounded={false}
+                        startAngle={0}
+                        viewBoxSize={[
+                        100,
+                        100
+                        ]}
+                        className="pie-chart"
 
-            />
+                    />
+                </Col>
+            </Row>
         </div>
     )
 }
@@ -252,14 +264,22 @@ class Home extends Component {
         )
     }
 
+
     render() {
         const {isLoading, weeklyMeals} = this.props
-        const fat = 20;
-        const protein = 40;
-        const carbs = 40;
+
+        const dFat = 25 / 190;
+        const dProtein = 15 / 190;
+        const dCarbs = 150 / 190;
+
+        const wFat = 125 / 1025;
+        const wProtein = 150 / 1025;
+        const wCarbs = 750 / 1025;
         const day = this.getDay()
         const { dailyCalories, dailyFat, dailyCholestral, dailySodium, dailySugar, dailyProtein, dailyCarbs } = daily;
         const { weeklyCalories, weeklyFat, weeklyCholestral, weeklySodium, weeklySugar, weeklyProtein, weeklyCarbs } = weekly;
+
+
 
         return (
             <div id="home">
@@ -300,7 +320,12 @@ class Home extends Component {
                             />
                         </Col>
                         <Col md={{span: 5}}>
-                            <MacrosCard title="Daily Macronutrient Information"/>
+                            <MacrosCard 
+                                title="Daily Macronutrient Information"
+                                fat={dFat}
+                                protein={dProtein}
+                                carbs={dCarbs}
+                            />
                         </Col>
                     </Row>
 
@@ -310,7 +335,12 @@ class Home extends Component {
 
                     <Row className="nutrition-wrapper">
                         <Col md={{span: 5, offset: 1}}>
-                            <MacrosCard title="Weekly Macronutrient Information"/>
+                            <MacrosCard 
+                                title="Weekly Macronutrient Information"
+                                fat={wFat}
+                                protein={wProtein}
+                                carbs={wCarbs}
+                                />
                         </Col>
                         <Col md={{span: 5}}>
                             <NutrionInfoCard

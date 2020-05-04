@@ -30,7 +30,7 @@ class Register extends Component {
                 password: historyProps.password,
                 age: '',
                 employment: '',
-                budget: -1,
+                budget: '',
                 Diet: '',
                 targetCalories: '',
                 exclude: [],
@@ -47,7 +47,7 @@ class Register extends Component {
                 password: '',
                 age: '',
                 employment: '',
-                budget: -1,
+                budget: '',
                 diet: '',
                 exclude: [],
                 targetCalories: '',
@@ -169,7 +169,7 @@ class Register extends Component {
         const step4 = this.state.step4;
         const dietRestrictClassName = "reg-diet-restrict-form";
         const dietLifestyleClassName = "reg-diet-lifestyle-form";
-        const dietPrefClassName = "reg-diet-pref-form";
+    
         return (
             <Container>
                 <NavBarEntry />

@@ -188,7 +188,7 @@ export default class DietRestrict extends Component {
                     <Form.Check
                         custom
                         type={type}
-                        id='gluten'
+                        id='gluten2'
                         name='Health'
                         label="Gluten"
                         value='gluten-free'
