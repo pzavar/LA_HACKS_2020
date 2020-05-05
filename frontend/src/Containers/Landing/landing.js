@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Col, Row, Button, Card, Form } from 'react-bootstrap';
+import { Container, Col, Row, Button, Card, Form, Jumbotron } from 'react-bootstrap';
 import { history } from '../../Utils/history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarCheck, faUser, faEdit, faLaughBeam, faShoppingCart, faExchangeAlt, faInfoCircle, faHeart} from '@fortawesome/free-solid-svg-icons';
@@ -81,8 +81,8 @@ class Landing extends Component {
                 <NavBarEntry />
                 <div className="section-margin"/>
                 <Row>
-                    <Col xs={8}>
-                        <h3 className="title BodyFontC" >Meal planning automated to satisfy the munchies</h3>
+                    <Col xs={8} style={{marginTop: '10%'}}>
+                        <h1 className="BodyFontC" id="landing-title-font">Meal planning automated to satisfy the Munchies</h1>
                         <div className="section-margin" />
                         <p className="BodyFontC">Ready to have a plan?</p>
                         <FontAwesomeIcon className="icon" icon={faCalendarCheck} size="4x" />
@@ -176,39 +176,57 @@ class Landing extends Component {
                     </Col>
                 </Row>
 
-                 <Row >
-                    <Col md={{span: 4, offset: 4}} style={{marginTop: '10%'}}>
-                    <h1 className="title BodyFontC">HOW IT WORKS</h1>
-                    </Col>
-                 </Row>           
 
+                <div style={{marginTop: '15%', marginBottom: '15%'}}/>
+        
+
+                <Jumbotron fluid>
+                <Row >
+                    <Col md={{span: 4, offset: 4}}>
+                    <h1 className="BodyFontC" id="landing-subtitle-font">HOW IT WORKS</h1>
+                    </Col>
+                </Row>   
                 <Row className="feature-wrapper" id="landing-how-it-works">
                     <Col>
                         <FontAwesomeIcon className="landing-icon" icon={faUser} />
-                        <h1 className="title BodyFontC">Step 1</h1>
+                        <h1 className="BodyFontC" id="landing-step-text">Step 1</h1>
                         <h2 className="title BodyFontC">Register Account</h2>
                         <p className="landing-small-text-font">Enter your information to create a customized meal plan linked to your account.</p>
 
                     </Col>
                     <Col>
                         <FontAwesomeIcon className="landing-icon" icon={faEdit} />
-                        <h1 className="title BodyFontC">Step 2</h1>
+                        <h1 className="BodyFontC" id="landing-step-text">Step 2</h1>
                         <h2 className="title BodyFontC">Diet Preferences</h2>
                         <p className="landing-small-text-font">Enter your diet preferences to cater your specific dietary needs. Examples include allergies, target calories, or vegan.</p>
 
                     </Col>
                     <Col>
                         <FontAwesomeIcon className="landing-icon" icon={faLaughBeam} />
-                        <h1 className="title BodyFontC">Step 3</h1>
+                        <h1 className="BodyFontC" id="landing-step-text">Step 3</h1>
                         <h2 className="title BodyFontC">Enjoy</h2>
                         <p className="landing-small-text-font">Finally, enjoy our heavy lifting in generating your cutomized meal plan. </p>
 
                     </Col>
                 </Row>
+                </Jumbotron>
 
+                {/* Sample Meals */}
+
+                <Row>
+                    <Col md={{span: 4, offset: 4}} >
+                        <h1 className="BodyFontC" id="landing-subtitle-font">Sample Meals</h1>
+                    </Col>
+                </Row>   
+                <Row className="feature-wrapper" id="landing-sample-meals-wrapper">
+                    <Daily daily={this.props.sampleMeals} />
+                </Row>
+                
+                {/* WHY */}
+                <Jumbotron fluid>
                 <Row >
                     <Col md={{span: 4, offset: 4}} >
-                        <h1 className="title BodyFontC">WHY</h1>
+                        <h1 className="BodyFontC" id="landing-subtitle-font">WHY</h1>
                     </Col>
                 </Row>   
                 <Row className="feature-wrapper">
@@ -234,21 +252,16 @@ class Landing extends Component {
                     </Col>
 
                 </Row>
+                </Jumbotron>
 
-                <Row>
+                {/*Try Now Button*/}
+                <Row style={{marginTop: '10%', marginBottom: '10%'}}>
                     <Col md={{span: 6, offset: 3}} >
                     <Link to='/register'><Button id="landing-page-body-btn">TRY NOW</Button></Link>
                     </Col>
                 </Row> 
         
-                <Row>
-                    <Col md={{span: 4, offset: 4}} >
-                        <h1 className="title BodyFontC">Sample Meals</h1>
-                    </Col>
-                </Row>   
-                <Row className="feature-wrapper" id="landing-sample-meals-wrapper">
-                    <Daily daily={this.props.sampleMeals} />
-                </Row>
+
 
                 <footer>
                     <p id="attribution">Icon made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a href="https://www.flaticon.com">www.flaticon.com</a></p>
