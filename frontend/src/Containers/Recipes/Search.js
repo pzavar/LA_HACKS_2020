@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { Container, Row, Col, InputGroup, FormControl, Button, Form, Accordion, Card, } from 'react-bootstrap';
 import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
+import CustomFooter from '../../Components/Navigation/Footer';
 import SideBar from '../../Components/Navigation/sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -248,8 +249,9 @@ class Search extends Component {
                     }
                 </Col>
 
-            </Container>
                 
+            </Container>
+            <CustomFooter />
             </div>
         )
     }

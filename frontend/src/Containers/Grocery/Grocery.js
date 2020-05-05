@@ -8,6 +8,7 @@ import { mealsActions } from '../../Redux/Actions/MealsActions';
 
 import './grocery.css';
 import Loading from '../../Components/Loading/Loading';
+import CustomFooter from '../../Components/Navigation/Footer';
 
 import { dummyData } from '../../Redux/Reducers/dummy';
 
@@ -87,8 +88,9 @@ class Grocery extends Component {
                             </ListGroup>
                         </Col>
                     </Row>
-    
+                
                 </Container>
+                <CustomFooter />
                 </div>
             )
         }

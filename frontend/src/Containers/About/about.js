@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Col, Row, Button, Card, Form } from 'react-bootstrap'
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
-
+import CustomFooter from '../../Components/Navigation/Footer';
 
 import './about.css';
 import '../../Components/Styles/styles.css';
@@ -22,6 +22,7 @@ export default class About extends Component {
                             </div>
                     </Col>
                 </Row>
+                <CustomFooter />
             </Container>
         )
     }

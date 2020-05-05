@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Week } from '../../Components/Calendar/week';
 
 
-
+import CustomFooter from '../../Components/Navigation/Footer';
 
 
 import './home.css'
@@ -357,8 +357,9 @@ class Home extends Component {
                             />
                         </Col>
                     </Row>
-
+                   
                 </Container>
+                <CustomFooter />
             </div>
         )
     }

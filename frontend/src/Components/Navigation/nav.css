@@ -141,3 +141,16 @@
   .bm-overlay {
     background: rgba(0, 0, 0, 0.3);
   }
+
+
+  /* Footer */
+  #footer-wrapper {
+    margin-top: 5%;
+    margin-bottom: 2%;
+    text-align: center;
+  }
+  #footer-text {
+    font-size: 12px;
+    font-weight: bold;
+    
+  }

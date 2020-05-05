@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Container, Row, Col } from 'react-bootstrap';
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
+import CustomFooter from '../../Components/Navigation/Footer';
 import SideBar from '../../Components/Navigation/sidebar';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
 import { connect } from 'react-redux'
@@ -55,8 +56,9 @@ export class Favorites extends Component {
                             <h1 className="PageTitleFont" id="fav-title">My Favorites</h1>
                             {this.populateFavCards()}
                         </Col>
-
+                
                 </Container>
+                <CustomFooter />
             </div>
         )
     }

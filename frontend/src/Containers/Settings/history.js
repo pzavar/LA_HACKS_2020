@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Col, Table } from 'react-bootstrap';
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
+import CustomFooter from '../../Components/Navigation/Footer';
 import SideBar from '../../Components/Navigation/sidebar';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
 import { connect } from 'react-redux'
@@ -58,7 +59,9 @@ class History extends Component {
                             </tbody>
                         </Table>
                     </Col>
+                    
                 </Container>
+                <CustomFooter />
             </div>
         )
     }

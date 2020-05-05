@@ -20,6 +20,9 @@ import '../../Components/Styles/styles.css';
 import { dummyData } from '../../Redux/Reducers/dummy';
 import { Link } from 'react-router-dom';
 
+import CustomFooter from '../../Components/Navigation/Footer';
+
+
 
 const validSchema = yup.object ({
     email: yup.string()
@@ -226,7 +229,7 @@ class Landing extends Component {
                 <Jumbotron fluid>
                 <Row >
                     <Col md={{span: 4, offset: 4}} >
-                        <h1 className="BodyFontC" id="landing-subtitle-font">WHY</h1>
+                        <h1 className="BodyFontC" id="landing-subtitle-font">WHY MUNCHIES</h1>
                     </Col>
                 </Row>   
                 <Row className="feature-wrapper">
@@ -260,14 +263,10 @@ class Landing extends Component {
                     <Link to='/register'><Button id="landing-page-body-btn">TRY NOW</Button></Link>
                     </Col>
                 </Row> 
-        
 
-
-                <footer>
-                    <p id="attribution">Icon made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a href="https://www.flaticon.com">www.flaticon.com</a></p>
-                 </footer>
-               
+                <CustomFooter />
             </Container>
+            
 
         )
     }

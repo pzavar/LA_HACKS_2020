@@ -10,6 +10,7 @@ import DietRestrict from '../../Components/Survey/DietRestrict';
 import DietLifestyle from '../../Components/Survey/DietLifestyle';
 
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
+import CustomFooter from '../../Components/Navigation/Footer';
 import SideBar from '../../Components/Navigation/sidebar';
 import { history } from '../../Utils/history';
 
@@ -205,7 +206,9 @@ class Settings extends Component {
                         </div>
                     </Col>
                 </Row>
+                
             </Container>
+            <CustomFooter />
             </div>
         )
     }
