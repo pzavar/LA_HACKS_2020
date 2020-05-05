@@ -1,4 +1,12 @@
+#landing-title-font {
+    font-size: 30px;
+    font-weight: bolder;
+}
 
+#landing-subtitle-font {
+    font-size: 25px;
+    font-weight: bold;
+}
 
 .brand-logo-wrapper {
     display: inline-flex;
@@ -155,9 +163,10 @@
     text-align: center;
 }
 
-/* How It Works */
-#landing-how-it-works {
-    padding-top: 3%;
+#landing-step-text {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 25px;
 }
 
 #landing-page-body-btn {
@@ -176,8 +185,11 @@
     height: 300px;
     width: auto;
 
-    margin-top: 5%;
-    margin-bottom: 10%;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-top: 1%;
 }
 
 #landing-sample-meals-wrapper {
