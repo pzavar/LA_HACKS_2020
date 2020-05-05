@@ -18,6 +18,7 @@ import {connect} from 'react-redux';
 import { usersActions } from '../../Redux/Actions/UserActions';
 import '../../Components/Styles/styles.css'
 import './settings.css';
+import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
 
 function CustomToggle({ children, eventKey }) {
@@ -208,6 +209,7 @@ class Settings extends Component {
                 </Row>
                 
             </Container>
+            <CustomFeedback/>
             <CustomFooter />
             </div>
         )

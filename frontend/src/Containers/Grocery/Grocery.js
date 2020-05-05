@@ -11,6 +11,7 @@ import Loading from '../../Components/Loading/Loading';
 import CustomFooter from '../../Components/Navigation/Footer';
 
 import { dummyData } from '../../Redux/Reducers/dummy';
+import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
 const data = [
     "potatoes",
@@ -90,6 +91,7 @@ class Grocery extends Component {
                     </Row>
                 
                 </Container>
+                <CustomFeedback />
                 <CustomFooter />
                 </div>
             )

@@ -33,47 +33,48 @@ function parseMealsData(props) {
 function MyWeeklyCards(props) {
     const meals = props.meals;
 
-    
-
     var cards = [];
     for (let i = 0; i < meals.length; i++) {
+        console.log(meals[i])
         cards.push(
+            <React.Fragment key={i}>
             <td key={i}>
                 <div onClick={props.onShow} className="BodyFontF" id="weekly-menu-item">{meals[i].label}</div>
-                <Modal
-                    show={props.modalShow}
-                    onHide = {props.onHide}
-                    size="lg"
-                    
-                    centered
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title className="BodyFont" id="week-title">{meals[i].label}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Row>
-                            <Col md={5} id="week-img-wrapper">
-                                <a href={meals[i].url} id="week-img"><img src={meals[i].image} id="week-img"/></a>
-                            </Col>
-                            <Col>
-                                <p className="BodyFont" id="week-summary">{meals[i].summary}</p>
-                                <p className="BodyFont" id="week-body">
-                                    Servings: {meals[i].servings} <br />
-                                    Price per Serving: ${meals[i].pricePerServing} <br/>
-                                    Time: {meals[i].readyInMinutes} mins <br/>
-                                    Calories: {meals[i].calories} <br/>
-                                    Carbs: {meals[i].carbs} <br/>
-                                    Protein: {meals[i].protein} <br/>
-                                    Fat: {meals[i].fat} <br/>
-                                </p>
-                            </Col>
-                        </Row>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={props.onHide}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
             </td>
+            <Modal
+            show={props.modalShow}
+            onHide = {props.onHide}
+            size="lg"
+            animation={false}
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title className="BodyFont" id="week-title">{meals[i].label}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Row>
+                    <Col md={5} id="week-img-wrapper">
+                        <a href={meals[i].url} id="week-img"><img src={meals[i].image} id="week-img"/></a>
+                    </Col>
+                    <Col>
+                        <p className="BodyFont" id="week-summary">{meals[i].summary}</p>
+                        <p className="BodyFont" id="week-body">
+                            Servings: {meals[i].servings} <br />
+                            Price per Serving: ${meals[i].pricePerServing} <br/>
+                            Time: {meals[i].readyInMinutes} mins <br/>
+                            Calories: {meals[i].calories} <br/>
+                            Carbs: {meals[i].carbs} <br/>
+                            Protein: {meals[i].protein} <br/>
+                            Fat: {meals[i].fat} <br/>
+                        </p>
+                    </Col>
+                </Row>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={props.onHide}>Close</Button>
+            </Modal.Footer>
+        </Modal>
+            </React.Fragment>
         );
     }
 

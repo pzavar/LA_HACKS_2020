@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
 
 import './search.css';
+import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
 function CustomToggle({ children, eventKey }) {
     const [open, setOpen] = useState(false);
@@ -251,6 +252,7 @@ class Search extends Component {
 
                 
             </Container>
+            <CustomFeedback/>
             <CustomFooter />
             </div>
         )

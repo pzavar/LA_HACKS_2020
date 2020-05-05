@@ -10,11 +10,15 @@ import { connect } from 'react-redux';
 import { Week } from '../../Components/Calendar/week';
 
 
+
+
+
 import CustomFooter from '../../Components/Navigation/Footer';
 
 
 import './home.css'
 import { dummyData } from '../../Redux/Reducers/dummy';
+import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
 
 const daily = {
@@ -360,6 +364,7 @@ class Home extends Component {
                    
                 </Container>
                 <CustomFooter />
+                <CustomFeedback />
             </div>
         )
     }

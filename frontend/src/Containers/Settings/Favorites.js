@@ -6,6 +6,7 @@ import SideBar from '../../Components/Navigation/sidebar';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
 import { connect } from 'react-redux'
 import HorizontalMealCard from '../../Components/Calendar/horizontalMealCard';
+import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
 export class Favorites extends Component {
     constructor(props) {
@@ -58,6 +59,7 @@ export class Favorites extends Component {
                         </Col>
                 
                 </Container>
+                <CustomFeedback />
                 <CustomFooter />
             </div>
         )
