@@ -2,3 +2,28 @@
     margin-top: 5%;
     line-height: 2;
 }
+
+#about-profile-img {
+    max-width: 171px;
+    max-height: 177px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+#about-profile-title {
+    font-size: 18px;
+    font-weight: bolder;
+    text-align: center;
+
+    margin-top: 7%;
+}
+
+#about-profile-subtitle {
+    font-size: 13px;
+    text-align: center;
+}

@@ -29,6 +29,7 @@ export default class CustomFeedback extends Component {
                 <Modal.Body>
                     <h1 className="BodyFont" id="custom-feedback-title">We would love to hear feedback from you!</h1>
                     <Form>
+                        <Form.Label className="BodyFont" id="custom-feedback-text">Email</Form.Label>
                         <Form.Control 
                             type="email"
                             placeholder="Enter email"
@@ -36,6 +37,8 @@ export default class CustomFeedback extends Component {
                             id="custom-feedback-text"
                             style={{marginBottom: '3%'}}
                         />
+
+                        <Form.Label className="BodyFont" id="custom-feedback-text">Comments</Form.Label>
                         <Form.Control 
                             as="textarea" 
                             rows="3"
@@ -46,7 +49,7 @@ export default class CustomFeedback extends Component {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button>Submit</Button>
+                    <Button onClick={() => this.setState({show: false})}>Submit</Button>
                 </Modal.Footer>
                 </Modal>
                 

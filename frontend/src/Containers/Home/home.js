@@ -7,10 +7,7 @@ import PieChart from 'react-minimal-pie-chart';
 import Loading from '../../Components/Loading/Loading';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
 import { connect } from 'react-redux';
-import { Week } from '../../Components/Calendar/week';
-
-
-
+import Week from '../../Components/Calendar/week';
 
 
 import CustomFooter from '../../Components/Navigation/Footer';

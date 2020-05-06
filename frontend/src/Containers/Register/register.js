@@ -213,7 +213,7 @@ class Register extends Component {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey={2}>
                                     <h3 className="title">Diet Preferences</h3>
-                                    <p className="BodyFontF">Please check any boxes for dietaryy lifestyles you have (or wish to have).</p>
+                                    <p className="BodyFontF">Please check a box for dietary lifestyles you have (or wish to have).</p>
                                     <DietLifestyle 
                                         handleChange={this.handleChange}
                                         className={dietLifestyleClassName}
@@ -228,7 +228,7 @@ class Register extends Component {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey={3}>
                                     <h3 className="title">Diet Restrictions</h3>
-                                    <p className="BodyFontF">Check any dietary restrictions to exclude in meals.</p>
+                                    <p className="BodyFontF">Check any box for dietary restrictions to exclude in meals.</p>
                                         <DietRestrict 
                                             handleChange={this.handleExcludeChange}
                                             className={dietRestrictClassName}

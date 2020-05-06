@@ -51,18 +51,6 @@ class Landing extends Component {
         this.handleGoogleSignUp = this.handleGoogleSignUp.bind(this);
     }
 
-    howItWorks() {
-
-        return(
-            <React.Fragment>
-
-            
-            </React.Fragment>
-        )
-    }
-
-
-
     handleStart(values) {
         history.push({
             pathname: '/register',
@@ -216,12 +204,12 @@ class Landing extends Component {
 
                 {/* Sample Meals */}
 
-                <Row>
+                <Row style={{marginTop: '12%'}}>
                     <Col md={{span: 4, offset: 4}} >
                         <h1 className="BodyFontC" id="landing-subtitle-font">Sample Meals</h1>
                     </Col>
                 </Row>   
-                <Row className="feature-wrapper" id="landing-sample-meals-wrapper">
+                <Row className="feature-wrapper" id="landing-sample-meals-wrapper" style={{marginBottom: '12%'}}>
                     <Daily daily={this.props.sampleMeals} />
                 </Row>
                 
@@ -232,7 +220,7 @@ class Landing extends Component {
                         <h1 className="BodyFontC" id="landing-subtitle-font">WHY MUNCHIES</h1>
                     </Col>
                 </Row>   
-                <Row className="feature-wrapper">
+                <Row className="feature-wrapper" >
                     <Col>
                     <FontAwesomeIcon className="landing-icon" icon={faHeart} />
                         <h1 className="title BodyFontC">Favorite Meals</h1>
