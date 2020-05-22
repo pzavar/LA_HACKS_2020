@@ -6,10 +6,18 @@ export const api = axios.create({
     baseURL: 'http://localhost:4000',
 })
 
-console.log(api)
+const token = localStorage.getItem('token')
+
+console.log("client.token = " + token)
 
 export const auth_config = {
     headers: {
-        'Authorization': `Bearer ${document.cookie}`
+        Authorization: `${token}`
     }
 }
+
+// export const auth_config = {
+//     headers: {
+//         Authorization: `Bearer ${token}`
+//     }
+// }

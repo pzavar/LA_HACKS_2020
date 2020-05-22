@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { Container, Row, Col, InputGroup, FormControl, Button, Form, Accordion, Card, } from 'react-bootstrap';
 import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
+import CustomFooter from '../../Components/Navigation/Footer';
 import SideBar from '../../Components/Navigation/sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +14,11 @@ import DietLifestyle from '../../Components/Survey/DietLifestyle';
 import DietRestrict from '../../Components/Survey/DietRestrict';
 import MealType from '../../Components/Survey/MealType';
 
+import { connect } from 'react-redux';
+import { mealsActions } from '../../Redux/Actions/MealsActions';
+
 import './search.css';
+import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
 function CustomToggle({ children, eventKey }) {
     const [open, setOpen] = useState(false);
@@ -42,7 +47,7 @@ function CustomToggle({ children, eventKey }) {
 }
 
 
-export default class Search extends Component {
+class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -56,9 +61,12 @@ export default class Search extends Component {
             maxFat: 0,
             maxProtein: 0,
             maxCalories: 0,
+            show: false,
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.populateSearchCards = this.populateSearchCards.bind(this);
     }
 
 
@@ -75,6 +83,39 @@ export default class Search extends Component {
             })
             
         }
+    }
+
+    handleSearch(e) {
+        e.preventDefault()
+        this.setState({show: true})
+    }
+
+    populateSearchCards() {
+        var favCards = []
+        const list = this.props.searchList
+
+        
+
+        for( let i = 0; i < list.length; i++) {
+            favCards.push(
+                <Row>
+                    <HorizontalMealCard
+                        className="search-meal-card"
+                        type="SEARCH"
+                        label={list[i].label}
+                        image={list[i].image}
+                        source={list[i].source}
+                        calories={list[i].calories}
+                        carbs={list[i].carbs}
+                        protein={list[i].protein}
+                        fat={list[i].fat}
+                        removeFavMeal={this.props.removeFav}
+                    />
+                </Row>
+            )
+        }
+        
+        return (favCards)
     }
 
 
@@ -95,7 +136,7 @@ export default class Search extends Component {
                             className="search-field"
                         />
                         <InputGroup.Append>
-                            <Button>
+                            <Button onClick={this.handleSearch}>
                                 <FontAwesomeIcon icon={faSearch} id="search-icon" />
                             </Button>
                         </InputGroup.Append>
@@ -190,7 +231,7 @@ export default class Search extends Component {
                                 </Row>
 
                                 <Row>
-                                <Button className="advanced-search-btn">
+                                <Button onClick={this.handleSearch} className="advanced-search-btn">
                                     <FontAwesomeIcon icon={faSearch} />
                                 </Button>
                                 </Row>
@@ -203,20 +244,28 @@ export default class Search extends Component {
                 </Row>
             
                 <Col md={{ span: 8, offset: 2 }} style={{marginTop: '5%'}}>
-                    <HorizontalMealCard 
-                        label="Mac and Cheese"
-                        image="//placehold.it/150"
-                        calories={500}
-                        carbs={30}
-                        fat={15}
-                        protein={40}
-                        className="search-meal-card"
-                    />
+                    {this.state.show 
+                        ? this.populateSearchCards()
+                        : null
+                    }
                 </Col>
 
-            </Container>
                 
+            </Container>
+            <CustomFeedback/>
+            <CustomFooter />
             </div>
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    searchList: state.meals.favorites,
+})
+
+const mapDispatchToProps = {
+    getFavorites: mealsActions.getFavMeals,
+    removeFav: mealsActions.removeFavMeal,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search)

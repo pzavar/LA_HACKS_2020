@@ -48,6 +48,9 @@ router.get('/budget',async function(req,res,next){
 // json["week"]["monday"]["meals"][0,1,2]
 // json["week"]["monday"]["nutrients"]
 router.get('/week', async function(req, res, next) {
+
+	console.log("Entered /week")
+
 	console.log(config.spoonacularApiKey)
 	var search = await fetch(`https://api.spoonacular.com/mealplanner/generate?apiKey=${config.spoonacularApiKey}&timeFrame=week`)
 	console.log("Test")
@@ -141,8 +144,9 @@ router.get('/:meal', async function(req, res, next) {
 
 
 function verifyToken(req, res, next) {
+	console.log("Request")
+	console.log(req)
   const bearerHeader = req.headers['Authorization'];
-
   console.log(req.headers)
 
   if (bearerHeader) {

@@ -1,6 +1,6 @@
 import {mealsConstants} from '../Actions/types';
 
-import {dummyFavoriteList} from './dummy'
+import {dummyData} from './dummy'
 
 const initialState = {
     mealsLoading: true,
@@ -19,19 +19,13 @@ const initialState = {
     getFavError: null,
     getGroceryError: null,
 
-    weeklyMeals: {
-        sunday: [],
-        monday: [],
-        tuesday: [],
-        wednesday: [],
-        thursday: [],
-        friday: [],
-        saturday: [],
-    },
+
+
+    weeklyMeals: dummyData.dummyMeals,
 
     history: [],
-    favorites: dummyFavoriteList,
-    grocery: [],
+    favorites: dummyData.dummyFavoriteList,
+    grocery: dummyData.dummyGrocery,
 }
 
 
@@ -186,3 +180,15 @@ export function meals(state=initialState, action) {
     }
 
 }
+
+/*
+    weeklyMeals: {
+        sunday: [],
+        monday: [],
+        tuesday: [],
+        wednesday: [],
+        thursday: [],
+        friday: [],
+        saturday: [],
+    },
+*/

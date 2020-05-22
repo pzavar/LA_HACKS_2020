@@ -30,11 +30,10 @@ class Register extends Component {
                 password: historyProps.password,
                 age: '',
                 employment: '',
-                mealsPerDay: 0,
-                budget: 0,
+                budget: '',
                 Diet: '',
                 targetCalories: '',
-                Health: [],
+                exclude: [],
                 step1: "",
                 step2: "",
                 step3: "",
@@ -48,8 +47,7 @@ class Register extends Component {
                 password: '',
                 age: '',
                 employment: '',
-                mealsPerDay: 0,
-                budget: 0,
+                budget: '',
                 diet: '',
                 exclude: [],
                 targetCalories: '',
@@ -122,16 +120,20 @@ class Register extends Component {
     handleExcludeChange(e) {
         const {value} = e.target
 
+        console.log(value)
+
         if (this.state.exclude.includes(value)) {
             console.log("item exists")
             const items = this.state.exclude.filter((i) => i !== value)
             this.setState({exclude: items})
-            console.log(this.state.exclude)
         } else {
+            var newExclude = this.state.exclude;
+            newExclude.push(value)
             this.setState({
-                exclude: [...this.state.exlcude, value]
+                
+                exclude: newExclude
             })
-            console.log(this.state.exclude)
+
         }
     }
 
@@ -144,18 +146,21 @@ class Register extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const { email, password, budget, diet, exclude, targetCalories } = this.state
+        const { email, password, budget, diet, exclude, targetCalories, age } = this.state
         
         const data = {
             email: email,
             password: password,
+            age: age,
             budget: budget,
             diet: diet,
             exclude: exclude,
             targetCalories: targetCalories,
         }
 
-        this.props.register(data)
+        history.push('/home');
+
+        //this.props.register(data)
     }
 
     render() {
@@ -164,7 +169,7 @@ class Register extends Component {
         const step4 = this.state.step4;
         const dietRestrictClassName = "reg-diet-restrict-form";
         const dietLifestyleClassName = "reg-diet-lifestyle-form";
-        const dietPrefClassName = "reg-diet-pref-form";
+    
         return (
             <Container>
                 <NavBarEntry />
@@ -208,7 +213,7 @@ class Register extends Component {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey={2}>
                                     <h3 className="title">Diet Preferences</h3>
-                                    <p className="BodyFontF">Please check any boxes for dietaryy lifestyles you have (or wish to have).</p>
+                                    <p className="BodyFontF">Please check a box for dietary lifestyles you have (or wish to have).</p>
                                     <DietLifestyle 
                                         handleChange={this.handleChange}
                                         className={dietLifestyleClassName}
@@ -223,12 +228,12 @@ class Register extends Component {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey={3}>
                                     <h3 className="title">Diet Restrictions</h3>
-                                    <p className="BodyFontF">Check any dietary restrictions to exclude in meals.</p>
+                                    <p className="BodyFontF">Check any box for dietary restrictions to exclude in meals.</p>
                                         <DietRestrict 
                                             handleChange={this.handleExcludeChange}
                                             className={dietRestrictClassName}
                                             type='checkbox'
-                                            api="spoonacular"
+                                            api="spoonacular" 
                                         />
                                     <Row id="two-button-group">
                                         <Button id="button1 button" onClick={(e) => this.handleSelect(2, "prev", e)}>Previous</Button>

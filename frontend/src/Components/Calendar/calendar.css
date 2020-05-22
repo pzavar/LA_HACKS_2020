@@ -1,6 +1,12 @@
+/* Vertical Meal Card */
 .meal-card {
-    max-height: 1.5% !important;
+    position: relative;
+    max-height: auto !important;
     width: auto;
+}
+
+#meal-card-wrapper {
+    position: relative;
 }
 
 .meal-card-title {
@@ -10,23 +16,48 @@
 .meal-card-subtitle {
     font-family:'Spartan', sans-serif;
     font-size: 13px;
+    margin-bottom: 0;
+    
+}
+
+.meal-card-summary{
+    font-family:'Spartan', sans-serif;
+    font-size: 12px;
+    margin-bottom: 0;
+    margin-top: 3px;
 }
 
 .meal-card-text {
     font-family:'Spartan', sans-serif;
     font-size: 12px;
-    color: #A6CC9F;
+    color: #547C8F;
     margin-top: 5px;
 }
 
 .meal-card-img {
     display: flex;
     align-items: center;
-    max-height: 200px !important;
+    max-height: 150px !important;
     width: auto;
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.meal-card-icon {
+    font-size: 25px;
+    color: #dddddd
+}
+
+.meal-card-icon:hover {
+    color: #547C8F;
+}
+
+#vertical-meal-card-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 2%
+
 }
 
 
@@ -62,6 +93,8 @@
 .horizontal-meal-card-img {
     display: flex;
     float: left;
+    max-height: 150px;
+    max-width: auto;
 }
 
 .horizontal-icon-wrapper {
@@ -87,4 +120,45 @@
 
 #horizontal-icon-left:hover {
     color: #547C8F;
+}
+
+/* Week Views */
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+#week-title {
+    font-size: 25px;
+    font-weight: 200;
+    
+    margin-left: 2%;
+}
+
+#week-img-wrapper {
+    display: flex;
+}
+
+#week-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    max-height: 150px;
+    width: auto;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#week-summary {
+    font-size: 15px;
+}
+
+#week-body {
+    font-size: 13px;
 }

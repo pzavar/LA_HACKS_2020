@@ -8,6 +8,10 @@ import { mealsActions } from '../../Redux/Actions/MealsActions';
 
 import './grocery.css';
 import Loading from '../../Components/Loading/Loading';
+import CustomFooter from '../../Components/Navigation/Footer';
+
+import { dummyData } from '../../Redux/Reducers/dummy';
+import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
 const data = [
     "potatoes",
@@ -25,7 +29,7 @@ class Grocery extends Component {
         super(props);
 
         this.state = {
-            groceryList: data
+            groceryList: dummyData.dummyGrocery,
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -85,8 +89,10 @@ class Grocery extends Component {
                             </ListGroup>
                         </Col>
                     </Row>
-    
+                
                 </Container>
+                <CustomFeedback />
+                <CustomFooter />
                 </div>
             )
         }

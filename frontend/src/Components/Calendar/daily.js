@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import VerticalMealCards from './verticalMealCard';
 import { CardDeck } from 'react-bootstrap';
 import './calendar.css';
@@ -15,9 +15,14 @@ function populateCards(props) {
                 image={props[i].image}
                 label={props[i].label}
                 source={props[i].source}
-                yield={props[i].yield}
+                summary={props[i].summary}
+                pricePerServing={props[i].pricePerServing}
+                readyInMinutes={props[i].readyInMinutes}
+                servings={props[i].servings}
                 calories={props[i].calories}
-                healthLabels={props[i].healthLabels}
+                carbs={props[i].carbs}
+                fat={props[i].fat}
+                protein={props[i].protein}
             />
         );
     }
@@ -26,6 +31,7 @@ function populateCards(props) {
 }
 
 export function Daily(props) {
+    console.log(props)
     var todaysMeals = populateCards(props.daily)
     
     return(

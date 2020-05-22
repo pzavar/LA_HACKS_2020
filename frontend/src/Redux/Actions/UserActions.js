@@ -13,8 +13,10 @@ function userRegistration(data) {
         dispatch(request())
         api.post('/user/reg', data)
         .then((response) => {
-            localStorage.setItem('token', response.token)
-            dispatch(success(response.data))
+            console.log(response)
+
+            localStorage.setItem('token', response.data.token)
+            dispatch(success(response.data.user))
             history.push('/home')
         })
         .catch(error => {

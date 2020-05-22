@@ -24,7 +24,7 @@
 
 .brand-logo-text:hover {
   text-decoration: none;
-  color:  #A6CC9F;
+  color:  wheat;
 }
 
 #link-text {
@@ -140,4 +140,17 @@
   /* Styling of overlay */
   .bm-overlay {
     background: rgba(0, 0, 0, 0.3);
+  }
+
+
+  /* Footer */
+  #footer-wrapper {
+    margin-top: 5%;
+    margin-bottom: 2%;
+    text-align: center;
+  }
+  #footer-text {
+    font-size: 12px;
+    font-weight: bold;
+    
   }
