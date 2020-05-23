@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Tab, Button, Nav, InputGroup, FormControl } from 'react-bootstrap';
+import { Container, Row, Tab, Button, Nav, InputGroup, Form, FormControl } from 'react-bootstrap';
 import UserInfo from '../../Components/Survey/UserInfo';
 import DietRestrict from '../../Components/Survey/DietRestrict';
 import DietLifestyle from '../../Components/Survey/DietLifestyle';
@@ -7,6 +7,7 @@ import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import { history } from '../../Utils/history';
 import {connect} from 'react-redux';
 import { usersActions } from '../../Redux/Actions/UserActions';
+import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
 
 import './register.css';
@@ -22,7 +23,6 @@ class Register extends Component {
         const historyProps = this.props.history.location.state;
 
         if(typeof historyProps !== "undefined" && historyProps.populated) {
-            console.log("entered")
             this.state = {
                 key: 1,
                 currentStep: 1,
@@ -159,8 +159,6 @@ class Register extends Component {
         }
 
         history.push('/home');
-
-        //this.props.register(data)
     }
 
     render() {
@@ -187,30 +185,132 @@ class Register extends Component {
                                     <Nav.Item className={step3} as="li">
                                         <Nav.Link eventKey={3} onClick={(e) => this.handleLinkVisit(3, e)}>Step 3</Nav.Link>
                                     </Nav.Item>
-                                    <Nav.Item className={step4} as="li">
-                                        <Nav.Link eventKey={4} onClick={(e) => this.handleLinkVisit(4, e)}>Step 4</Nav.Link>
-                                    </Nav.Item>
                                 </Nav>
                             </div>
                             <Tab.Content>
+
+                                {/* Meal Plan Pref */}
                                 <Tab.Pane eventKey={1}>
-                                    <h3 className="title" >User Information</h3>
-                                    {/*<p>Enter your email to subscribe to updates.</p>*/}
-                                    <UserInfo 
-                                        handleChange={this.handleChange}
-                                        name={this.state.name}
-                                        email={this.state.email}
-                                        password={this.state.password}
-                                        age={this.state.age}
-                                        mealsPerDay={this.state.mealsPerDay}
-                                        budget={this.state.budget}
-                                        employment={this.state.employment}
-                                        populated={this.state.populated}
-                                    />
+                                    {/* Meal Plan Type */}
+                                    <h3 className="title">Meal Plan Type</h3>
+                                    <Form.Group controlId="meal-plan">
+                                        {/* Daily */}
+                                        <Form.Check
+                                            custom
+                                            type='radio'
+                                            name="meal-plan"
+                                            id='daily'
+                                            label='Daily'
+                                            value="weekly"
+                                            style={{marginBottom:5}}
+                                            className="BodyFontD"
+                                            defaultChecked={true}
+                                        />
+                                        {/* Weekly */}
+                                        <Form.Check
+                                            custom
+                                            type='radio'
+                                            name="meal-plan"
+                                            id='weekly'
+                                            label='Weekly (feature coming soon)'
+                                            value="weekly"
+                                            disabled={true}
+                                            style={{marginBottom:5}}
+                                            className="BodyFontD"
+                                        />
+                                    </Form.Group>
+                                    {/* Meals Per Day */}
+                                    <h3 className="title" style={{marginTop: '8%'}}>Meals Per Day</h3>
+                                    <Form.Row controlId="meal-per-day">
+                                        <Form.Check
+                                            custom
+                                            type='radio'
+                                            name="meal-per-day"
+                                            id='1'
+                                            label='1'
+                                            value="1"
+                                            style={{marginLeft: 5, marginRight:20}}
+                                            className="BodyFontD"
+ 
+                                        />
+                                        <Form.Check
+                                            custom
+                                            type='radio'
+                                            name="meal-per-day"
+                                            id='2'
+                                            label='2'
+                                            value="2"
+                                            style={{marginRight:20}}
+                                            className="BodyFontD"
+                                        />
+                                        <Form.Check
+                                            custom
+                                            type='radio'
+                                            name="meal-per-day"
+                                            id='3'
+                                            label='3'
+                                            value="3"
+                                            style={{marginRight:20}}
+                                            className="BodyFontD"
+                                            defaultChecked={true}
+                                        />
+                                        <Form.Check
+                                            custom
+                                            type='radio'
+                                            name="meal-per-day"
+                                            id='4'
+                                            label='4'
+                                            value="4"
+                                            style={{marginRight:20}}
+                                            className="BodyFontD"
+                                        />
+                                        <Form.Check
+                                            custom
+                                            type='radio'
+                                            name="meal-per-day"
+                                            id='5'
+                                            label='5'
+                                            value="5"
+                                            style={{marginRight:20}}
+                                            className="BodyFontD"
+                                        />
+                                        <Form.Check
+                                            custom
+                                            type='radio'
+                                            name="meal-per-day"
+                                            id='6'
+                                            label='6'
+                                            value="6"
+                                            style={{marginRight:20}}
+                                            className="BodyFontD"
+                                        />
+                                    </Form.Row>
+
+                                    {/* Budget */}
+                                    <h3 className="title" style={{marginTop: '8%'}}>Budget</h3>
+                                    <Form.Group controlId="budget">
+                                        <Form.Label className="BodyFontB">Daily Meal Budget</Form.Label>
+                                        <InputGroup>
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text id="budgetPrepend" className="BodyFontD" style={{paddingTop:3, paddingBottom:3,}}>$</InputGroup.Text>
+                                            </InputGroup.Prepend>
+                                            <Form.Control 
+                                                type="number"
+                                                placeholder="0"
+                                                min="0"
+                                                name="budget"
+                                                value={this.state.budget}
+                                                onChange={this.handleChange}
+                                                className="BodyFontD"
+                                            />
+                                        </InputGroup>
+                                    </Form.Group>
                                     <Row id="one-button-group">
                                         <Button id="button2 button" onClick={(e) => this.handleSelect(2, "next", e)}>Next</Button>
                                     </Row>
                                 </Tab.Pane>
+
+                                {/* Diet Preferences */}
                                 <Tab.Pane eventKey={2}>
                                     <h3 className="title">Diet Preferences</h3>
                                     <p className="BodyFontF">Please check a box for dietary lifestyles you have (or wish to have).</p>
@@ -226,6 +326,8 @@ class Register extends Component {
                                         <Button id="button2 button" onClick={(e) => this.handleSelect(3, "next", e)}>Next</Button>
                                     </Row>
                                 </Tab.Pane>
+
+                                {/* Diet Restrictions */}
                                 <Tab.Pane eventKey={3}>
                                     <h3 className="title">Diet Restrictions</h3>
                                     <p className="BodyFontF">Check any box for dietary restrictions to exclude in meals.</p>
@@ -237,36 +339,16 @@ class Register extends Component {
                                         />
                                     <Row id="two-button-group">
                                         <Button id="button1 button" onClick={(e) => this.handleSelect(2, "prev", e)}>Previous</Button>
-                                        <Button id="button2 button" onClick={(e) => this.handleSelect(4, "next", e)}>Next</Button>
-                                    </Row>
-                                </Tab.Pane>
-                                <Tab.Pane eventKey={4}>
-                                    <h3 className="title">Target Calories</h3>
-                                    <p className="BodyFontF">Enter a target calorie per day. (optional)</p>
-                                        <InputGroup>
-                                            <FormControl
-                                                type="number"
-                                                name="targetCalories"
-                                                placeholder="ex. 2000"
-                                                value={this.state.targetCalories}
-                                                onChange={this.handleChange}
-                                                className="BodyFontD"
-                                            />
-                                        <InputGroup.Append>
-                                            <InputGroup.Text className="BodyFontD" style={{paddingTop:3, paddingBottom:3,}}>cal</InputGroup.Text>
-                                        </InputGroup.Append>
-                                        </InputGroup> 
-
-
-                                    <Row id="two-button-group">
-                                        <Button id="button1 button" onClick={(e) => this.handleSelect(3, "prev", e)}>Previous</Button>
                                         <Button variant="success" id="button2" onClick={this.handleSubmit}>Submit</Button>
                                     </Row>
                                 </Tab.Pane>
+
+ 
                             </Tab.Content>
                     </Tab.Container>
 
                 </div>
+                <CustomFeedback />
             </Container>
         )
     }
@@ -282,3 +364,34 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register)
+
+
+/*
+                               {/* Target Calories }
+                               <Tab.Pane eventKey={4}>
+                               <h3 className="title">Target Calories</h3>
+                               <p className="BodyFontF">Enter a target calorie per day. (optional)</p>
+                                   <InputGroup>
+                                       <FormControl
+                                           type="number"
+                                           name="targetCalories"
+                                           placeholder="ex. 2000"
+                                           value={this.state.targetCalories}
+                                           onChange={this.handleChange}
+                                           className="BodyFontD"
+                                       />
+                                   <InputGroup.Append>
+                                       <InputGroup.Text className="BodyFontD" style={{paddingTop:3, paddingBottom:3,}}>cal</InputGroup.Text>
+                                   </InputGroup.Append>
+                                   </InputGroup> 
+
+
+                               <Row id="two-button-group">
+                                   <Button id="button1 button" onClick={(e) => this.handleSelect(3, "prev", e)}>Previous</Button>
+                                   <Button variant="success" id="button2" onClick={this.handleSubmit}>Submit</Button>
+                               </Row>
+                           </Tab.Pane>
+
+
+
+*/

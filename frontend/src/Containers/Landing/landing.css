@@ -197,3 +197,19 @@
 }
 
 
+#landing-email-label {
+    margin-bottom: 25px;
+}
+
+#landing-email-wrapper{
+    margin-bottom: 10%;
+}
+
+#landing-email-input-box {
+    height: 41px;
+}
+
+#landing-page-email-submit {
+    border-radius: 0;
+}
+

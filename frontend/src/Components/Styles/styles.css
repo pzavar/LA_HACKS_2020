@@ -137,7 +137,7 @@
 
 /* modal styling */
 .modal-backdrop.show {
-    opacity: 0.05;
+    opacity: 0.5;
 }
 
 

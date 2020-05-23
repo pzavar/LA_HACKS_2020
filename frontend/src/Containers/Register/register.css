@@ -3,7 +3,7 @@
     margin-right: auto;
     margin-left: auto;
 
-    margin-top: 5%;
+    margin-top: 2%;
     margin-bottom: 5%;
     max-width: 500px;
     padding-top: 10px;
@@ -98,22 +98,21 @@
     max-width: 100% !important;
 }
 
-
-
 #two-button-group {
     position: absolute;
     display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
-    right: 8%;
+    right: 5%;
     bottom: 1%;
-    width: 90%;
+    width: 95%;
     height: auto;
 }
 
 #one-button-group {
-    position: relative;
+    position: absolute;
+    right: 5%;
     bottom: 5px;
     width: 100%;
     display: flex;

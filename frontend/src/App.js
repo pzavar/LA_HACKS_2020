@@ -1,16 +1,10 @@
 import React from 'react';
 import {Router, Route, Switch } from 'react-router-dom';
 import { history } from './Utils/history';
-import { PrivateRoute, HomeRoute } from './Components/PrivateRoutes/privateRoute';
 import Landing from './Containers/Landing/landing';
-import Login from './Containers/Login/login';
 import Home from './Containers/Home/home';
-import Search from './Containers/Recipes/Search';
 import Register from './Containers/Register/register';
-import History from './Containers/Settings/history';
-import Settings from './Containers/Settings/settings';
 import Grocery from './Containers/Grocery/Grocery';
-import Favorites from './Containers/Settings/Favorites';
 import SaveToken from './Utils/SaveToken';
 import About from './Containers/About/about';
 
@@ -19,14 +13,9 @@ const App = () => (
   <Router history={history}>
     <Switch>
       <Route exact path="/" component={Landing} />
-      <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
       <Route exact path="/home" component={Home} />
-      <Route exact path="/search" component={Search} />
-      <Route exact path="/history" component={History} />
-      <Route exact path="/settings" component={Settings} />
       <Route exact path="/grocery" component={Grocery} />
-      <Route exact path="/favorites" component={Favorites} />
       <Route exact path="/about" component={About} />
       <Route exact path="/saveToken" component={SaveToken} />
     </Switch>

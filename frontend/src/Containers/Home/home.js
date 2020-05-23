@@ -331,37 +331,11 @@ class Home extends Component {
                             />
                         </Col>
                     </Row>
-
-                    <div id="week-wrapper">
-                        <Week props={weeklyMeals} />
-                    </div>
-
-                    <Row className="nutrition-wrapper">
-                        <Col md={{span: 5, offset: 1}}>
-                            <MacrosCard 
-                                title="Weekly Macronutrient Information"
-                                fat={wFat}
-                                protein={wProtein}
-                                carbs={wCarbs}
-                                />
-                        </Col>
-                        <Col md={{span: 5}}>
-                            <NutrionInfoCard
-                                title="Weekly Nutrition Information"
-                                calories={weeklyCalories}
-                                fat={weeklyFat}
-                                cholestral={weeklyCholestral}
-                                sodium={weeklySodium}
-                                sugar={weeklySugar}
-                                protein={weeklyProtein}
-                                carbs={weeklyCarbs}
-                            />
-                        </Col>
-                    </Row>
                    
                 </Container>
-                <CustomFooter />
+                
                 <CustomFeedback />
+                <CustomFooter />
             </div>
         )
     }
