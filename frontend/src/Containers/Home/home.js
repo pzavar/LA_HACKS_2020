@@ -7,7 +7,7 @@ import PieChart from 'react-minimal-pie-chart';
 import Loading from '../../Components/Loading/Loading';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
 import { connect } from 'react-redux';
-import Week from '../../Components/Calendar/week';
+
 
 
 import CustomFooter from '../../Components/Navigation/Footer';
@@ -291,7 +291,7 @@ class Home extends Component {
                     <NavigationBar />
                     <div style={{margin:20}} />
                     <header>
-                        <h3 className="date-header" className="BodyFontG" >{day}'s Delicious Meals</h3>
+                        <h3 className="date-header" className="PageTitleFont" >{day}'s Delicious Meals</h3>
                     </header>
                     <div style={{margin:20}} />
                     <Row className="meals-wrapper">

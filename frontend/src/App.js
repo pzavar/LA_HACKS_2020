@@ -7,6 +7,7 @@ import Register from './Containers/Register/register';
 import Grocery from './Containers/Grocery/Grocery';
 import SaveToken from './Utils/SaveToken';
 import About from './Containers/About/about';
+import Meals from './Containers/Meals/MealsPage';
 
 
 const App = () => (
@@ -17,7 +18,7 @@ const App = () => (
       <Route exact path="/home" component={Home} />
       <Route exact path="/grocery" component={Grocery} />
       <Route exact path="/about" component={About} />
-      <Route exact path="/saveToken" component={SaveToken} />
+      <Route exact path="/meals" component={Meals} />
     </Switch>
   </Router>
 );

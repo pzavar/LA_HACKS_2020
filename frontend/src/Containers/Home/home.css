@@ -86,3 +86,6 @@
     cursor: pointer;
 }
 
+.home-meal-card {
+    border-radius: 0;
+}

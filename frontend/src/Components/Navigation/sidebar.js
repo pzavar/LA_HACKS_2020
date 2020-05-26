@@ -9,48 +9,27 @@ import "./nav.css";
 function SideBar(props) {
     return (
         <Menu {...props}>
+            {/* Home */}
             <Link to="/home" className="bm-item">
                 <FontAwesomeIcon icon={faHome} size="2x" style={{marginRight:10}}/>
                 Home
             </Link>
 
-            <Link to="/search" className="bm-item">
-                <FontAwesomeIcon icon={faSearch} size="2x" style={{marginRight:20}}/>
-                Search
-            </Link>
-
+            {/* Grocery */}
             <Link to="/grocery" className="bm-item">
                 <FontAwesomeIcon icon={faShoppingCart} size="2x" style={{marginRight:20}}/>
                 Grocery List
             </Link>
 
-            <Link to="/favorites" className="bm-item">
-                <FontAwesomeIcon icon={faHeart} size="2x" style={{marginRight:20}}/>
-                Favorites
-            </Link>
-            
-            <Link to="/history" className="bm-item">
-                <FontAwesomeIcon icon={faHistory} size="2x" style={{marginRight:10}}/>
-                History
+            {/* Exit */}
+            <Link to="/" className="bm-item">
+            <FontAwesomeIcon icon={faSignOutAlt} size="2x" style={{marginRight:20}}/>
+                Exit
             </Link>
 
-            <Link to="/settings" className="bm-item">
-                <FontAwesomeIcon icon={faCog} size="2x" style={{marginRight:10}}/>
-                Settings
-            </Link>
-
-            <Link to="/login" className="bm-item">
-                <FontAwesomeIcon icon={faSignOutAlt} size="2x" style={{marginRight:10}} />
-                Sign Out
-            </Link>
 
         </Menu>
     )
 }
 
 export default SideBar;
-
-/*
-
-
-*/

@@ -3,6 +3,7 @@
     position: relative;
     max-height: auto !important;
     width: auto;
+    border-radius: 0;
 }
 
 #meal-card-wrapper {
@@ -122,43 +123,4 @@
     color: #547C8F;
 }
 
-/* Week Views */
-.modal-header {
-    border-bottom: none;
-}
 
-.modal-footer {
-    border-top: none;
-}
-
-#week-title {
-    font-size: 25px;
-    font-weight: 200;
-    
-    margin-left: 2%;
-}
-
-#week-img-wrapper {
-    display: flex;
-}
-
-#week-img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    max-height: 150px;
-    width: auto;
-
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-#week-summary {
-    font-size: 15px;
-}
-
-#week-body {
-    font-size: 13px;
-}
