@@ -15,12 +15,20 @@ const dummyMealOptions = {
         price: '12.00',
         meals: [
             {
-                id: '1',
+                id: '12',
                 type: 'Breakfast',
-                image: 'https://i2.wp.com/www.healthymidwesterngirl.com/wp-content/uploads/2019/07/Chicpea-Cheese-Sauce-2-6.jpg',
-                label: 'Mac and Cheese',
-                summary: 'Gooey, cheesey, and delicious week day favorite.',
-                pricePerServing: '4'
+                url: 'https://www.recipetineats.com/baked-mac-and-cheese/',                
+                label: 'Baked Mac and Cheese',               
+                image: 'https://www.recipetineats.com/wp-content/uploads/2018/05/Baked-Mac-and-Cheese_3.jpg',            
+                source: 'Recipe Tin Eats',             
+                summary: "The ultimate classic Baked Mac and Cheese, with an insane cheesy sauce and topped with an irresistible golden, buttery breadcrumb topping. This is the Macaroni Cheese recipe of your dreams!!",            
+                pricePerServing: '4',     
+                readyInMinutes: '40',      
+                servings: '5',            
+                calories: '600',            
+                carbs: '30',               
+                fat: '22',                 
+                protein: '8',   
             },{
                 id: '2',
                 type: 'Lunch',

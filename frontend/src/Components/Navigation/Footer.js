@@ -6,7 +6,7 @@ export default function CustomFooter() {
     return (
         <footer id="footer-wrapper">
             <p className="BodyFontC" id="footer-text">
-                Copyright &copy; 2020 Munchies Co. - All Rights Reserved
+                Copyright &copy; 2020 Fork & Spatula - All Rights Reserved
             </p>
         </footer>
     )

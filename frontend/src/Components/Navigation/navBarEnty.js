@@ -1,16 +1,17 @@
 import React from 'react';
 import { Nav, Navbar} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Logo from '../../Assets/carrot.png';
+import Logo from '../../Assets/logo.png';
+
+import './nav.css';
 
 
 export default function NavBarEnty() {
     return (
-        <Navbar>
-            <div className="brand-logo-wrapper">
-                <img className="brand-logo-img" src={Logo}/>
-                <a className="brand-logo-text" href="/">Munchies</a>
-            </div>
+        <Navbar style={{paddingLeft:0}}>
+            <Navbar.Brand style={{left: 0}}><Link to="/" ><img id="logo-img" src={Logo}/></Link></Navbar.Brand>
+                
+            
             <Nav className="ml-auto">
                 <Nav.Item> <Link to="/about" id="link-text">About</Link> </Nav.Item>
             </Nav>
@@ -19,3 +20,5 @@ export default function NavBarEnty() {
 }
 
 
+// <a className="brand-logo-text" href="/">Munchies</a>
+// <img className="brand-logo-img" src={Logo}/>

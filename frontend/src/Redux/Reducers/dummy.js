@@ -371,14 +371,14 @@ const dummyMeals = [{
 
 
 const dummyGrocery = [
-    "potatoes",
-    "brown rice",
-    "lamb chops",
-    "dill",
-    "carrots",
-    "cabbage",
-    "brussel sprouts",
-    "banana bread mix",
+    "3 potatoes",
+    "3 cups brown rice",
+    "2 lbs lamb chops",
+    "4 sprigs dill",
+    "4 carrots",
+    "1 cabbage",
+    "2 lbs brussel sprouts",
+    "1 banana bread mix",
 ]
 
 

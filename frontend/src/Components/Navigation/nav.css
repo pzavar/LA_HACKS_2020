@@ -2,18 +2,17 @@
 .brand-logo-wrapper {
   display: inline-flex;
   flex-direction: row;
-  width: 30%;
+  width: 100%;
+}
+
+#logo-img {
+  height: 60px;
+  width: auto;
 }
 
 .brand-logo-img {
-  max-width: 30px;
-  max-height: 30px;
-  margin-top: 12px;
-  -webkit-transform:rotate(-30deg);
-  -moz-transform: rotate(-30deg);
-  -ms-transform: rotate(-30deg);
-  -o-transform: rotate(-30deg);
-  transform: rotate(-30deg);
+  width: 100% !important;
+  height: auto;
 }
 
 .brand-logo-text {
@@ -41,16 +40,16 @@
 
 
 /* Nav Bar Post Entry Styling */
-#navbar-logo {
-  max-width: 50px;
-  max-height: 50px;
-  margin-bottom: 20%;
-  -webkit-transform:rotate(-30deg);
-  -moz-transform: rotate(-30deg);
-  -ms-transform: rotate(-30deg);
-  -o-transform: rotate(-30deg);
-  transform: rotate(-30deg);
+#nav-bar-middle{
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
+
+#nav-bar-img {
+  height: 115px;
+  width: auto;
+}
+
 .navbar { 
     margin-left: 0px;
     background-color: white;
