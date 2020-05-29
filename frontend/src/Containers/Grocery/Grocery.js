@@ -13,6 +13,8 @@ import CustomFooter from '../../Components/Navigation/Footer';
 import { dummyData } from '../../Redux/Reducers/dummy';
 import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
+import InstaCart from '../../Assets/instacart.png';
+
 const data = [
     "3 potatoes",
     "3 cups brown rice",
@@ -89,8 +91,8 @@ class Grocery extends Component {
                                     ))
                                 }
                             </ListGroup>
-                            <div id="grocery-list-brn-wrapper">
-                            <Button id="grocery-list-checkout-btn"  onClick={() => this.setState({modalShow: true})}>CHECKOUT WITH INSTACART</Button>
+                            <div id="grocery-list-btn-wrapper">
+                            <Button id="grocery-list-checkout-btn"  onClick={() => this.setState({modalShow: true})}><img id="instacart-img" src={InstaCart}/></Button>
 
                             <Modal
                             show={this.state.modalShow}

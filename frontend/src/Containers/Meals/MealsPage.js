@@ -17,14 +17,14 @@ const dummyMealOptions = {
             {
                 id: '12',
                 type: 'Breakfast',
-                url: 'https://www.recipetineats.com/baked-mac-and-cheese/',                
-                label: 'Baked Mac and Cheese',               
-                image: 'https://www.recipetineats.com/wp-content/uploads/2018/05/Baked-Mac-and-Cheese_3.jpg',            
-                source: 'Recipe Tin Eats',             
-                summary: "The ultimate classic Baked Mac and Cheese, with an insane cheesy sauce and topped with an irresistible golden, buttery breadcrumb topping. This is the Macaroni Cheese recipe of your dreams!!",            
+                url: 'https://www.delish.com/cooking/recipe-ideas/a30899293/migas-recipe/',                
+                label: 'Best-Ever Migas',               
+                image: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-200212-migas-0104-portrait-pf-1582835980.jpg?crop=1.00xw:0.667xh;0,0.0443xh&resize=980:*',            
+                source: 'Delish',             
+                summary: "Traditional Mexican breakfast that makes crispy fried tortillas meet scrambled eggs, creating that magical crisp-gone-soggy texture that's irresistibly satisfying.",            
                 pricePerServing: '4',     
                 readyInMinutes: '40',      
-                servings: '5',            
+                servings: '2',            
                 calories: '600',            
                 carbs: '30',               
                 fat: '22',                 
@@ -32,16 +32,16 @@ const dummyMealOptions = {
             },{
                 id: '2',
                 type: 'Lunch',
-                image: 'https://s23209.pcdn.co/wp-content/uploads/2018/10/Butternut-Squash-Mac-and-CheeseIMG_6987.jpg',
-                label: 'Chickpea Cheese Sauce Mac and Cheese',
-                summary: "A low fat, high fiber, nut-free Chickpea Cheese Sauce that's great on pasta, potatoes--or any dish that tastes better with cheese! Vegan, WFPB, GF.",
+                image: 'https://www.iheartnaptime.net/wp-content/uploads/2018/07/mediterranean-salad.jpg',
+                label: 'Mediterranean Salad with Creamy Balsamic Dressing',
+                summary: "This Mediterranean salad with creamy balsamic dressing is full of greens, protein and flavor! Comes together super quickly and tastes so fresh and delicious. Plus it’s healthier than most restaurants, too!",
                 pricePerServing: '5'
             },{
                 id: '3',
                 type: 'Dinner',
-                image: 'https://www.recipetineats.com/wp-content/uploads/2018/05/Baked-Mac-and-Cheese_3.jpg',
-                label: 'Butternut Squash Mac and Cheese',
-                summary: 'Mac and cheese at it’s finest! So creamy, so rich + so amazing yet it’s so much healthier than traditional mac and cheese!',
+                image: 'https://www.iheartnaptime.net/wp-content/uploads/2017/02/Sheet-pan-balsamic-chicken-recipe-I-Heart-Naptime-4.jpg',
+                label: 'One-Pan Balsamic Chicken and Veggies',
+                summary: 'One-Pan Balsamic Chicken And Veggies – A Healthy, EASY And Delicious Dinner Recipe That’s Full Of Flavor! A Meal The Whole Family Will Love!',
                 pricePerServing: '3'
             }
         ],

@@ -6,17 +6,23 @@
 }
 
 /* Instacart Button */
-#grocery-list-brn-wrapper {
+#grocery-list-btn-wrapper {
     display: flex;
     justify-content: center;
 
-    margin-top: 5%;
+    margin-top: 0;
     margin-bottom: 5%;
 }
 #grocery-list-checkout-btn {
     width: 100%;
     border-radius: 0;
 }
+
+#instacart-img {
+    max-width: 200px;
+    height: auto;
+}
+
 
 /* grocery list group */
 .grocery-list-item {
@@ -57,6 +63,6 @@
     border-radius: 10px;
     border-color: #dddddd;
     padding-top: 5px;
-
 }
+
 
