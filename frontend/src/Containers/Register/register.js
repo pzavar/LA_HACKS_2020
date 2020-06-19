@@ -158,7 +158,7 @@ class Register extends Component {
             targetCalories: targetCalories,
         }
 
-        history.push('/home');
+        history.push('/meals');
     }
 
     render() {
