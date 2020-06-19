@@ -9,6 +9,33 @@ var mongoose = require('mongoose')
 
 var Week = require('../models/weeks')
 var Meal = require('../models/meals')
+
+// Ingredient = comma seperated list
+router.get('/budget',async function(req,res,next){
+	var search = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${config.spoonacularApiKey}&ingredients=apples,+flour&number=2`)
+	var json = await search.json()
+  
+  ids = []
+  json.forEach(recipe => {
+    //Extract the id of each recipe
+    ids.push(recipe["id"])
+  })
+
+	var testIds = ["715538,716429"]
+	var ingredientsBulk = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${config.spoonacularApiKey}&ids=${testIds}&includeNutrition=true`)
+	var bulkJson = await ingredientsBulk.json()
+	console.log("Bulk")
+	//Returns list of maps
+	console.log(bulkJson)
+  budgetSortedRecipe = []
+  bulkJson.forEach(recipe => {
+    budgetSortedRecipe.push(recipe["pricePerServing"])
+  })
+  budgetSortedRecipe.sort((one,two) => one < two)
+
+	res.send(budgetSortedRecipe)
+});
+
 //id: 17281,
 // title: "Spicy Tuna Tartare",
 // image: "https://spoonacular.com/recipeImages/17281-312x231.jpg",
