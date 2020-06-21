@@ -5,10 +5,22 @@ var foods = require('../utils/food');
 var async  = require('express-async-await')
 var fetch = require('node-fetch')
 var config = require('../config')
-var mongoose = require('mongoose')
 
 var Week = require('../models/weeks')
 var Meal = require('../models/meals')
+
+// Also, looking at the Spoonacular API, the Search by Complex might be the approach. The logic flow would be setting query to breakfast, lunch, and dinner. Setting the type to breakfast, lunch and dinner. Setting other preferences according to the user. Then we do 5 searches on each breakfast, lunch and dinner, then from those 15, pick out the meal combination that meets the budget crietria. and and set addRecipeInformation boolean to true.
+
+router.get('/complex',async function(req,res,next){
+	var search = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${config.spoonacularApiKey}&diet=vegetarian&maxFat=25&minProtein=10&minCarbs=20&number=2&addRecipeNutrition=true`)
+	var json = await search.json()
+  console.log(json)
+
+
+  return res.send(json)
+
+
+})
 
 // Ingredient = comma seperated list
 router.get('/budget',async function(req,res,next){
@@ -70,11 +82,6 @@ router.get('/week', async function(req, res, next) {
 
 	//Create a new week 
 	var newWeek = Week({userId: req.token, mealIds: ids, week: json["week"]})
-	newWeek.save(function (err, fluffy) {
-		if (err) return console.error(err)	
-		console.log("Saved week to db")
-	});
-
 	var testIds = ["655269"]
 	var ingredientsBulk = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${config.spoonacularApiKey}&ids=${testIds}&includeNutrition=true`)
 	var bulkJson = await ingredientsBulk.json()
