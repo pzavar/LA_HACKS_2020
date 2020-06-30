@@ -11,15 +11,120 @@ var Meal = require('../models/meals')
 
 // Also, looking at the Spoonacular API, the Search by Complex might be the approach. The logic flow would be setting query to breakfast, lunch, and dinner. Setting the type to breakfast, lunch and dinner. Setting other preferences according to the user. Then we do 5 searches on each breakfast, lunch and dinner, then from those 15, pick out the meal combination that meets the budget crietria. and and set addRecipeInformation boolean to true.
 
+// 364.8 means 3 dollars and 64 cents
+function getCost(recipe){
+  console.log(recipe["pricePerServing"] / 100)
+  return recipe["pricePerServing"] / 100
+}
+
+/*
+ * Goal:
+ * Return 3 meals based off their budget
+ * Search by complex for each type of meal. (Breakfast, Lunch, Dinner)
+ *    Returns n number of meals controlled by the number parameter
+ * Optimize for goal cost (c = cost, C = goal cost, plusOrMinus):
+ * We have 3 lists. One for each type of meal
+ * From each list select an item that satisfies being around the goal cost with a 
+ *    flexibility of plus or minus
+ *
+ * searchByComplex
+ * Returns map 
+ * {
+ *    results: [{...},{...}]     // all info in here
+ * }
+*/
+
 router.get('/complex',async function(req,res,next){
-	var search = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${config.spoonacularApiKey}&diet=vegetarian&maxFat=25&minProtein=10&minCarbs=20&number=2&addRecipeNutrition=true`)
-	var json = await search.json()
-  console.log(json)
+  var numberOfMeals = 3
+  var numberOfResults = numberOfMeals * 2
+  var goalCost = 200 
+  var flexibility = 1
+  var limit = goalCost + flexibility
 
+  results = []
 
-  return res.send(json)
+  breakfastSet = []
+	var breakfastSearch = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${config.spoonacularApiKey}&type=breakfast&number=${numberOfResults}&addRecipeInformation=true`)
+  breakfastJson = await breakfastSearch.json()
+  breakfastResults = breakfastJson["results"]
+  for (var i = 0; i < breakfastResults.length; i++) {
+    recipe = breakfastResults[i]
+    // console.log(recipe)
+    if (getCost(recipe) < limit ){
+      if (breakfastSet.length < numberOfMeals){
+        breakfastSet.push(recipe)
+      }
+      else {
+        break
+      }
+    }
+  }
 
+  console.log("Breakfast set is ")
+  console.log(breakfastSet)
 
+  if (breakfastSet.length != numberOfMeals) {
+    res.sendStatus(99);
+  }
+
+  var lunchSet = []
+  var dinnerSet = []
+
+	var mainCourseSearch = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${config.spoonacularApiKey}&type="main course"&number=${numberOfResults * 2}&addRecipeInformation=true`)
+  mainCourseJson = await mainCourseSearch.json()
+  mainCourseResults = mainCourseJson["results"]
+
+  for(var i = 0; i < mainCourseResults.length / 2; i++){
+    recipe = mainCourseResults[i]
+    if (getCost(recipe) < limit ){
+      if (lunchSet.length < numberOfMeals){
+        lunchSet.push(recipe)
+      }
+      else {
+        break
+      }
+    }
+  }
+
+  console.log("Lunch set is ")
+  console.log(lunchSet)
+  if (lunchSet.length != numberOfMeals) {
+    res.sendStatus(99);
+  }
+  // TODO: POSSIBLE OVERLAP DUE TO INT DIVISION
+  for(var i = mainCourseResults.length / 2; i < mainCourseResults.length ; i++){
+    recipe = mainCourseResults[i]
+    if (getCost(recipe) < limit ){
+      if (dinnerSet.length < numberOfMeals){
+        dinnerSet.push(recipe)
+      }
+      else {
+        break
+      }
+    }
+  }
+  console.log("Dinner set is ")
+  console.log(dinnerSet)
+  if (dinnerSet.length != numberOfMeals) {
+    res.sendStatus(99);
+  }
+
+  console.log(breakfastSet)
+  console.log(lunchSet)
+  console.log(dinnerSet)
+
+  res.json({
+    "breakfast" : breakfastSet,
+    "lunch" : lunchSet,
+    "dinner" : dinnerSet
+  })
+
+	// var dinnerSearch = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${config.spoonacularApiKey}&query=pasta&maxFat=25&number=2&addRecipeInformation=true`)
+  // dinnerJson = await dinnerSearch.json()
+  // dinnerResults = dinnerJson["results"]
+  // dinnerResults.forEach(recipe => {
+
+  // })
 })
 
 // Ingredient = comma seperated list
