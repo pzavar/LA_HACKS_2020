@@ -64,7 +64,7 @@ router.get('/complex',async function(req,res,next){
   console.log(breakfastSet)
 
   if (breakfastSet.length != numberOfMeals) {
-    res.sendStatus(99);
+    res.sendStatus(500);
   }
 
   var lunchSet = []
@@ -89,7 +89,7 @@ router.get('/complex',async function(req,res,next){
   console.log("Lunch set is ")
   console.log(lunchSet)
   if (lunchSet.length != numberOfMeals) {
-    res.sendStatus(99);
+    res.sendStatus(500);
   }
   // TODO: POSSIBLE OVERLAP DUE TO INT DIVISION
   for(var i = mainCourseResults.length / 2; i < mainCourseResults.length ; i++){
@@ -106,7 +106,7 @@ router.get('/complex',async function(req,res,next){
   console.log("Dinner set is ")
   console.log(dinnerSet)
   if (dinnerSet.length != numberOfMeals) {
-    res.sendStatus(99);
+    res.sendStatus(500);
   }
 
   console.log(breakfastSet)
