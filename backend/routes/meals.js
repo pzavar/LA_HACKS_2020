@@ -17,6 +17,28 @@ function getCost(recipe){
   return recipe["pricePerServing"] / 100
 }
 
+function buildComplexCall(numberOfResults,type,diet,excludeIngredients) {
+  var baseUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${config.spoonacularApiKey}`
+  var url = baseUrl + `&type=${type}&number=${numberOfResults}&addRecipeInformation=true`
+  if (diet != ""){
+    url += `&diet=${diet}`
+  }
+  if (excludeIngredients != null && excludeIngredients.length != 0){
+    for (var i = 0; i < excludeIngredients.length; i++){
+      var item = excludeIngredients[i] 
+      if (i == 0){
+        url += `&exludeIngredients=${item}`
+      }
+      else{
+        url += `, ${item}`
+      }
+    }
+  }
+  console.log("Calling complex call with url")
+  console.log(url)
+  return url
+}
+
 /*
  * Goal:
  * Return 3 meals based off their budget
@@ -34,17 +56,31 @@ function getCost(recipe){
  * }
 */
 
+/*
+ * Expected body 
+ * costPerMeal = double
+ * diet  = string
+ * excludeIngredients = list
+*/
 router.get('/complex',async function(req,res,next){
-  var numberOfMeals = 3
+  // const {costPerMeal,diet,extendedIngredients} = req.body
+  var numberOfMeals = 1
   var numberOfResults = numberOfMeals * 2
-  var goalCost = 200 
   var flexibility = 1
-  var limit = goalCost + flexibility
+
+  // Use for testing
+  var costPerMeal = 200 
+  var diet = ""
+  // var excludeIngredients = []
+  var excludeIngredients = ["salmon","pear"]
+
+  var limit = costPerMeal + flexibility
 
   results = []
 
   breakfastSet = []
-	var breakfastSearch = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${config.spoonacularApiKey}&type=breakfast&number=${numberOfResults}&addRecipeInformation=true`)
+  breakfastCall = buildComplexCall(numberOfResults,"breakfast",diet,excludeIngredients)
+	var breakfastSearch = await fetch(breakfastCall)
   breakfastJson = await breakfastSearch.json()
   breakfastResults = breakfastJson["results"]
   for (var i = 0; i < breakfastResults.length; i++) {
@@ -70,7 +106,8 @@ router.get('/complex',async function(req,res,next){
   var lunchSet = []
   var dinnerSet = []
 
-	var mainCourseSearch = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${config.spoonacularApiKey}&type="main course"&number=${numberOfResults * 2}&addRecipeInformation=true`)
+  mainCourseCall = buildComplexCall(numberOfResults * 2,"main course", diet,excludeIngredients)
+	var mainCourseSearch = await fetch(mainCourseCall)
   mainCourseJson = await mainCourseSearch.json()
   mainCourseResults = mainCourseJson["results"]
 
