@@ -61,6 +61,7 @@ function buildComplexCall(numberOfResults,type,diet,excludeIngredients) {
  * costPerMeal = double
  * diet  = string
  * excludeIngredients = list
+ * mealsPerDay = int
 */
 router.get('/complex',async function(req,res,next){
   // const {costPerMeal,diet,extendedIngredients} = req.body
