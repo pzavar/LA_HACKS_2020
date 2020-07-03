@@ -4,8 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mealsRouter  = require('./routes/meals');
-var authRouter  = require('./routes/auth')
-var userRouter = require('./routes/users')
 var groceryList = require('./routes/groceryList')
 const config = require('../backend/config')
 var cors = require('cors')
@@ -22,9 +20,6 @@ app.use(bodyParser.json());
 app.use(cors())
 
 app.use(express.json({extended: false}));
-// app.use('/api/userModel', require('./API/User'));
-
-// const db = require('./db');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,9 +33,6 @@ app.use(express.urlencoded({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const mongoose = require('mongoose');
-
-
 app.use((req, res, next) => {
 	res.locals.currentUser = req.user;
 	next();
@@ -50,9 +42,6 @@ app.use((req, res, next) => {
 // ======================
 //      USE ROUTES
 // ======================
-app.use('/auth', authRouter);
-app.use('/user', userRouter);
-
 app.use('/meals',  mealsRouter);
 app.use('/groceryList', groceryList);
 

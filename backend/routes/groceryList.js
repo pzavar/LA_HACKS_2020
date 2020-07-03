@@ -17,8 +17,7 @@ router.get('/', function(req, res, next) {
 	console.log(foods)
 	var meal = req.query.meal
 	//var day = req.query.day
-	var day = foods["day"]
-	var index = 0
+	var day = foods["day"] var index = 0
 	switch(meal){
 		case "breakfast":
 			index = 0
