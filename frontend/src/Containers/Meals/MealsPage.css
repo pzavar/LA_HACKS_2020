@@ -4,19 +4,27 @@
     font-weight: bolder;
     
     margin-top: 3%;
+    margin-bottom: 2%;
+}
+
+#meal-options-page-subtitle {
+    font-size: 20px;
+    font-weight: bold;
+
     margin-bottom: 5%;
 }
 
 /* Meal Options Title */
 #meal-option-title {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bolder;
-    margin-bottom: 20px;
+    margin-bottom: 2%;
+    text-align: center;
 }
 
 /* Meal Options Card */
 #meal-options-card {
-    height: 280px !important;
+    height: 340px !important;
     width: auto;
     border-radius: 0;
 }
@@ -25,10 +33,27 @@
     background-color: wheat;
 }
 
+#meal-options-card-title {
+    text-align: center;
+}
+
 #meal-options-card-txt {
-    position: absolute;
     bottom: 10px;
+    text-align: center;
     font-weight: bolder;
+    
+}
+
+#meal-options-card-btn-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#meals-option-details-btn {
+    font-size: 12px;
+    position: absolute;
+    bottom: 3%;
+    border-radius: 0;
 }
 
 
@@ -36,8 +61,8 @@
 #meals-option-jumbotron {
     margin-top: 3%;
     margin-bottom: 3%;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 3%;
+    padding-bottom: 4%;
 
     border-radius: 0;
 }
@@ -96,3 +121,4 @@
 #meals-option-modal-body {
     font-size: 13px;
 }
+

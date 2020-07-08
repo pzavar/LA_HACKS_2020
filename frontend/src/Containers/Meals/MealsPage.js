@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Slider from 'react-slick';
 import { connect } from 'react-redux';
 import { Card, Col, Row, Container, Button, Jumbotron, Modal } from 'react-bootstrap';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
@@ -109,6 +110,7 @@ export class MealsPage extends Component {
 
         this.state = {
             modalShowArray: [],
+            
         }
 
         this.handleSelect = this.handleSelect.bind(this);
@@ -147,14 +149,18 @@ export class MealsPage extends Component {
     mealCard(meal, index) {
         return (
             <React.Fragment>
-            <Card id="meal-options-card" onClick={this.onShow.bind(this, index)}>
+            <Card id="meal-options-card">
                 <Card.Img variant="top" src={meal.image} className="meal-card-img"/>
                 <Card.Body>
-                    <Card.Title className="meal-card-title">{meal.label}</Card.Title>
+                    <Card.Title className="meal-card-title" id="meal-options-card-title">{meal.label}</Card.Title>
                         <Card.Text  className="meal-card-text" id="meal-options-card-txt">
                             Price: ${meal.pricePerServing}.00
                         </Card.Text>
+                        <div id="meal-options-card-btn-wrapper">
+                         <Button  onClick={this.onShow.bind(this, index)} id="meals-option-details-btn">Details</Button>
+                        </div>
                 </Card.Body>
+                
             </Card>
 
             <Modal
@@ -201,7 +207,7 @@ export class MealsPage extends Component {
         for (let i =0; i < mealSet.length; i++) {
             meals.push(
                 <Col id="meal-option-col" key={i}>
-                    <h2 className="BodyFont">{mealSet[i].type}</h2>
+                    {/*<h2 className="BodyFont">{mealSet[i].type}</h2>*/}
                     {this.mealCard(mealSet[i], i+start)}
                 </Col>
             )
@@ -240,43 +246,65 @@ export class MealsPage extends Component {
         const mealOptionTwo = this.mealOption(mealOptions.option2.meals, op2Index);
         const mealOptionThree = this.mealOption(mealOptions.option3.meals, op3Index);
 
+        var settings = {
+            dots: true,
+        }
+
         return (
             <Container>
                 <NavBarEntry />
                 <h1 className="PageTitleFont" id="meal-options-page-title">Meal Options</h1>
-
+                <h3 className="BodyFont" id="meal-options-page-subtitle">Select a meal for each meal option.</h3>
                 {/* Option 1 */}
                 <Jumbotron id="meals-option-jumbotron">
-                    <h1 className="BodyFont" id="meal-option-title">Meals Option 1: ${mealOptions.option1.price}</h1>
-                    <h1 className="BodyFont" id="meal-option-title">Number of people: 4</h1>
-                    {mealOptionOne}
-                    <div id="meal-option-btn-wrapper">
-                        <Button id="meals-option-select-btn" onClick={this.handleSelect}>SELECT</Button>
-                    </div>
+                    <h1 className="BodyFont" id="meal-option-title">Meals Option 1</h1>
+                    <Slider {...settings}>
+                        <div>
+                            {mealOptionOne}
+                        </div>
+                        <div>
+                            {mealOptionTwo}
+                        </div>
+                        <div>
+                            {mealOptionThree}
+                        </div>
+                    </Slider>
                 </Jumbotron>
                 
                 
 
                 {/* Option 2 */}
                 <Jumbotron id="meals-option-jumbotron">
-                    <h1 className="BodyFont" id="meal-option-title">Meals Option 2: ${mealOptions.option2.price}</h1>
-                    <h1 className="BodyFont" id="meal-option-title">Number of people: 4</h1>
-                    {mealOptionTwo}
-                    <div id="meal-option-btn-wrapper">
-                        <Button id="meals-option-select-btn" onClick={this.handleSelect}>SELECT</Button>
-                    </div>
+                    <h1 className="BodyFont" id="meal-option-title">Meals Option 2</h1>
+                        <Slider {...settings}>
+                            <div>
+                                {mealOptionOne}
+                            </div>
+                            <div>
+                                {mealOptionTwo}
+                            </div>
+                            <div>
+                                {mealOptionThree}
+                            </div>
+                        </Slider>
                 </Jumbotron>
                 
                 
 
                 {/* Option 3 */}
                 <Jumbotron id="meals-option-jumbotron">
-                    <h1 className="BodyFont" id="meal-option-title">Meals Option 3: ${mealOptions.option3.price}</h1>
-                    <h1 className="BodyFont" id="meal-option-title">Number of people: 4</h1>
-                    {mealOptionThree}
-                    <div id="meal-option-btn-wrapper">
-                        <Button id="meals-option-select-btn" onClick={this.handleSelect}>SELECT</Button>
-                    </div>
+                    <h1 className="BodyFont" id="meal-option-title">Meals Option 3</h1>
+                        <Slider {...settings}>
+                            <div>
+                                {mealOptionOne}
+                            </div>
+                            <div>
+                                {mealOptionTwo}
+                            </div>
+                            <div>
+                                {mealOptionThree}
+                            </div>
+                    </Slider>
                 </Jumbotron>
                 
                 <CustomFeedback />
