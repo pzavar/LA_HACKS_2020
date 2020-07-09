@@ -46,6 +46,22 @@ function nutrientToIndex(nutrient){
   }
   return nutrientToIndexMap[nutrient]
 }
+
+function extractIngredients(recipe){
+  nutrients = recipe["nutrition"]["ingredients"]
+  console.log("extractIngredients")
+  console.log(recipe)
+  console.log(nutrients)
+  return nutrients.map(ingredient => {
+    name = ingredient["name"]
+    number = ingredient["amount"]
+    unit = ingredient["unit"]
+    console.log("Number + Unit")
+    console.log(number.toString())
+    console.log(unit)
+    return number.toString() + " " + unit + " " + name
+  })
+}
 /*
  Calories Fat Cholestral Sodium Sugar Protein Carbs: 150g
   Carbs: 78.9% Protein: 7.9% Fat: 13.2%
@@ -209,18 +225,35 @@ router.get('/complex',async function(req,res,next){
   console.log(lunchSet)
   console.log(dinnerSet)
 
+
+  /*
+   *breakfast: {
+        The list of recipes
+        breakfastSet: [
+        {...}
+        ],
+        macros: [
+        [...]
+        ],
+        ingredients: [
+        [...]
+]
+   * */
   res.json({
     "breakfast" : { 
-      breakfastSet,
-      "macros" : breakfastSet.map(recipe => extractMacro(recipe))
+      "recipes": breakfastSet,
+      "macros" : breakfastSet.map(recipe => extractMacro(recipe)),
+      "ingredients" : breakfastSet.map(recipe => extractIngredients(recipe))
     },
     "lunch" : {
-      lunchSet,
-      "macros" : lunchSet.map(recipe => extractMacro(recipe))
+      "recipes": lunchSet,
+      "macros" : lunchSet.map(recipe => extractMacro(recipe)),
+      "ingredients" : lunchSet.map(recipe => extractIngredients(recipe))
     },
     "dinner" : {
-      dinnerSet,
-      "macros" : lunchSet.map(recipe => extractMacro(recipe))  
+      "recipes": dinnerSet,
+      "macros" : dinnerSet.map(recipe => extractMacro(recipe)),
+      "ingredients" : dinnerSet.map(recipe => extractIngredients(recipe))
     }})
 
 })
