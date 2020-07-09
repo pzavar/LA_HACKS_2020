@@ -38,6 +38,8 @@ class Register extends Component {
             step2: "",
             step3: "",
             step4: "",
+            
+            allGood: false,
         }
 
         /* Update forms functions */
@@ -148,14 +150,23 @@ class Register extends Component {
         const name = e.target.name;
         const value = e.target.value;
 
-        this.setState({
-            [name]: value
-        })
+        if (name === 'budget') {
+            this.setState({
+                [name]: value,
+                allGood: true,
+            })
+        } else {
+            this.setState({
+                [name]: value
+            })
+        }
+
+
     }
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const { meals, breakfast, lunch, dinner, snack, snacks, budget, Diet, exclude} = this.state;
+        const { meals, breakfast, lunch, dinner, snack, snacks, budget, Diet, exclude, allGood} = this.state;
         
         const userData = {
             meals: meals,
@@ -177,8 +188,13 @@ class Register extends Component {
 
         // Call meal search redux
         // - exclude, diet, breakfast, lunch, dinner, snack
-        this.props.register(userData);
-        history.push('/meals');
+
+        console.log(allGood)
+
+        if (allGood) {
+            this.props.register(userData);
+            history.push('/meals');
+        }
     }
 
     render() {
@@ -205,6 +221,7 @@ class Register extends Component {
         const snack = parseInt(this.state.snacks);
         var meals =  snack === 0 ? (snack + this.state.mealTypeNum) : (snack + this.state.mealTypeNum - 1);
         var mealTypeDisable = parseInt(this.state.meals) > meals ? false : true;
+
 
         return (
             <Container>
@@ -423,7 +440,7 @@ class Register extends Component {
                                         </InputGroup.Prepend>
                                         <Form.Control 
                                             type="number"
-                                            placeholder="0"
+                                            placeholder="ex. 30.00"
                                             min="0"
                                             name="budget"
                                             value={this.state.budget}
@@ -465,9 +482,12 @@ class Register extends Component {
                                             type='checkbox'
                                             api="spoonacular" 
                                         />
+                                    { !this.state.allGood &&
+                                        <h3 className="BodyFontD" id="reg-error">Error: Enter a budget amount in step 2.</h3>
+                                    }
                                     <Row id="two-button-group">
                                         <Button id="button1 button" onClick={(e) => this.handleSelect(3, "prev", e)}>Previous</Button>
-                                        <Button variant="success" id="button2" onClick={this.handleSubmit}>Submit</Button>
+                                        <Button variant="success" id="button2" disabled={!this.state.allGood} onClick={this.handleSubmit}>Submit</Button>
                                     </Row>
                                 </Tab.Pane>
 
