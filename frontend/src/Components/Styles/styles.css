@@ -102,6 +102,7 @@
 .btn.btn-primary {
     background-color: #547C8F;
     border: #547C8F;
+    border-radius: 0;
 }
 
 .btn:hover {
