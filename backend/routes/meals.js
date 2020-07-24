@@ -5,161 +5,283 @@ var foods = require('../utils/food');
 var async  = require('express-async-await')
 var fetch = require('node-fetch')
 var config = require('../config')
-var mongoose = require('mongoose')
 
 var Week = require('../models/weeks')
 var Meal = require('../models/meals')
 
-// Ingredient = comma seperated list
-router.get('/budget',async function(req,res,next){
-	var search = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${config.spoonacularApiKey}&ingredients=apples,+flour&number=2`)
-	var json = await search.json()
-  
-  ids = []
-  json.forEach(recipe => {
-    //Extract the id of each recipe
-    ids.push(recipe["id"])
+// Also, looking at the Spoonacular API, the Search by Complex might be the approach. The logic flow would be setting query to breakfast, lunch, and dinner. Setting the type to breakfast, lunch and dinner. Setting other preferences according to the user. Then we do 5 searches on each breakfast, lunch and dinner, then from those 15, pick out the meal combination that meets the budget crietria. and and set addRecipeInformation boolean to true.
+
+
+function nutrientToIndex(nutrient){
+  nutrientToIndexMap = {
+    "Calories": 0,
+    "Fat": 1,
+    "Saturated Fat": 2,
+    "Carbohydrates": 3,
+    "Net Carbohydrates": 4,
+    "Sugar": 5,
+    "Cholesterol": 6,
+    "Sodium": 7,
+    "Protein": 8,
+    "Vitamin K": 9,
+    "Vitamin A": 10,
+    "Vitamin C": 11,
+    "Copper": 12,
+    "Manganese": 13,
+    "Magnesium": 14,
+    "Phosphorus": 15,
+    "Potassium": 16,
+    "Vitamin B6": 17,
+    "Calcium": 18,
+    "Iron": 19,
+    "Folate": 20,
+    "Vitamin B1": 21,
+    "Vitamin B2": 22,
+    "Zinc": 23,
+    "Vitamin E": 24,
+    "Fiber": 25,
+    "Vitamin B3": 26,
+    "Selenium": 27,
+    "Vitamin B5" : 28
+  }
+  return nutrientToIndexMap[nutrient]
+}
+
+function extractIngredients(recipe){
+  nutrients = recipe["nutrition"]["ingredients"]
+  console.log("extractIngredients")
+  console.log(recipe)
+  console.log(nutrients)
+  return nutrients.map(ingredient => {
+    name = ingredient["name"]
+    number = ingredient["amount"]
+    unit = ingredient["unit"]
+    console.log("Number + Unit")
+    console.log(number.toString())
+    console.log(unit)
+    return number.toString() + " " + unit + " " + name
   })
-
-	var testIds = ["715538,716429"]
-	var ingredientsBulk = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${config.spoonacularApiKey}&ids=${testIds}&includeNutrition=true`)
-	var bulkJson = await ingredientsBulk.json()
-	console.log("Bulk")
-	//Returns list of maps
-	console.log(bulkJson)
-  budgetSortedRecipe = []
-  bulkJson.forEach(recipe => {
-    budgetSortedRecipe.push(recipe["pricePerServing"])
+}
+/*
+ Calories Fat Cholestral Sodium Sugar Protein Carbs: 150g
+  Carbs: 78.9% Protein: 7.9% Fat: 13.2%
+  */
+function extractMacro(recipe){
+  result = {}
+  result["percentages"] = recipe["caloricBreakdown"] 
+  result["totals"] = {}
+  info = [ "Calories", "Fat", "Cholesterol", "Sodium", "Sugar", "Protein", "Carbohydrates"]
+  nutrients = recipe["nutrition"]["nutrients"]
+  return info.map(nutrient => {
+    index = nutrientToIndex(nutrient)
+    console.log(index)
+    title = nutrients[index]["title"]
+    number = nutrients[index]["amount"]
+    unit = nutrients[index]["unit"]
+    console.log("Number + Unit")
+    console.log(number.toString())
+    console.log(unit)
+    return title + ": " + number.toString() + unit 
   })
-  budgetSortedRecipe.sort((one,two) => one < two)
+}
 
-	res.send(budgetSortedRecipe)
-});
+// 364.8 means 3 dollars and 64 cents
+function getCost(recipe){
+  console.log(recipe["pricePerServing"] / 100)
+  return recipe["pricePerServing"] / 100
+}
 
-//id: 17281,
-// title: "Spicy Tuna Tartare",
-// image: "https://spoonacular.com/recipeImages/17281-312x231.jpg",
-// imageType: "jpg",
-// calories: 459,
-// protein: "29g",
-// fat: "26g",
-// carbs: "33g"
-//https://api.spoonacular.com/recipes/716429/information?apiKey=YOUR-API-KEY&includeNutrition=true.
-// json["week"]["monday"]["meals"][0,1,2]
-// json["week"]["monday"]["nutrients"]
-router.get('/week', async function(req, res, next) {
+function buildComplexCall(numberOfResults,type,diet,excludeIngredients) {
+  var baseUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${config.spoonacularApiKey}`
+  var url = baseUrl + `&type=${type}&number=${numberOfResults}&addRecipeNutrition=true`
+  if (diet != ""){
+    url += `&diet=${diet}`
+  }
+  if (excludeIngredients != null && excludeIngredients.length != 0){
+    for (var i = 0; i < excludeIngredients.length; i++){
+      var item = excludeIngredients[i] 
+      if (i == 0){
+        url += `&exludeIngredients=${item}`
+      }
+      else{
+        url += `, ${item}`
+      }
+    }
+  }
+  console.log("Calling complex call with url")
+  console.log(url)
+  return url
+}
 
-	console.log("Entered /week")
+/*
+ * Goal:
+ * Return 3 meals based off their budget
+ * Search by complex for each type of meal. (Breakfast, Lunch, Dinner)
+ *    Returns n number of meals controlled by the number parameter
+ * Optimize for goal cost (c = cost, C = goal cost, plusOrMinus):
+ * We have 3 lists. One for each type of meal
+ * From each list select an item that satisfies being around the goal cost with a 
+ *    flexibility of plus or minus
+ *
+ * searchByComplex
+ * Returns map 
+ * {
+ *    results: [{...},{...}]     // all info in here
+ * }
+ */
 
-	console.log(config.spoonacularApiKey)
-	var search = await fetch(`https://api.spoonacular.com/mealplanner/generate?apiKey=${config.spoonacularApiKey}&timeFrame=week`)
-	console.log("Test")
-	var json = await search.json()
-	//res.send(json)
-	var days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
-	var ids = []
-	//Add the week to our Week Database
-	//Attach the user id 
-	//Attach the list of ids
-	days.forEach(day => {
-		for(var i = 0; i < 3; i++){
-			var meal = json["week"][day]["meals"][i]
-			ids.push(meal["id"])
-		}
-	})
+/*
+ * Expected body 
+ * costPerMeal = double
+ * diet  = string
+ * excludeIngredients = list
+ * mealsPerDay = int
+ */
+router.get('/complex',async function(req,res,next){
+  // const {costPerMeal,diet,extendedIngredients} = req.body
+  var numberOfMeals = 1
+  var numberOfResults = numberOfMeals * 2
+  var flexibility = 1
 
-	//Create a new week 
-	var newWeek = Week({userId: req.token, mealIds: ids, week: json["week"]})
-	newWeek.save(function (err, fluffy) {
-		if (err) return console.error(err)	
-		console.log("Saved week to db")
-	});
+  // Use for testing
+  var costPerMeal = 200 
+  var diet = ""
+  // var excludeIngredients = []
+  var excludeIngredients = ["salmon","pear"]
 
-	var testIds = ["655269"]
-	var ingredientsBulk = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${config.spoonacularApiKey}&ids=${testIds}&includeNutrition=true`)
-	var bulkJson = await ingredientsBulk.json()
-	console.log("Bulk")
-	//Returns list of maps
-	console.log(bulkJson)
-	res.send(bulkJson)
-});
+  var limit = costPerMeal + flexibility
 
+  results = []
+
+  breakfastSet = []
+  breakfastCall = buildComplexCall(numberOfResults,"breakfast",diet,excludeIngredients)
+  var breakfastSearch = await fetch(breakfastCall)
+  breakfastJson = await breakfastSearch.json()
+  breakfastResults = breakfastJson["results"]
+  for (var i = 0; i < breakfastResults.length; i++) {
+    recipe = breakfastResults[i]
+    // console.log(recipe)
+    if (getCost(recipe) < limit ){
+      if (breakfastSet.length < numberOfMeals){
+        breakfastSet.push(recipe)
+      }
+      else {
+        break
+      }
+    }
+  }
+
+  console.log("Breakfast set is ")
+  console.log(breakfastSet)
+
+  if (breakfastSet.length != numberOfMeals) {
+    res.sendStatus(500);
+  }
+
+  var lunchSet = []
+  var dinnerSet = []
+
+  mainCourseCall = buildComplexCall(numberOfResults * 2,"main course", diet,excludeIngredients)
+  var mainCourseSearch = await fetch(mainCourseCall)
+  mainCourseJson = await mainCourseSearch.json()
+  mainCourseResults = mainCourseJson["results"]
+
+  for(var i = 0; i < mainCourseResults.length / 2; i++){
+    recipe = mainCourseResults[i]
+    if (getCost(recipe) < limit ){
+      if (lunchSet.length < numberOfMeals){
+        lunchSet.push(recipe)
+      }
+      else {
+        break
+      }
+    }
+  }
+
+  console.log("Lunch set is ")
+  console.log(lunchSet)
+  if (lunchSet.length != numberOfMeals) {
+    res.sendStatus(500);
+  }
+  // TODO: POSSIBLE OVERLAP DUE TO INT DIVISION
+  for(var i = mainCourseResults.length / 2; i < mainCourseResults.length ; i++){
+    recipe = mainCourseResults[i]
+    if (getCost(recipe) < limit ){
+      if (dinnerSet.length < numberOfMeals){
+        dinnerSet.push(recipe)
+      }
+      else {
+        break
+      }
+    }
+  }
+  console.log("Dinner set is ")
+  console.log(dinnerSet)
+  if (dinnerSet.length != numberOfMeals) {
+    res.sendStatus(500);
+  }
+
+  console.log(breakfastSet)
+  console.log(lunchSet)
+  console.log(dinnerSet)
+
+
+  /*
+   *breakfast: {
+        The list of recipes
+        breakfastSet: [
+        {...}
+        ],
+        macros: [
+        [...]
+        ],
+        ingredients: [
+        [...]
+]
+   * */
+  res.json({
+    "breakfast" : { 
+      "recipes": breakfastSet,
+      "macros" : breakfastSet.map(recipe => extractMacro(recipe)),
+      "ingredients" : breakfastSet.map(recipe => extractIngredients(recipe))
+    },
+    "lunch" : {
+      "recipes": lunchSet,
+      "macros" : lunchSet.map(recipe => extractMacro(recipe)),
+      "ingredients" : lunchSet.map(recipe => extractIngredients(recipe))
+    },
+    "dinner" : {
+      "recipes": dinnerSet,
+      "macros" : dinnerSet.map(recipe => extractMacro(recipe)),
+      "ingredients" : dinnerSet.map(recipe => extractIngredients(recipe))
+    }})
+
+})
+
+//
 //Gives all relavent info
 //Cost per serving
 //Nutrition
 //Ingredients
 router.get('/groceryList',async function(req,res,next){
-	var ids = "17281,175323"
-	console.log(ids)
+  var ids = "17281,175323"
+  console.log(ids)
 
-	var search = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${config.spoonacularApiKey}&ids=${ids}&includeNutrition=true`)
-	var json = await search.json()
-	console.log(json)
-	var result = []
-	json.forEach(meal => {
-		meal["extendedIngredients"].forEach(ingredient => {
-			result.push(ingredient["original"])
-		})
-	})
-	console.log(result)
-	res.send(result)
+  var search = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${config.spoonacularApiKey}&ids=${ids}&includeNutrition=true`)
+  var json = await search.json()
+  console.log(json)
+  var result = []
+  json.forEach(meal => {
+    meal["extendedIngredients"].forEach(ingredient => {
+      result.push(ingredient["original"])
+    })
+  })
+  console.log(result)
+  res.send(result)
 
-	//Pseudocode for extrating recipes
-	//list of meals -> meal["extendedIngredients"]
-	//list of indredients -> ingredient["original"]
+  //Pseudocode for extrating recipes
+  //list of meals -> meal["extendedIngredients"]
+  //list of indredients -> ingredient["original"]
 })
-
-//Get Analyzed Recipe Instructions
-//Can be called few times, basically just when user wants to actually create meal
-
-router.get('/:meal', async function(req, res, next) {
-	console.log(req)
-	var meal = req.meal
-	var day = foods["day"]
-
-	var index = 0
-	switch(meal){
-		case "breakfast":
-			index = 0
-			break;
-		case "lunch":
-			index = 1
-			break;
-		case "dinner":
-			index = 2
-			break;
-	}
-	var recipe = day[index]["recipe"]
-	fetch(`https://api.edamam.com/search?q=chicken&app_id=${config.recipeId}&app_key=${config.recipeApiKey}&from=0&to=3&calories=591-722&health=alcohol-free`)
-		.then(res => {
-			console.log(res)
-
-			res.json()
-		})
-		.then(json => {
-			console.log(json["hits"])
-			res.send(json["hits"])
-		});
-});
-
-
-function verifyToken(req, res, next) {
-	console.log("Request")
-	console.log(req)
-  const bearerHeader = req.headers['Authorization'];
-  console.log(req.headers)
-
-  if (bearerHeader) {
-    const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1];
-    req.token = bearerToken;
-	  console.log("BearerToken")
-	  console.log(bearerToken)
-    next();
-  } else {
-    // Forbidden
-    res.sendStatus(403);
-  }
-}
 
 module.exports = router;
