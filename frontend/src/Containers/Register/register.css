@@ -151,3 +151,9 @@ label {
     padding-top: 3px;
 }
 
+/* registration error */
+#reg-error {
+    margin-top: 25%;
+    text-align: center;
+    color: red;
+}
