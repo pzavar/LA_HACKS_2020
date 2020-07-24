@@ -10,8 +10,153 @@ import { history } from '../../Utils/history';
 
 import './MealsPage.css';
 
-
 const dummyMealOptions = {
+    breakfast: {
+        recipes: [
+            {
+                type: 'Breakfast',
+                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
+                label: 'Chunky Monkey Porridge',
+                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
+                pricePerServing: '10'
+            }, {
+                type: 'Breakfast',
+                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
+                label: 'Chunky Monkey Porridge',
+                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
+                pricePerServing: '6'
+            }, {
+                type: 'Breakfast',
+                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
+                label: 'Chunky Monkey Porridge',
+                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
+                pricePerServing: '6'
+            }, {
+                type: 'Breakfast',
+                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
+                label: 'Chunky Monkey Porridge',
+                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
+                pricePerServing: '6'
+            }, {
+                type: 'Breakfast',
+                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
+                label: 'Chunky Monkey Porridge',
+                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
+                pricePerServing: '6'
+            }
+        ],
+        macros: [
+            {
+                calories: '600',            
+                carbs: '30',               
+                fat: '22',                 
+                protein: '8',   
+            }, {
+                calories: '600',            
+                carbs: '30',               
+                fat: '22',                 
+                protein: '8',   
+            }, {
+                calories: '600',            
+                carbs: '30',               
+                fat: '22',                 
+                protein: '8',   
+            }, {
+                calories: '600',            
+                carbs: '30',               
+                fat: '22',                 
+                protein: '8',   
+            }, {
+                calories: '600',            
+                carbs: '30',               
+                fat: '22',                 
+                protein: '8',   
+            },
+        ],
+        ingredients: [
+            {
+
+            }
+        ],
+    },
+    lunch: {
+        recipes: [{
+            id: '8',
+            type: 'Lunch',
+            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
+            label: 'Rice Bowls with Flaky Cod',
+            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
+            pricePerServing: '12'
+        },{
+            id: '8',
+            type: 'Lunch',
+            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
+            label: 'Rice Bowls with Flaky Cod',
+            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
+            pricePerServing: '12'
+        },{
+            id: '8',
+            type: 'Lunch',
+            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
+            label: 'Rice Bowls with Flaky Cod',
+            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
+            pricePerServing: '12'
+        },{
+            id: '8',
+            type: 'Lunch',
+            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
+            label: 'Rice Bowls with Flaky Cod',
+            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
+            pricePerServing: '12'
+        },{
+            id: '8',
+            type: 'Lunch',
+            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
+            label: 'Rice Bowls with Flaky Cod',
+            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
+            pricePerServing: '12'
+        }],
+        macros: [{
+            calories: '600',            
+            carbs: '30',               
+            fat: '22',                 
+            protein: '8',   
+        },{
+            calories: '600',            
+            carbs: '30',               
+            fat: '22',                 
+            protein: '8',   
+        },{
+            calories: '600',            
+            carbs: '30',               
+            fat: '22',                 
+            protein: '8',   
+        },{
+            calories: '600',            
+            carbs: '30',               
+            fat: '22',                 
+            protein: '8',   
+        },{
+            calories: '600',            
+            carbs: '30',               
+            fat: '22',                 
+            protein: '8',   
+        },],
+        ingredients: [],
+    },
+    dinner: {
+        recipes: [],
+        macros: [],
+        ingredients: [],
+    },
+    snacks: {
+        recipes: [],
+        macros: [],
+        ingredients: [],
+    }
+}
+
+const dummyMealOptions2 = {
     option1: {
         price: '38.00-43.00',
         meals: [
@@ -110,10 +255,15 @@ export class MealsPage extends Component {
 
         this.state = {
             modalShowArray: [],
-            
+            budget: 0,
+            breakfast: false,
+            lunch: false,
+            dinner: false,
+            snack: false,
         }
 
         this.handleSelect = this.handleSelect.bind(this);
+        this.onSelect = this.onSelect.bind(this);
     }
 
     /* Modal Show */
@@ -146,10 +296,10 @@ export class MealsPage extends Component {
 
 
     /* Fills out a meal card */
-    mealCard(meal, index) {
+    mealCard(meal, macros, index, mealNum, styleId) {
         return (
             <React.Fragment>
-            <Card id="meal-options-card">
+            <Card id={styleId} onClick={this.onSelect.bind(this, mealNum, index, meal.pricePerServing)}>
                 <Card.Img variant="top" src={meal.image} className="meal-card-img"/>
                 <Card.Body>
                     <Card.Title className="meal-card-title" id="meal-options-card-title">{meal.label}</Card.Title>
@@ -183,10 +333,10 @@ export class MealsPage extends Component {
                                 Servings: {meal.servings} <br />
                                 Price per Serving: ${meal.pricePerServing} <br/>
                                 Time: {meal.readyInMinutes} mins <br/>
-                                Calories: {meal.calories} <br/>
-                                Carbs: {meal.carbs} <br/>
-                                Protein: {meal.protein} <br/>
-                                Fat: {meal.fat} <br/>
+                                Calories: {macros.calories} <br/>
+                                Carbs: {macros.carbs} <br/>
+                                Protein: {macros.protein} <br/>
+                                Fat: {macros.fat} <br/>
                             </p>
                         </Col>
                     </Row>
@@ -201,53 +351,223 @@ export class MealsPage extends Component {
     }
 
     /* Displays meal option cards in a row */
-    mealOption(mealSet, start) {
+    mealOption(mealSet, macros, mealNum, start) {
+        
+        // Map meals according to if it is highlighted or not
         var meals = [];
+        var sliderMenu = [];
+        const selectedStyle = "meal-options-card-selected";
+        const nonSelectedStyle = "meal-options-card-reg";
 
         for (let i =0; i < mealSet.length; i++) {
-            meals.push(
-                <Col id="meal-option-col" key={i}>
-                    {/*<h2 className="BodyFont">{mealSet[i].type}</h2>*/}
-                    {this.mealCard(mealSet[i], i+start)}
-                </Col>
-            )
+            if ((i+start) === this.state.mealsState[mealNum].index) {
+                meals.push(
+                    <Col id="meal-option-col" key={i}>
+                        {this.mealCard(mealSet[i], macros[i], i+start, mealNum, selectedStyle)}
+                    </Col>
+                )
+            } else {
+                meals.push(
+                    <Col id="meal-option-col" key={i}>
+                        {this.mealCard(mealSet[i], macros[i], i+start, mealNum, nonSelectedStyle)}
+                    </Col>
+                )
+            }
+
         }
         
+        // Make partition of 3 meals into Slider component
+        for (let i=0; i < meals.length; i += 3) {
+            let set = [];
+
+            set.push(meals[i]);
+            
+            if ((i+1) < meals.length) {
+                set.push(meals[i+1])
+            }
+
+            if ((i+2) < meals.length) {
+                set.push(meals[i+2])
+            }
+
+            sliderMenu.push(
+                <div>
+                    <Row id="meal-option-row">
+                        {set}
+                    </Row>
+                </div>
+            )
+        }
+
+        // Slider settings
+        var settings = {
+            dots: true,
+        }
+
         return (
-            <Row id="meal-option-row">
-                {meals}
-            </Row>
+            <Slider {...settings} id="meal-options-slider">
+                {sliderMenu}
+            </Slider>      
         )
+    }
+
+    // Render slider meal menu
+    renderSlider(meals, mealType, mealNumber) {
+        
+        return (
+            <Jumbotron id="meals-option-jumbotron">
+            <h1 className="BodyFont" id="meal-option-title">Meal Option {mealNumber}: {mealType}</h1>
+                {meals}
+            </Jumbotron>
+        )
+    }
+
+ 
+    onSelect(mealNum, index, mealPrice, e) {
+        e.preventDefault();
+        let mealsState = [...this.state.mealsState];
+        let mealState = {...mealsState[mealNum]};
+        let price = parseInt(mealPrice);
+        var budget = this.state.budget;
+
+        // If index is equal to current meal number
+        // Change state to -1
+        // Add meal price to budget
+        if (mealState.index === index) {
+            budget = budget + mealState.price;
+            mealState = {index: -1, price: 0}
+        } 
+        // Else
+        // Add existing meal price to budget
+        // Change state to index
+        // Remove index meal price from budget
+        else {
+            budget = budget + mealState.price;
+            budget = budget - price;
+            mealState = {index: index, price: price}
+        }
+
+        mealsState[mealNum] = mealState;
+        
+        // Update state
+        this.setState({
+            mealsState: mealsState,
+            budget: budget,
+        })
     }
 
     /* Select button */
     handleSelect() {
-        // Add functionality to update user's meals
+        // Add functionality to update user's meals in redux
 
         history.push('/home')
     }
 
     componentDidMount() {
-        const mealOptions = dummyMealOptions;
-        const meals = mealOptions.option1.meals.concat(mealOptions.option2.meals, mealOptions.option3.meals);
-        const modalInit = meals.map((item, i) => { return false })
+        // Initialize modal show array state
+        const meals = dummyMealOptions.breakfast.recipes.concat(dummyMealOptions.lunch.recipes, dummyMealOptions.dinner.recipes, dummyMealOptions.snacks.recipes);
+        const modalInit = meals.map((item, i) => { return false });
+        this.setState({modalShowArray: modalInit});
+        
+        // Initialize meal number state
+        const mealsNum = this.props.meals;
+        var mealsState = [];
 
-        this.setState({modalShowArray: modalInit})
+        for (let i=0; i < mealsNum; i++) {
+            mealsState.push({index: -1, price: 0})
+        }
+        this.setState({mealsState: mealsState})
+
+        // Initialize initial budget
+        const budget = this.props.budget;
+        this.setState({budget: budget});
+
+        // Initialize meal type boolean
+        const breakfast = this.props.breakfast;
+        const lunch = this.props.lunch;
+        const dinner = this.props.dinner;
+        const snack = this.props.snack;
+        const snacks = this.props.snacks;
+        this.setState({
+            breakfast: breakfast,
+            lunch: lunch,
+            dinner: dinner,
+            snack: snack,
+            snacks: snacks,
+        })
     }
+
 
 
     render() {
         const mealOptions = dummyMealOptions;
 
-        const op2Index = mealOptions.option1.meals.length;
-        const op3Index = mealOptions.option1.meals.length + mealOptions.option2.meals.length;
+        var mealCount = 0;
+        var mealOptionNum = 0;
+        var renderedMeals = []
 
-        const mealOptionOne = this.mealOption(mealOptions.option1.meals, 0);
-        const mealOptionTwo = this.mealOption(mealOptions.option2.meals, op2Index);
-        const mealOptionThree = this.mealOption(mealOptions.option3.meals, op3Index);
+        // Setup the meals to render
+        // Setup breakfast
+        if (this.state.breakfast) {
+            var breakfast = this.mealOption(mealOptions.breakfast.recipes, mealOptions.breakfast.macros, mealOptionNum, mealCount);
+            renderedMeals.push(this.renderSlider(breakfast, "Breakfast", mealOptionNum+1));
+            mealOptionNum += 1;
+            mealCount += mealOptions.breakfast.recipes.length;
+        }
 
-        var settings = {
-            dots: true,
+        // Setup lunch
+        if (this.state.lunch) {
+            var lunch = this.mealOption(mealOptions.lunch.recipes, mealOptions.lunch.macros, mealOptionNum, mealCount);
+            renderedMeals.push(this.renderSlider(lunch, "Lunch", mealOptionNum+1));
+            mealOptionNum += 1;
+            mealCount += mealOptions.lunch.recipes.length;
+        }
+
+        // Setup dinner
+        if (this.state.dinner) {
+            var dinner = this.mealOption(mealOptions.dinner.recipes, mealOptions.dinner.macros, mealOptionNum, mealCount);
+            renderedMeals.push(this.renderSlider(dinner, "Dinner", mealOptionNum+1));
+            mealOptionNum += 1;
+            mealCount += mealOptions.dinner.recipes.length;
+        }
+
+        // Setup snacks
+        if (this.state.snack) {
+            let n = this.state.snacks;
+            let len = mealOptions.snacks.recipes; 
+            let i = 0, size;
+
+            if(n < 2) {
+                let snackOption = this.mealOption(mealOptions.snacks.recipes, mealOptions.snacks.macros, "Snack", mealOptionNum, mealCount);
+                renderedMeals.push(this.renderSlider(snackOption, "snack", mealOptionNum));
+                mealOptionNum += 1;
+                mealCount += mealOptions.snacks.recipes.length;
+            } else if (len % n === 0) {
+                size = Math.floor(len / n);
+                while (i < len) {
+                    let snackOption = this.mealOption(mealOptions.snacks.recipes.slice(i, i += size), mealOptions.snacks.macros.slice(i, i += size), "Snack", mealOptionNum, mealCount);
+                    renderedMeals.push(this.renderSlider(snackOption, "snack", mealOptionNum));
+                    mealOptionNum += 1;
+                    mealCount += mealOptions.snacks.recipes.slice(i, i += size).length;
+                }
+            } else {
+                n--;
+                size = Math.floor(len / n);
+                if(len % n === 0) {
+                    size--;
+                }
+                while(i < size * n) {
+                    let snackOption = this.mealOption(mealOptions.snacks.recipes.slice(i, i += size), mealOptions.snacks.macros.slice(i, i += size), "Snack", mealOptionNum, mealCount);
+                    renderedMeals.push(this.renderSlider(snackOption, "snack", mealOptionNum));
+                    mealOptionNum += 1;
+                    mealCount += mealOptions.snacks.recipes.slice(i, i += size).length;
+                }
+                let snackOption = this.mealOption(mealOptions.snacks.recipes.slice(size * n), mealOptions.snacks.macros.slice(size * n), "Snack", mealOptionNum, mealCount);
+                renderedMeals.push(this.renderSlider(snackOption, "snack", mealOptionNum));
+                mealOptionNum += 1;
+                mealCount += mealOptions.snacks.recipes.slice(size * n).length;
+            }
+
         }
 
         return (
@@ -255,58 +575,16 @@ export class MealsPage extends Component {
                 <NavBarEntry />
                 <h1 className="PageTitleFont" id="meal-options-page-title">Meal Options</h1>
                 <h3 className="BodyFont" id="meal-options-page-subtitle">Select a meal for each meal option.</h3>
-                {/* Option 1 */}
-                <Jumbotron id="meals-option-jumbotron">
-                    <h1 className="BodyFont" id="meal-option-title">Meals Option 1</h1>
-                    <Slider {...settings}>
-                        <div>
-                            {mealOptionOne}
-                        </div>
-                        <div>
-                            {mealOptionTwo}
-                        </div>
-                        <div>
-                            {mealOptionThree}
-                        </div>
-                    </Slider>
-                </Jumbotron>
-                
-                
 
-                {/* Option 2 */}
-                <Jumbotron id="meals-option-jumbotron">
-                    <h1 className="BodyFont" id="meal-option-title">Meals Option 2</h1>
-                        <Slider {...settings}>
-                            <div>
-                                {mealOptionOne}
-                            </div>
-                            <div>
-                                {mealOptionTwo}
-                            </div>
-                            <div>
-                                {mealOptionThree}
-                            </div>
-                        </Slider>
-                </Jumbotron>
+                    {renderedMeals}
                 
-                
+                <Row id="submit-bar-row">
+                    <div id="submit-bar-wrapper">
+                        <h3 className="BodyFontD" id="meals-budget-txt">Budget: ${this.state.budget}</h3>
+                        <Button id="meals-submit-btn">Submit</Button>
+                    </div>
+                </Row>
 
-                {/* Option 3 */}
-                <Jumbotron id="meals-option-jumbotron">
-                    <h1 className="BodyFont" id="meal-option-title">Meals Option 3</h1>
-                        <Slider {...settings}>
-                            <div>
-                                {mealOptionOne}
-                            </div>
-                            <div>
-                                {mealOptionTwo}
-                            </div>
-                            <div>
-                                {mealOptionThree}
-                            </div>
-                    </Slider>
-                </Jumbotron>
-                
                 <CustomFeedback />
                 <CustomFooter />
             </Container>
@@ -314,14 +592,31 @@ export class MealsPage extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    
-})
+function mapStateToProps(state) {
+    const {
+        meals,
+        budget,
+        breakfast,
+        lunch,
+        dinner,
+        snack,
+        snacks,
+    } = state.user;
 
+    return ({
+        meals,
+        budget,
+        breakfast,
+        lunch,
+        dinner,
+        snack,
+        snacks,
+    })
+}
+
+// Add function to update meals
 const mapDispatchToProps = {
     
 }
 
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(MealsPage)
+export default connect(mapStateToProps, mapDispatchToProps)(MealsPage);

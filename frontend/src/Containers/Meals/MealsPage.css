@@ -22,15 +22,26 @@
     text-align: center;
 }
 
+/* Meal Options Slider */
+#meal-options-slider {
+    text-decoration: none;
+}
 /* Meal Options Card */
-#meal-options-card {
+#meal-options-card-reg {
     height: 340px !important;
     width: auto;
     border-radius: 0;
 }
 
-#meal-options-card:hover {
+#meal-options-card-reg:hover {
     background-color: wheat;
+}
+
+#meal-options-card-selected {
+    height: 340px !important;
+    background-color: wheat;
+    width: auto;
+    border-radius: 0;
 }
 
 #meal-options-card-title {
@@ -90,6 +101,14 @@
     border-top: none;
 }
 
+.modal-backdrop.show {
+    opacity: 0.1;
+}
+
+.modal-content {
+    border-radius: 0;
+}
+
 #meals-option-modal-title {
     font-size: 25px;
     font-weight: 200;
@@ -104,7 +123,6 @@
 }
 
 #meals-option-modal-img {
-    
 
     max-height: 200px;
     width: auto;
@@ -121,4 +139,41 @@
 #meals-option-modal-body {
     font-size: 13px;
 }
+
+
+/* Submit Bar */
+#submit-bar-row {
+    position: relative;
+    width: 100%;
+} 
+#submit-bar-wrapper {
+    position: fixed;
+    width: 100%;
+    background-color: white;
+    display: inline-flex;
+    justify-content: center;
+    bottom: 0;
+
+    padding: 15px;
+    padding-top: 30px;
+}
+
+#meals-budget-txt {
+    font-size: 30px;
+    margin-right: 10%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#meals-submit-btn {
+    border-radius: 0;
+    width: 25%;
+    height: 60%;
+
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+
 

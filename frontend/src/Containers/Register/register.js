@@ -171,6 +171,10 @@ class Register extends Component {
         const userData = {
             meals: meals,
             budget: budget,
+            breakfast: breakfast,
+            lunch: lunch,
+            dinner: dinner,
+            snack: snack,
             snacks: snacks,
         }
 
