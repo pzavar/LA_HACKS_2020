@@ -3,6 +3,8 @@ import { Modal, Form, Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentAlt } from '@fortawesome/free-solid-svg-icons';
 
+
+
 import './CustomFeedback.css'
 
 export default class CustomFeedback extends Component {
@@ -29,7 +31,7 @@ export default class CustomFeedback extends Component {
                 <Modal.Body>
                     <h1 className="BodyFont" id="custom-feedback-title">We would love to hear feedback from you!</h1>
                     <Form>
-                        <Form.Label className="BodyFont" id="custom-feedback-text">Email</Form.Label>
+                        <Form.Label className="BodyFont" id="custom-feedback-text">Email (optional)</Form.Label>
                         <Form.Control 
                             type="email"
                             placeholder="Enter email"
