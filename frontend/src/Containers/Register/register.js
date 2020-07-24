@@ -187,11 +187,11 @@ class Register extends Component {
             breakfast: breakfast, // bool
             lunch: lunch, // bool
             dinner: dinner, // bool
-            snack: snack, // bool
+            snacks: snacks, // int
             numberOfMeals: meals, // int: number of meals
         }
 
-        axios.get('http://localhost:4000/meals/complex', {searchData})
+        axios.post('http://localhost:4000/meals/complex', {searchData})
         .then((response) => {
             console.log(response.data)
         })

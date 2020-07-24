@@ -113,6 +113,27 @@ function buildComplexCall(numberOfResults,type,diet,excludeIngredients) {
   return url
 }
 
+async function fetchMealType(numberOfResults,numberOfMeals,limit,mealType,diet,excludeIngredients,res){
+  set = []
+  call = buildComplexCall(numberOfResults,mealType,diet,excludeIngredients)
+  var search = await fetch(call)
+  json = await search.json()
+  results = json["results"]
+  set = results.filter(recipe => (getCost(recipe) < limit)).slice(0,numberOfMeals)
+  console.log("set is ")
+  console.log(set)
+  console.log(set.length)
+  console.log(numberOfMeals)
+
+  if (set.length != numberOfMeals) {
+    res.sendStatus(500);
+  }
+
+  return set
+}
+
+
+
 /*
  * Goal:
  * Return 3 meals based off their budget
@@ -135,96 +156,46 @@ function buildComplexCall(numberOfResults,type,diet,excludeIngredients) {
  * costPerMeal = double
  * diet  = string
  * excludeIngredients = list
- * mealsPerDay = int
+ * numberOfMeals = int for number of meals to return for each catagory
  */
-router.get('/complex',async function(req,res,next){
-  // const {costPerMeal,diet,extendedIngredients} = req.body
-  var numberOfMeals = 1
+router.post('/complex',async function(req,res,next){
+  console.log(req.body)
+  const {
+    costPerMeal = 200,
+    diet = "",
+    excludeIngredients = [],
+    breakfast = true, lunch = true, dinner = true, 
+    snacks = 0,
+    numberOfMeals = 1
+  } = req.body
   var numberOfResults = numberOfMeals * 2
   var flexibility = 1
 
   // Use for testing
-  var costPerMeal = 200 
-  var diet = ""
-  // var excludeIngredients = []
-  var excludeIngredients = ["salmon","pear"]
-
   var limit = costPerMeal + flexibility
 
   results = []
-
   breakfastSet = []
-  breakfastCall = buildComplexCall(numberOfResults,"breakfast",diet,excludeIngredients)
-  var breakfastSearch = await fetch(breakfastCall)
-  breakfastJson = await breakfastSearch.json()
-  breakfastResults = breakfastJson["results"]
-  for (var i = 0; i < breakfastResults.length; i++) {
-    recipe = breakfastResults[i]
-    // console.log(recipe)
-    if (getCost(recipe) < limit ){
-      if (breakfastSet.length < numberOfMeals){
-        breakfastSet.push(recipe)
-      }
-      else {
-        break
-      }
-    }
+  lunchSet = []
+  dinnerSet = []
+  snackSet = []
+  if (breakfast){
+    breakfastSet = fetchMealType(numberOfResults,numberOfMeals,limit,"breakfast",diet,excludeIngredients,res)
+  }
+  if (lunch) {
+    lunchSet = fetchMealType(numberOfResults,numberOfMeals,limit,"main course",diet,excludeIngredients,res)
+  }
+  if (dinner) {
+    dinnerSet = fetchMealType(numberOfResults,numberOfMeals,limit,"main course",diet,excludeIngredients,res)
+  }
+  if (snacks != 0) {
+    snackSet = fetchMealType(numberOfResults * snacks,numberOfMeals,limit,"snack",diet,excludeIngredients,res)
   }
 
-  console.log("Breakfast set is ")
-  console.log(breakfastSet)
-
-  if (breakfastSet.length != numberOfMeals) {
-    res.sendStatus(500);
-  }
-
-  var lunchSet = []
-  var dinnerSet = []
-
-  mainCourseCall = buildComplexCall(numberOfResults * 2,"main course", diet,excludeIngredients)
-  var mainCourseSearch = await fetch(mainCourseCall)
-  mainCourseJson = await mainCourseSearch.json()
-  mainCourseResults = mainCourseJson["results"]
-
-  for(var i = 0; i < mainCourseResults.length / 2; i++){
-    recipe = mainCourseResults[i]
-    if (getCost(recipe) < limit ){
-      if (lunchSet.length < numberOfMeals){
-        lunchSet.push(recipe)
-      }
-      else {
-        break
-      }
-    }
-  }
-
-  console.log("Lunch set is ")
-  console.log(lunchSet)
-  if (lunchSet.length != numberOfMeals) {
-    res.sendStatus(500);
-  }
-  // TODO: POSSIBLE OVERLAP DUE TO INT DIVISION
-  for(var i = mainCourseResults.length / 2; i < mainCourseResults.length ; i++){
-    recipe = mainCourseResults[i]
-    if (getCost(recipe) < limit ){
-      if (dinnerSet.length < numberOfMeals){
-        dinnerSet.push(recipe)
-      }
-      else {
-        break
-      }
-    }
-  }
-  console.log("Dinner set is ")
-  console.log(dinnerSet)
-  if (dinnerSet.length != numberOfMeals) {
-    res.sendStatus(500);
-  }
-
-  console.log(breakfastSet)
-  console.log(lunchSet)
-  console.log(dinnerSet)
-
+  // console.log(breakfastSet)
+  // console.log(lunchSet)
+  // console.log(dinnerSet)
+  // console.log(snackSet)
 
   /*
    *breakfast: {
@@ -254,7 +225,14 @@ router.get('/complex',async function(req,res,next){
       "recipes": dinnerSet,
       "macros" : dinnerSet.map(recipe => extractMacro(recipe)),
       "ingredients" : dinnerSet.map(recipe => extractIngredients(recipe))
-    }})
+    },
+
+    "snack" : {
+      "recipes": snackSet,
+      "macros" : snackSet.map(recipe => extractMacro(recipe)),
+      "ingredients" : snackSet.map(recipe => extractIngredients(recipe))
+    }}
+  )
 
 })
 
