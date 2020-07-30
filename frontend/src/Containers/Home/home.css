@@ -89,3 +89,12 @@
 .home-meal-card {
     border-radius: 0;
 }
+
+#home-continue-btn {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    height: 120%;
+}

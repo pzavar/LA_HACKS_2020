@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Col, Row, ListGroup } from 'react-bootstrap';
+import { Container, Col, Row, ListGroup, Button } from 'react-bootstrap';
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
 import SideBar from '../../Components/Navigation/sidebar';
 import { Daily } from '../../Components/Calendar/daily';
@@ -7,6 +7,8 @@ import PieChart from 'react-minimal-pie-chart';
 import Loading from '../../Components/Loading/Loading';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
 import { connect } from 'react-redux';
+
+import { history } from '../../Utils/history';
 
 
 
@@ -305,9 +307,12 @@ class Home extends Component {
                             <h4 className="BodyFont macros-title">Dinner</h4>
                         </Col>
                     </Row>
-                    <div className="meals-wrapper">
-                        {isLoading ? <Loading /> : this.getTodaysMeals(weeklyMeals) }
-                    </div>
+
+                    <Row>
+                        <div className="meals-wrapper">
+                            {isLoading ? <Loading /> : this.getTodaysMeals(weeklyMeals) }
+                        </div>
+                    </Row>
 
                     <Row className="nutrition-wrapper">
                         <Col md={{span: 5, offset: 1}}>
@@ -331,10 +336,15 @@ class Home extends Component {
                             />
                         </Col>
                     </Row>
+
+                    <Row>
+                        <Button onClick={() => history.push('/grocery')} id="home-continue-btn">Continue to Groceries</Button>
+                    </Row>
+                    
                    
                 </Container>
                 
-                <CustomFeedback />
+                <CustomFeedback/>
                 <CustomFooter />
             </div>
         )
