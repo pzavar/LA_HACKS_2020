@@ -297,14 +297,17 @@ export class MealsPage extends Component {
 
     /* Fills out a meal card */
     mealCard(meal, macros, index, mealNum, styleId) {
+        var price = ((meal.pricePerServing / 100) * meal.servings).toFixed(2);
+
         return (
             <React.Fragment>
             <Card id={styleId} onClick={this.onSelect.bind(this, mealNum, index, meal.pricePerServing)}>
                 <Card.Img variant="top" src={meal.image} className="meal-card-img"/>
                 <Card.Body>
-                    <Card.Title className="meal-card-title" id="meal-options-card-title">{meal.label}</Card.Title>
+                    <Card.Title className="meal-card-title" id="meal-options-card-title">{meal.title}</Card.Title>
                         <Card.Text  className="meal-card-text" id="meal-options-card-txt">
-                            Price: ${meal.pricePerServing}.00
+                            Servings: {meal.servings} <br />
+                            Price: ${price}
                         </Card.Text>
                         <div id="meal-options-card-btn-wrapper">
                          <Button  onClick={this.onShow.bind(this, index)} id="meals-option-details-btn">Details</Button>
@@ -320,7 +323,7 @@ export class MealsPage extends Component {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title className="BodyFont" id="meals-option-modal-title">{meal.label}</Modal.Title>
+                    <Modal.Title className="BodyFont" id="meals-option-modal-title">{meal.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
@@ -465,9 +468,15 @@ export class MealsPage extends Component {
 
     componentDidMount() {
         // Initialize modal show array state
-        const meals = dummyMealOptions.breakfast.recipes.concat(dummyMealOptions.lunch.recipes, dummyMealOptions.dinner.recipes, dummyMealOptions.snacks.recipes);
+        const spoonacularData = this.props.location.state.meals;
+        console.log(spoonacularData)
+        const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes);
+        
+        //const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes, spoonacularData.snacks.recipes);
         const modalInit = meals.map((item, i) => { return false });
         this.setState({modalShowArray: modalInit});
+
+
         
         // Initialize meal number state
         const mealsNum = this.props.meals;
@@ -500,7 +509,7 @@ export class MealsPage extends Component {
 
 
     render() {
-        const mealOptions = dummyMealOptions;
+        const mealOptions = this.props.location.state.meals;
 
         var mealCount = 0;
         var mealOptionNum = 0;

@@ -74,6 +74,7 @@ class Grocery extends Component {
                         <Col md={{span: 8, offset: 2}}>
                             <h1 id="grocery-title" className="PageTitleFont">Grocery List</h1>
 
+                            <h1 className="BodyFont" style={{fontSize: 16, marginBottom: 30}} className="PageTitleFont">Select items to add to Instacart.</h1>
                             <ListGroup className="grocery-list-wrapper">
                                 { groceryList.map( item => (
                                     <ListGroup.Item className="grocery-list-item" key={item}>
@@ -94,6 +95,8 @@ class Grocery extends Component {
                             <div id="grocery-list-btn-wrapper">
                             <Button id="grocery-list-checkout-btn"  onClick={() => this.setState({modalShow: true})}><img id="instacart-img" src={InstaCart}/></Button>
 
+                            <CustomFeedback feedback={false} />
+                            
                             <Modal
                             show={this.state.modalShow}
                             onHide={() => this.setState({modalShow: false})}
@@ -118,12 +121,14 @@ class Grocery extends Component {
                                     <Button onClick={() => this.setState({modalShow: false})}>Submit</Button>
                                 </Modal.Footer>
                             </Modal>
+
+                            
                         </div>
                         </Col>
                     </Row>
                 
                 </Container>
-                <CustomFeedback />
+                <CustomFeedback feedback={true}/>
                 <CustomFooter />
                 </div>
             )
