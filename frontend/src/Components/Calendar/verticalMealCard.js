@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Modal, Form, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faPlus, faMinus} from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
 import './calendar.css';
 
@@ -29,8 +29,17 @@ import './calendar.css';
 */
 
 export default class VerticalMealCards extends Component {
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            modalShow: false,
+        }
+    }
+
     render() {
         return (
+            <React.Fragment>
             <Card className="meal-card">
                 <a href={this.props.url}> <Card.Img variant="top" src={this.props.image} className="meal-card-img"/> </a>
                 <Card.Body>
@@ -47,8 +56,34 @@ export default class VerticalMealCards extends Component {
                             Carbs: {this.props.carbs} g<br />
                         </Card.Text>
                 </Card.Body>
-                <FontAwesomeIcon icon={faHeart} className="meal-card-icon" id="vertical-meal-card-icon"/>
+                <FontAwesomeIcon onClick={() => this.setState({modalShow: true})} icon={faHeart} className="meal-card-icon" id="vertical-meal-card-icon"/>
             </Card>
+
+            <Modal
+            show={this.state.modalShow}
+            onHide={() => this.setState({modalShow: false})}
+            centered
+            >
+                <Modal.Header closeButton />
+                <Modal.Body>
+                    <h1 className="BodyFont" id="custom-feedback-title">Feature coming soon! </h1>
+                    <h1 className="BodyFont" id="custom-feedback-title">Sign up on our waitlist for updates on product release!</h1>
+                    <Form>
+                        <Form.Label className="BodyFont" id="custom-feedback-text">Email</Form.Label>
+                        <Form.Control 
+                            type="email"
+                            placeholder="Enter email"
+                            className="BodyFont"
+                            id="custom-feedback-text"
+                            style={{marginBottom: '3%'}}
+                        />
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={() => this.setState({modalShow: false})}>Submit</Button>
+                </Modal.Footer>
+            </Modal>
+            </React.Fragment>
         )
     }
 }

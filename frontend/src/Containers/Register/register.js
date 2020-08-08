@@ -3,10 +3,13 @@ import { Container, Row, Tab, Button, Nav, InputGroup, Form, FormControl } from 
 import DietRestrict from '../../Components/Survey/DietRestrict';
 import DietLifestyle from '../../Components/Survey/DietLifestyle';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
-import { history } from '../../Utils/history';
 import {connect} from 'react-redux';
 import { usersActions } from '../../Redux/Actions/UserActions';
 import CustomFeedback from '../../Components/Feedback/CustomFeedback';
+
+import { history } from '../../Utils/history';
+
+import axios from 'axios';
 
 import './register.css';
 
@@ -179,13 +182,24 @@ class Register extends Component {
         }
 
         const searchData = {
-            exclude: exclude,
-            diet: Diet,
-            breakfast: breakfast,
-            lunch: lunch,
-            dinner: dinner,
-            snack: snack,
+            excludeIngredients: exclude, // []: list of strings for allergies
+            costPerMeal: budget, // int: budget for day
+            diet: Diet, // String: for what type of diet
+            breakfast: breakfast, // bool
+            lunch: lunch, // bool
+            dinner: dinner, // bool
+            snack: snack, // bool
+            numberOfMeals: meals, // int: number of meals
         }
+
+        axios.get('http://localhost:4000/meals/complex', {searchData})
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
 
         // Call user registration redux
         // - meals, budget, snacks
@@ -193,12 +207,22 @@ class Register extends Component {
         // Call meal search redux
         // - exclude, diet, breakfast, lunch, dinner, snack
 
-        console.log(allGood)
 
+        /*
         if (allGood) {
+            // Setup state for userData
             this.props.register(userData);
-            history.push('/meals');
+
+            // Call backend for search 
+            axios.get('http://localhost:4000/meals/complex', {searchData})
+            .then((response) => {
+                history.push('/meals', {meals: response.data});
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         }
+        */
     }
 
     render() {
@@ -284,7 +308,7 @@ class Register extends Component {
 
                                     {/* Meals Per Day */}
                                     <h3 className="title" style={{marginTop: '8%'}}>Meals Per Day</h3>
-                                    <Form.Row controlId="meals">
+                                    <Form.Row >
                                         <Form.Check
                                             custom
                                             type='radio'
@@ -500,7 +524,7 @@ class Register extends Component {
                     </Tab.Container>
 
                 </div>
-                <CustomFeedback />
+                <CustomFeedback feedback={true}/>
             </Container>
         )
     }
@@ -508,7 +532,7 @@ class Register extends Component {
 
 
 function mapStateToProps(state) {
-    return ("")
+    return (state)
 }
 
 const mapDispatchToProps = {
