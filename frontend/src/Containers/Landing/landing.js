@@ -6,7 +6,6 @@ import { faShoppingCart, faInfoCircle, faList, faHandPointer, faDollarSign, faMo
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
 
 import { Daily } from '../../Components/Calendar/daily';
-import { authActions } from '../../Redux/Actions/AuthActions';
 import {connect} from 'react-redux';
 
 import './landing.css';
@@ -173,7 +172,6 @@ function mapStateToProps (state) {
 }
 
 const actionCreators = {
-    login: authActions.login,
 }
 
 export default connect(mapStateToProps, actionCreators)(Landing);

@@ -94,6 +94,8 @@
 .horizontal-meal-card-img {
     display: flex;
     float: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
     max-height: 150px;
     max-width: auto;
 }
@@ -104,23 +106,22 @@
     justify-content: center;
 }
 
-#horizontal-icon-left {
-    margin-right: 15px;
+#horizontal-icon {
     font-size: 25px;
     color: #dddddd;
 }
 
-#horizontal-icon-right {
-    font-size: 25px;
-    color: #dddddd;
-}
-
-#horizontal-icon-right:hover {
+#horizontal-icon:hover {
     color: #547C8F;
 }
 
-#horizontal-icon-left:hover {
-    color: #547C8F;
+#horizontal-meal-card-meal-num {
+    font-size: 18px;
+    font-weight: bolder;
+    margin-top: 15px;
+    margin-bottom: 0;
 }
+
+
 
 

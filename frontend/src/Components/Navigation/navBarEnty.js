@@ -9,7 +9,7 @@ import './nav.css';
 export default function NavBarEnty() {
     return (
         <Navbar style={{paddingLeft:0}}>
-            <Navbar.Brand style={{left: 0}}><Link to="/" ><img id="logo-img" src={Logo}/></Link></Navbar.Brand>
+            <Navbar.Brand style={{left: 0}}><Link to="/" ><img id="logo-img" src={Logo} alt="LOGO"/></Link></Navbar.Brand>
                 
             
             <Nav className="ml-auto">

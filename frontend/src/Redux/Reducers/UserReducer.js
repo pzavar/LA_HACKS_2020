@@ -3,6 +3,7 @@ import { userConstants } from '../Actions/types';
 const initialState = {
     meals: 3,
     budget: 30,
+    people: 1,
     breakfast: true,
     lunch: true,
     dinner:true,
@@ -23,6 +24,7 @@ export function user(state=initialState, action) {
                 dinner,
                 snack,
                 snacks,
+                people,
             } = action.data;
             return {
                 ...state,
@@ -33,6 +35,7 @@ export function user(state=initialState, action) {
                 dinner: dinner,
                 snack: snack,
                 snacks: snacks,
+                people: people,
             }
             }
 

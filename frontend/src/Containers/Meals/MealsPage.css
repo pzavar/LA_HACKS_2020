@@ -27,7 +27,7 @@
     text-decoration: none;
 }
 /* Meal Options Card */
-#meal-options-card-reg {
+.meal-option-card {
     height: 340px !important;
     width: auto;
     border-radius: 0;
@@ -38,10 +38,11 @@
 }
 
 #meal-options-card-selected {
-    height: 340px !important;
     background-color: wheat;
-    width: auto;
-    border-radius: 0;
+}
+
+#meal-options-card-selected:hover {
+    background-color: white;
 }
 
 #meal-options-card-title {

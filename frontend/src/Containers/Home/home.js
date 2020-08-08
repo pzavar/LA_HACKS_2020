@@ -2,53 +2,15 @@ import React, { Component } from 'react';
 import { Container, Col, Row, ListGroup, Button } from 'react-bootstrap';
 import { NavigationBar } from '../../Components/Navigation/navigationBar';
 import SideBar from '../../Components/Navigation/sidebar';
-import { Daily } from '../../Components/Calendar/daily';
+import HorizontalMealCard from '../../Components/Calendar/horizontalMealCard';
 import PieChart from 'react-minimal-pie-chart';
-import Loading from '../../Components/Loading/Loading';
-import { mealsActions } from '../../Redux/Actions/MealsActions';
 import { connect } from 'react-redux';
 
 import { history } from '../../Utils/history';
-
-
-
 import CustomFooter from '../../Components/Navigation/Footer';
-
-
 import './home.css'
-import { dummyData } from '../../Redux/Reducers/dummy';
 import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 
-
-const daily = {
-    dailyCalories: "2500 cal",
-    dailyFat: "25g",
-    dailyCholestral: "10g",
-    dailySodium: "150mg",
-    dailySugar: "5g",
-    dailyProtein: "15g",
-    dailyCarbs: "150g"
-}
-
-
-const weekly = {
-    weeklyCalories: "7200 cal",
-    weeklyFat: "125g",
-    weeklyCholestral: "120g",
-    weeklySodium: "5000mg",
-    weeklySugar: "55g",
-    weeklyProtein: "150g",
-    weeklyCarbs: "750g"
-}
-
-/*
-
-    Macros Card Props
-
-    title
-
-
-*/
 function MacrosCard(props) {
     const fat = (props.fat * 100).toFixed(1);
     const protein = (props.protein * 100).toFixed(1);
@@ -117,13 +79,13 @@ function NutrionInfoCard(props) {
                 <h4 className="BodyFont macros-title">{props.title}</h4>
             </header>
             <ListGroup variant="flush">
-                <ListGroup.Item className="BodyFont macros-item">Total Calories: {props.calories}</ListGroup.Item>
-                <ListGroup.Item className="BodyFont macros-item">Total Fat: {props.fat}</ListGroup.Item>
-                <ListGroup.Item className="BodyFont macros-item">Total Cholestral: {props.cholestral}</ListGroup.Item>
-                <ListGroup.Item className="BodyFont macros-item">Total Sodium: {props.sodium}</ListGroup.Item>
-                <ListGroup.Item className="BodyFont macros-item">Total Sugar: {props.sugar}</ListGroup.Item>
-                <ListGroup.Item className="BodyFont macros-item">Total Protein: {props.protein}</ListGroup.Item>
-                <ListGroup.Item className="BodyFont macros-item">Total Carbs: {props.carbs}</ListGroup.Item>
+                <ListGroup.Item className="BodyFont macros-item"><b>Total Calories:</b> {props.calories}cal</ListGroup.Item>
+                <ListGroup.Item className="BodyFont macros-item"><b>Total Fat:</b> {props.fat}g</ListGroup.Item>
+                <ListGroup.Item className="BodyFont macros-item"><b>Total Cholestral:</b> {props.cholestral}mg</ListGroup.Item>
+                <ListGroup.Item className="BodyFont macros-item"><b>Total Sodium:</b> {props.sodium}mg</ListGroup.Item>
+                <ListGroup.Item className="BodyFont macros-item"><b>Total Sugar:</b> {props.sugar}g</ListGroup.Item>
+                <ListGroup.Item className="BodyFont macros-item"><b>Total Protein:</b> {props.protein}g</ListGroup.Item>
+                <ListGroup.Item className="BodyFont macros-item"><b>Total Carbs:</b> {props.carbs}g</ListGroup.Item>
             </ListGroup>
         </div>
     )
@@ -131,160 +93,85 @@ function NutrionInfoCard(props) {
 
 
 class Home extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentWillMount() {
-        this.props.getWeeklyMeals()
-    }
-
     getDay() {
         const date = new Date();
         const day = date.getDay();
+        var today = "";
+        
         switch(day) {
             case 0:
-                return ("Sunday")
-            case 1:
-                return ("Monday")
-                break;
-            case 2:
-                return ("Tuesday")
-                break;
-            case 3:
-                return ("Wednesday")
-                break;
-            case 4:
-                return ("Thursday")
-                break;
-            case 5:
-                return ("Friday")
-                break;
-            case 6:
-                return ("Saturday")
-                break;
-            default:
-                break;
-        }
-    }
-
-    
-
-    getTodaysMeals(weeklyMeals) { 
-        var weekMeals = {
-            sunday: [],
-            monday: [],
-            tuesday: [],
-            wednesday: [],
-            thursday: [],
-            friday: [],
-            saturday: [],
-        };
-
-    var i, j, chunk = 3;
-
-    // Parse data from backend to meals day of the week
-    for (i=0, j=weeklyMeals.length; i < j; i+=chunk) {
-        switch(i) {
-            // Sunday
-            case 0:
-                weekMeals.sunday = weeklyMeals.slice(i, i+chunk);
-                break;
-
-            // Monday
-            case 3:
-                weekMeals.monday = weeklyMeals.slice(i, i+chunk);
-                break;
-
-            // Tuesday
-            case 6:
-                weekMeals.tuesday = weeklyMeals.slice(i, i+chunk);
-                break;
-
-            // Wednesday
-            case 9:
-                weekMeals.wednesday = weeklyMeals.slice(i, i+chunk);
-                break;
-
-            // Thursday
-            case 12:
-                weekMeals.thursday = weeklyMeals.slice(i, i+chunk);
-                break;
-
-            // Friday
-            case 15:
-                weekMeals.friday = weeklyMeals.slice(i, i+chunk);
-                break;
-
-            // Saturday
-            case 18:
-                weekMeals.saturday = weeklyMeals.slice(i, i+chunk);
-                break;
-
-            default:
-                break;
-        }
-    }
-
-
-        const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = weekMeals
-
-
-    
-        const date = new Date();
-        const day = date.getDay();
-        var meals = []
-
-        switch(day) {
-            case 0:
-                meals = sunday
+                today = "Sunday";
                 break;
             case 1:
-                meals = monday
+                today = "Monday";
                 break;
             case 2:
-                meals = tuesday
+                today = "Tuesday";
                 break;
             case 3:
-                meals = wednesday
+                today = "Wednesday";
                 break;
             case 4:
-                meals = thursday
+                today = "Thursday";
                 break;
             case 5:
-                meals = friday
+                today = "Friday";
                 break;
             case 6:
-                meals = saturday
+                today = "Saturday";
                 break;
             default:
                 break;
         }
 
-        console.log(meals)
-
-        return (
-            <Daily daily={meals} />
-        )
+        return (today);
     }
 
+    renderMeals(meals) {
+        var renderedMeals = [];
+        
 
+        for (let i=0; i < meals.length; i++) {
+            let calories = parseFloat(meals[i].macros[0].replace(/[^\d.-]/g, ''));
+            let fat = parseFloat(meals[i].macros[1].replace(/[^\d.-]/g, ''));
+            let cholestral = parseFloat(meals[i].macros[2].replace(/[^\d.-]/g, ''));
+            let sodium = parseFloat(meals[i].macros[3].replace(/[^\d.-]/g, ''));
+            let sugar = parseFloat(meals[i].macros[4].replace(/[^\d.-]/g, ''));
+            let protein = parseFloat(meals[i].macros[5].replace(/[^\d.-]/g, ''));
+            let carbs = parseFloat(meals[i].macros[6].replace(/[^\d.-]/g, ''));
+
+            let mealNum = parseInt(meals[i].mealNum) + 1;
+            renderedMeals.push(
+                <HorizontalMealCard
+                    key={i}
+                    id="home-meal-card"
+                    mealNum={mealNum}
+                    mealType={meals[i].mealType}                       
+                    label={meals[i].meal.title}
+                    summary={meals[i].meal.summary}
+                    servings={meals[i].meal.servings}
+                    price={meals[i].price}
+                    readyInMinutes={meals[i].meal.readyInMinutes}               
+                    image={meals[i].meal.image}                  
+                    source={meals[i].meal.src}               
+                    calories={calories}           
+                    carbs={carbs}                 
+                    fat={fat}                  
+                    protein={protein}    
+                    cholestral={cholestral}
+                    sodium={sodium}
+                    sugar={sugar}            
+                />
+            );
+        }
+
+        return (renderedMeals);
+    }
+    
     render() {
-        const {isLoading, weeklyMeals} = this.props
-
-        const dFat = 25 / 190;
-        const dProtein = 15 / 190;
-        const dCarbs = 150 / 190;
-
-        const wFat = 125 / 1025;
-        const wProtein = 150 / 1025;
-        const wCarbs = 750 / 1025;
+        const macros = this.props.macros;
+        const meals = this.renderMeals(this.props.meals);
         const day = this.getDay()
-
-        const { dailyCalories, dailyFat, dailyCholestral, dailySodium, dailySugar, dailyProtein, dailyCarbs } = daily;
-        const { weeklyCalories, weeklyFat, weeklyCholestral, weeklySodium, weeklySugar, weeklyProtein, weeklyCarbs } = weekly;
-
-
 
         return (
             <div id="home">
@@ -293,46 +180,31 @@ class Home extends Component {
                     <NavigationBar />
                     <div style={{margin:20}} />
                     <header>
-                        <h3 className="date-header" className="PageTitleFont" >{day}'s Delicious Meals</h3>
+                        <h3 className="date-header PageTitleFont" >{day}'s Delicious Meals</h3>
                     </header>
                     <div style={{margin:20}} />
-                    <Row className="meals-wrapper">
-                        <Col>
-                            <h4 className="BodyFont macros-title">Breakfast</h4>
-                        </Col>
-                        <Col>
-                            <h4 className="BodyFont macros-title">Lunch</h4>
-                        </Col>
-                        <Col>
-                            <h4 className="BodyFont macros-title">Dinner</h4>
-                        </Col>
-                    </Row>
 
-                    <Row>
-                        <div className="meals-wrapper">
-                            {isLoading ? <Loading /> : this.getTodaysMeals(weeklyMeals) }
-                        </div>
-                    </Row>
+                    {meals}
 
                     <Row className="nutrition-wrapper">
                         <Col md={{span: 5, offset: 1}}>
                             <NutrionInfoCard
                                 title="Daily Nutrition Information"
-                                calories={dailyCalories}
-                                fat={dailyFat}
-                                cholestral={dailyCholestral}
-                                sodium={dailySodium}
-                                sugar={dailySugar}
-                                protein={dailyProtein}
-                                carbs={dailyCarbs}
+                                calories={macros.calories}
+                                fat={macros.fat}
+                                cholestral={macros.cholestral}
+                                sodium={macros.sodium}
+                                sugar={macros.sugar}
+                                protein={macros.protein}
+                                carbs={macros.carbs}
                             />
                         </Col>
                         <Col md={{span: 5}}>
                             <MacrosCard 
                                 title="Daily Macronutrient Information"
-                                fat={dFat}
-                                protein={dProtein}
-                                carbs={dCarbs}
+                                fat={macros.fatPercent}
+                                protein={macros.proteinPercent}
+                                carbs={macros.carbsPercent}
                             />
                         </Col>
                     </Row>
@@ -340,8 +212,6 @@ class Home extends Component {
                     <Row>
                         <Button onClick={() => history.push('/grocery')} id="home-continue-btn">Continue to Groceries</Button>
                     </Row>
-                    
-                   
                 </Container>
                 
                 <CustomFeedback/>
@@ -352,14 +222,10 @@ class Home extends Component {
 }
 
 function mapStateToProps (state) {
-    const weeklyMeals = dummyData.dummyMeals
-    const isLoading = state.meals.mealsLoading
+    const meals = state.meals.mealsData;
+    const macros = state.meals.macros;
 
-    return { weeklyMeals, isLoading }
+    return { meals, macros }
 }
 
-const actionCreators = {
-    getWeeklyMeals: mealsActions.getWeeklyMeals,
-}
-
-export default connect(mapStateToProps, actionCreators)(Home);
+export default connect(mapStateToProps)(Home);

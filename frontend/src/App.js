@@ -5,7 +5,6 @@ import Landing from './Containers/Landing/landing';
 import Home from './Containers/Home/home';
 import Register from './Containers/Register/register';
 import Grocery from './Containers/Grocery/Grocery';
-import SaveToken from './Utils/SaveToken';
 import About from './Containers/About/about';
 import Meals from './Containers/Meals/MealsPage';
 

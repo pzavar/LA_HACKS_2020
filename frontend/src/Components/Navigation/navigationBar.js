@@ -7,7 +7,9 @@ import "../Styles/styles.css";
 export const NavigationBar = () => (
     <Navbar>
         <div className="logo-wrapper">
-            <Link className="NavBarText" id="nav-bar-middle" to="/home"><img id="nav-bar-img" src={Logo}/></Link>
+            <Link className="NavBarText" id="nav-bar-middle" to="/home">
+                <img id="nav-bar-img" src={Logo} alt="Logo"/>
+            </Link>
         </div>
     </Navbar>
 )

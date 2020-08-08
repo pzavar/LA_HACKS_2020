@@ -155,5 +155,39 @@ label {
 #reg-error {
     margin-top: 25%;
     text-align: center;
-    color: red;
+    color: #f87373;
+}
+
+.reg-budget-error {
+    border: 2px solid #f87373;
+}
+
+.reg-budget-group {
+    border-radius: 0;
+}
+
+#reg-budget-error-msg {
+    color: #f87373;
+    padding: .5em .2em;
+    height: 1em;
+    position: relative;
+    margin-bottom: 10px;
+    font-size: .8em;
+}
+
+#button2{
+    border-radius: 0;
+}
+
+#reg-num-of-ppl{
+    display: inline-flex;
+    text-align: left;
+    margin-top: 8%;
+
+}
+
+#reg-num-of-ppl {
+    display: inline-flex;
+    position: relative;
+    margin-left: 5px;
 }
