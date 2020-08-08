@@ -107,7 +107,7 @@ class Landing extends Component {
                 <Jumbotron fluid>
                 <Row >
                     <Col md={{span: 4, offset: 4}} >
-                        <h1 className="BodyFontC" id="landing-subtitle-font">WHY MUNCHIES</h1>
+                        <h1 className="BodyFontC" id="landing-subtitle-font">WHY FORK & SPATULA</h1>
                     </Col>
                 </Row>   
                 <Row className="feature-wrapper" >
