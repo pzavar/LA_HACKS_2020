@@ -165,3 +165,8 @@
 .google-button:hover {
     text-decoration: none !important;
 }
+
+.FormBox {
+    border-radius: 0;
+    height: 41px;
+}

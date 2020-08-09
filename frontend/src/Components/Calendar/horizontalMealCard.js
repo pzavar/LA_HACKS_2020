@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
-import { Card, Row, Col, Modal, Form, Button } from 'react-bootstrap';
+import { Card, Row, Col, Modal, Form, Button, Spinner, InputGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { usersActions } from '../../Redux/Actions/UserActions';
+
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+import {connect} from 'react-redux';
+
 
 
 /*
@@ -28,14 +35,30 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons'
     sodium
 */
 
+const schema = Yup.object().shape({
+    email: Yup.string().email("Please enter an appropiate email.").required("Please enter an appropiate email."),
+});
 
-export default class HorizontalMealCard extends Component {
+
+class HorizontalMealCard extends Component {
     constructor(props) {
         super(props)
         this.state = {
             waitlistModalShow: false,
             detailMealModalShow: false,
         }
+    }
+
+    loading() {
+        return(
+            <Spinner
+            as="span"
+            animation="border"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+            />
+        )
     }
 
     removeTags(str) {
@@ -122,6 +145,85 @@ export default class HorizontalMealCard extends Component {
                     <Modal.Body>
                         <h1 className="BodyFont" id="custom-feedback-title">Feature coming soon! </h1>
                         <h1 className="BodyFont" id="custom-feedback-title">Sign up on our waitlist for updates on product release!</h1>
+                        <Formik
+                        validationSchema={schema}
+                        initialValues={{email: ""}}
+                        onSubmit={(values) => {
+                            this.props.signUp(values.email)
+                        }}
+                    >
+                    {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        errors
+                    }) => (
+                        <Form noValidate onSubmit={handleSubmit}>
+                            <InputGroup>
+                            <Form.Control 
+                                type="email"
+                                name="email"
+                                placeholder="Enter email" 
+                                value={values.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                isValid={touched.email && !errors.email}
+                                className={touched.email && errors.email ? "landing-email-error BodyFontD" : "BodyFontD FormBox" }
+                            />
+                            <InputGroup.Append>
+                                <Button id="landing-page-email-submit" type="submit" disabled={this.props.emailSignUpLoading}> {this.props.emailSignUpLoading ? (this.loading()) : "Submit"}</Button>
+                            </InputGroup.Append>
+                            </InputGroup>
+                            {touched.email && errors.email ? (
+                                <div id="landing-email-error-msg">{errors.email}</div>
+                            ): null}
+                            { this.props.emailSignUpSuccess ? (
+                                <div id="landing-email-success-msg">Email added!</div>
+                            ) : null
+                            }
+                            { this.props.emailSignUpError ? (
+                                <div id="landing-email-error-msg">Error adding email. Try again later!</div>
+                            ) : null
+                            }
+                            
+                        </Form>
+                    )}
+                    </Formik>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div />
+                    </Modal.Footer>
+                </Modal>
+
+        </React.Fragment>
+        )
+    }
+}
+
+function mapStateToProps (state) {
+    const { emailSignUpLoading, emailSignUpSuccess, emailSignUpError} = state.user;
+
+    return {emailSignUpLoading, emailSignUpSuccess, emailSignUpError}
+}
+
+const actionCreators = {
+    signUp: usersActions.signUpWaitlist,
+}
+
+export default connect(mapStateToProps, actionCreators)(HorizontalMealCard);
+
+/*
+                <Modal
+                    show={this.state.waitlistModalShow}
+                    onHide={() => this.setState({waitlistModalShow: false})}
+                    centered
+                >
+                    <Modal.Header closeButton />
+                    <Modal.Body>
+                        <h1 className="BodyFont" id="custom-feedback-title">Feature coming soon! </h1>
+                        <h1 className="BodyFont" id="custom-feedback-title">Sign up on our waitlist for updates on product release!</h1>
                         <Form>
                             <Form.Label className="BodyFont" id="custom-feedback-text">Email</Form.Label>
                             <Form.Control 
@@ -137,8 +239,7 @@ export default class HorizontalMealCard extends Component {
                         <Button onClick={() => this.setState({waitlistModalShow: false})}>Submit</Button>
                     </Modal.Footer>
                 </Modal>
-        </React.Fragment>
-        )
-    }
-}
 
+
+
+*/

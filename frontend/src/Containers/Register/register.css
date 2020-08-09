@@ -181,13 +181,6 @@ label {
 
 #reg-num-of-ppl{
     display: inline-flex;
-    text-align: left;
     margin-top: 8%;
 
-}
-
-#reg-num-of-ppl {
-    display: inline-flex;
-    position: relative;
-    margin-left: 5px;
 }

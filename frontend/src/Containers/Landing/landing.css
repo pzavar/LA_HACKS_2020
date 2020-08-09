@@ -213,3 +213,25 @@
     border-radius: 0;
 }
 
+.landing-email-error {
+    border: 2px solid #f87373;
+}
+
+#landing-email-error-msg {
+    color: #f87373;
+    padding: .5em .2em;
+    height: 1em;
+    position: relative;
+    margin-bottom: 10px;
+    font-size: .8em;
+}
+
+#landing-email-success-msg {
+    color: #0ca52d;
+    padding: .5em .2em;
+    height: 1em;
+    position: relative;
+    margin-bottom: 10px;
+    font-size: .8em;
+}
+
