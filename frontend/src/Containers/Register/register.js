@@ -3,10 +3,11 @@ import { Container, Row, Tab, Button, Nav, InputGroup, Form, FormControl } from 
 import DietRestrict from '../../Components/Survey/DietRestrict';
 import DietLifestyle from '../../Components/Survey/DietLifestyle';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
-import { history } from '../../Utils/history';
 import {connect} from 'react-redux';
 import { usersActions } from '../../Redux/Actions/UserActions';
 import CustomFeedback from '../../Components/Feedback/CustomFeedback';
+
+import { history } from '../../Utils/history';
 
 import axios from 'axios';
 
@@ -199,6 +200,7 @@ class Register extends Component {
             console.log(error)
         })
 
+
         // Call user registration redux
         // - meals, budget, snacks
 
@@ -208,8 +210,17 @@ class Register extends Component {
 
         /*
         if (allGood) {
+            // Setup state for userData
             this.props.register(userData);
-            history.push('/meals');
+
+            // Call backend for search 
+            axios.get('http://localhost:4000/meals/complex', {searchData})
+            .then((response) => {
+                history.push('/meals', {meals: response.data});
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         }
         */
     }
@@ -297,7 +308,7 @@ class Register extends Component {
 
                                     {/* Meals Per Day */}
                                     <h3 className="title" style={{marginTop: '8%'}}>Meals Per Day</h3>
-                                    <Form.Row controlId="meals">
+                                    <Form.Row >
                                         <Form.Check
                                             custom
                                             type='radio'
@@ -513,7 +524,7 @@ class Register extends Component {
                     </Tab.Container>
 
                 </div>
-                <CustomFeedback />
+                <CustomFeedback feedback={true}/>
             </Container>
         )
     }
@@ -521,7 +532,7 @@ class Register extends Component {
 
 
 function mapStateToProps(state) {
-    return ("")
+    return (state)
 }
 
 const mapDispatchToProps = {
