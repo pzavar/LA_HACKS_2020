@@ -97,10 +97,10 @@ class Grocery extends Component {
 
                         {/* Waitlist Modal */}
                         <Modal
-                        show={this.state.waitlistModalShow}
-                        onHide={() => this.setState({waitlistModalShow: false})}
-                        centered
-                    >
+                            show={this.state.waitlistModalShow}
+                            onHide={() => this.setState({waitlistModalShow: false})}
+                            centered
+                        >
                         <Modal.Header closeButton />
                         <Modal.Body>
                             <h1 className="BodyFont" id="custom-feedback-title">Feature coming soon! </h1>

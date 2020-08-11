@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 import { connect } from 'react-redux';
-import { Card, Col, Row, Container, Button, Jumbotron, Modal, Alert } from 'react-bootstrap';
+import { Card, Col, Row, Container, Button, Jumbotron, Modal, Alert, InputGroup, Form, Spinner } from 'react-bootstrap';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 import CustomFooter from '../../Components/Navigation/Footer';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
-
+import { usersActions } from '../../Redux/Actions/UserActions';
 import { history } from '../../Utils/history';
+
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 import './MealsPage.css';
 
@@ -23,6 +26,10 @@ import './MealsPage.css';
         --> handleSubmit(e)
 
 */
+
+const schema = Yup.object().shape({
+    email: Yup.string().email("Please enter an appropiate email.").required("Please enter an appropiate email."),
+});
 
 export class MealsPage extends Component {
     constructor(props) {
@@ -52,7 +59,7 @@ export class MealsPage extends Component {
         const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes);
         
         //const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes, spoonacularData.snacks.recipes);
-        const modalInit = meals.map((item, i) => { return false });
+        const modalInit = meals.map(() => { return false });
         this.setState({modalShowArray: modalInit});
 
 
@@ -65,18 +72,16 @@ export class MealsPage extends Component {
             mealsState.push({
                 index: -1, 
                 price: 0, 
-                mealNum: 0, 
+                mealNum: -1, 
                 mealType: "", 
                 meal: {}, 
                 macros: {}, 
-                ingredients: {}
+                ingredients: {},
+                waitlistModalShow: false,
             })
         }
         this.setState({mealsState: mealsState})
 
-        // Initialize initial budget
-        const budget = this.props.budget;
-        this.setState({budget: budget});
 
         // Initialize meal type boolean
         const breakfast = this.props.breakfast;
@@ -91,6 +96,19 @@ export class MealsPage extends Component {
             snack: snack,
             snacks: snacks,
         })
+    }
+
+    // Loading spinner for email modal
+    loading() {
+        return(
+            <Spinner
+            as="span"
+            animation="border"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+            />
+        )
     }
 
     // Strip HTML tags from any string
@@ -282,7 +300,7 @@ export class MealsPage extends Component {
         // Change state to -1
         // Add meal price to budget
         if (mealState.index === index) {
-            budget = budget + mealState.price;
+            budget = budget - mealState.price;
             mealState = {
                 index: -1, 
                 price: 0, 
@@ -299,8 +317,8 @@ export class MealsPage extends Component {
         // Change state to index
         // Remove index meal price from budget
         else {
-            budget = budget + mealState.price;
-            budget = budget - price;
+            budget = budget - mealState.price;
+            budget = budget + price;
             mealState = {
                     index: index, 
                     price: price, 
@@ -310,7 +328,9 @@ export class MealsPage extends Component {
                     macros: macros, 
                     ingredients: ingredients,
             }
-            numSelectedMeals++;
+
+            if (mealNum != this.state.mealsState[mealNum].mealNum) 
+                numSelectedMeals++;
         }
 
         mealsState[mealNum] = mealState;
@@ -445,22 +465,98 @@ export class MealsPage extends Component {
                 
                 <Row id="submit-bar-row">
                     <div id="submit-bar-wrapper">
-                        <h3 className="BodyFontD" id="meals-budget-txt">Budget: ${this.state.budget}</h3>
+                        <Col>
+                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Selected Meals Price: ${this.state.budget}</h3>
+                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Budget: ${this.props.budget}</h3>
+                        </Col>
+                        <Col>
+                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Selected Meals: {this.state.numSelectedMeals}</h3>
+                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Meals: {this.props.meals}</h3>
+                        </Col>
+                        
+                        <Col>
                         {this.state.errorAlert 
-                            ? <Alert variant="danger" onClose={() => this.setState({errorAlert: false})} dismissible>
+                            ? (<Alert variant="danger" onClose={() => this.setState({errorAlert: false})} dismissible>
                                 <Alert.Heading>Error</Alert.Heading>
                                 <p>Make sure to select a meal in each meal option!</p>
-                            </Alert>
+                            </Alert>)
                         
-                            : <Button id="meals-submit-btn" onClick={this.handleSubmit}>Submit</Button>
+                            : (
+                                <React.Fragment>
+                                    <Row>
+                                        <Button id="meals-submit-btn" onClick={() => {this.setState({waitlistModalShow: true})}}>Auto Select</Button>
+                                    </Row>
+                                    <Row>
+                                        <Button id="meals-submit-btn" onClick={this.handleSubmit}>Submit</Button>
+                                    </Row>
+                                </React.Fragment>
+                            )
                         }
-                        
-                        
+                        </Col>
                     </div>
                 </Row>
 
-
-
+                {/* Waitlist Modal */}
+                <Modal
+                    show={this.state.waitlistModalShow}
+                    onHide={() => this.setState({waitlistModalShow: false})}
+                    centered
+                >
+                    <Modal.Header closeButton />
+                    <Modal.Body>
+                        <h1 className="BodyFont" id="custom-feedback-title">Feature coming soon! </h1>
+                        <h1 className="BodyFont" id="custom-feedback-title">Sign up on our waitlist for updates on product release!</h1>
+                        <Formik
+                        validationSchema={schema}
+                        initialValues={{email: ""}}
+                        onSubmit={(values) => {
+                            this.props.signUp(values.email)
+                        }}
+                    >
+                    {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        errors
+                    }) => (
+                        <Form noValidate onSubmit={handleSubmit}>
+                            <InputGroup>
+                            <Form.Control 
+                                type="email"
+                                name="email"
+                                placeholder="Enter email" 
+                                value={values.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                isValid={touched.email && !errors.email}
+                                className={touched.email && errors.email ? "landing-email-error BodyFontD" : "BodyFontD FormBox" }
+                            />
+                            <InputGroup.Append>
+                                <Button id="landing-page-email-submit" type="submit" disabled={this.props.emailSignUpLoading}> {this.props.emailSignUpLoading ? (this.loading()) : "Submit"}</Button>
+                            </InputGroup.Append>
+                            </InputGroup>
+                            {touched.email && errors.email ? (
+                                <div id="landing-email-error-msg">{errors.email}</div>
+                            ): null}
+                            { this.props.emailSignUpSuccess ? (
+                                <div id="landing-email-success-msg">Email added!</div>
+                            ) : null
+                            }
+                            { this.props.emailSignUpError ? (
+                                <div id="landing-email-error-msg">Error adding email. Try again later!</div>
+                            ) : null
+                            }
+                            
+                        </Form>
+                    )}
+                    </Formik>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div />
+                    </Modal.Footer>
+                </Modal>
                 <CustomFeedback />
                 <CustomFooter />
             </Container>
@@ -477,6 +573,9 @@ function mapStateToProps(state) {
         dinner,
         snack,
         snacks,
+        emailSignUpLoading, 
+        emailSignUpSuccess, 
+        emailSignUpError,
     } = state.user;
 
     const {
@@ -497,6 +596,9 @@ function mapStateToProps(state) {
         searchLoading,
         searchData,
         searchError,
+        emailSignUpLoading, 
+        emailSignUpSuccess, 
+        emailSignUpError,
     })
 }
 

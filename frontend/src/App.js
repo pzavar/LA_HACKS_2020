@@ -8,9 +8,12 @@ import Grocery from './Containers/Grocery/Grocery';
 import About from './Containers/About/about';
 import Meals from './Containers/Meals/MealsPage';
 
+import ScrollToTop from './Utils/ScrollToTop';
+
 
 const App = () => (
   <Router history={history}>
+    <ScrollToTop />
     <Switch>
       <Route exact path="/" component={Landing} />
       <Route exact path="/register" component={Register} />
