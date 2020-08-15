@@ -16,7 +16,7 @@ const dummyMealOptions = {
                 image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
                 title: 'Chunky Monkey Porridge',
                 summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
-                pricePerServing: '600',
+                pricePerServing: '623',
                 readyInMinutes: 15,
             }, {
                 type: 'Breakfast',
@@ -106,7 +106,7 @@ const dummyMealOptions = {
             title: 'Rice Bowls with Flaky Cod',
             servings: 2,
             summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
-            pricePerServing: '1200',
+            pricePerServing: '1216',
             readyInMinutes: 15,
         },{
             id: '8',
@@ -219,7 +219,7 @@ const dummyMealOptions = {
                 image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
                 title: 'Chunky Monkey Porridge',
                 summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
-                pricePerServing: '600',
+                pricePerServing: '649',
                 readyInMinutes: 15,
             }, {
                 type: 'Breakfast',

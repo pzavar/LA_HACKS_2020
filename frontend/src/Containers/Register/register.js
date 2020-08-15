@@ -164,7 +164,7 @@ class Register extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const { meals, breakfast, lunch, dinner, snack, snacks, budget, Diet, exclude, allGood, people} = this.state;
+        const { meals, breakfast, lunch, dinner, snack, snacks, budget, Diet, exclude, people} = this.state;
         
         const userData = {
             meals: meals,

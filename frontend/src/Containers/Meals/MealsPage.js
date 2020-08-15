@@ -6,7 +6,6 @@ import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 import CustomFooter from '../../Components/Navigation/Footer';
 import { mealsActions } from '../../Redux/Actions/MealsActions';
-import { usersActions } from '../../Redux/Actions/UserActions';
 import { history } from '../../Utils/history';
 
 import { Formik } from 'formik';
@@ -289,12 +288,9 @@ export class MealsPage extends Component {
         e.preventDefault();
         let mealsState = [...this.state.mealsState];
         let mealState = {...mealsState[mealNum]};
-        let price = parseInt(mealPrice);
+        let price = parseFloat(mealPrice);
         let numSelectedMeals = this.state.numSelectedMeals;
-        var budget = this.state.budget;
-        
-
-        
+        var budget = this.state.budget.toFixed(2);
 
         // If index is equal to current meal number
         // Change state to -1
@@ -329,7 +325,7 @@ export class MealsPage extends Component {
                     ingredients: ingredients,
             }
 
-            if (mealNum != this.state.mealsState[mealNum].mealNum) 
+            if (mealNum !== this.state.mealsState[mealNum].mealNum) 
                 numSelectedMeals++;
         }
 
@@ -389,7 +385,9 @@ export class MealsPage extends Component {
 
         var mealCount = 0;
         var mealOptionNum = 0;
-        var renderedMeals = []
+        var renderedMeals = [];
+        const selectedPrice = this.state.budget.toFixed(2);
+
 
         // Setup the meals to render
         // Setup breakfast
@@ -466,7 +464,7 @@ export class MealsPage extends Component {
                 <Row id="submit-bar-row">
                     <div id="submit-bar-wrapper">
                         <Col>
-                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Selected Meals Price: ${this.state.budget}</h3>
+                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Selected Meals Price: ${selectedPrice}</h3>
                             <h3 className="BodyFontD" id="meals-footer-bar-txt">Budget: ${this.props.budget}</h3>
                         </Col>
                         <Col>
