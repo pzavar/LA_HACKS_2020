@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
-import { Container, Row, Tab, Button, Nav, InputGroup, Form, FormControl } from 'react-bootstrap';
+import { Container, Row, Tab, Button, Nav, InputGroup, Form } from 'react-bootstrap';
 import DietRestrict from '../../Components/Survey/DietRestrict';
 import DietLifestyle from '../../Components/Survey/DietLifestyle';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import {connect} from 'react-redux';
 import { usersActions } from '../../Redux/Actions/UserActions';
+import { mealsActions } from '../../Redux/Actions/MealsActions';
 import CustomFeedback from '../../Components/Feedback/CustomFeedback';
+import Loading from '../../Components/Loading/Loading';
+import {history} from '../../Utils/history';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
-import { history } from '../../Utils/history';
+//import { history } from '../../Utils/history';
 
-import axios from 'axios';
 
 import './register.css';
 
@@ -21,6 +25,7 @@ class Register extends Component {
         this.state = {
             /* User Meal Pref States Data */
             meals: 3,
+            people: 1,
             breakfast: true,
             lunch: true,
             dinner: true,
@@ -42,7 +47,6 @@ class Register extends Component {
             step3: "",
             step4: "",
             
-            allGood: false,
         }
 
         /* Update forms functions */
@@ -152,24 +156,15 @@ class Register extends Component {
     handleChange(e) {
         const name = e.target.name;
         const value = e.target.value;
-
-        if (name === 'budget') {
-            this.setState({
-                [name]: value,
-                allGood: true,
-            })
-        } else {
-            this.setState({
+        this.setState({
                 [name]: value
-            })
-        }
-
+            });
 
     }
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const { meals, breakfast, lunch, dinner, snack, snacks, budget, Diet, exclude, allGood} = this.state;
+        const { meals, breakfast, lunch, dinner, snack, snacks, budget, Diet, exclude, people} = this.state;
         
         const userData = {
             meals: meals,
@@ -179,6 +174,8 @@ class Register extends Component {
             dinner: dinner,
             snack: snack,
             snacks: snacks,
+            people: people,
+
         }
 
         const searchData = {
@@ -192,6 +189,7 @@ class Register extends Component {
             numberOfMeals: meals, // int: number of meals
         }
 
+        /*
         axios.get('http://localhost:4000/meals/complex', {searchData})
         .then((response) => {
             console.log(response.data)
@@ -199,7 +197,7 @@ class Register extends Component {
         .catch((error) => {
             console.log(error)
         })
-
+        */
 
         // Call user registration redux
         // - meals, budget, snacks
@@ -208,21 +206,25 @@ class Register extends Component {
         // - exclude, diet, breakfast, lunch, dinner, snack
 
 
-        /*
-        if (allGood) {
-            // Setup state for userData
-            this.props.register(userData);
+        
+        // Setup state for userData
+        this.props.register(userData);
 
-            // Call backend for search 
-            axios.get('http://localhost:4000/meals/complex', {searchData})
-            .then((response) => {
-                history.push('/meals', {meals: response.data});
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        }
+        // Call backend for search 
+        this.props.searchMeals(searchData);
+
+        // REMOVE AFTER TESTING
+        history.push('/meals');
+        /*
+        axios.get('http://localhost:4000/meals/complex', {searchData})
+        .then((response) => {
+            history.push('/meals', {meals: response.data});
+        })
+        .catch((error) => {
+            console.log(error)
+        })
         */
+        
     }
 
     render() {
@@ -231,6 +233,13 @@ class Register extends Component {
         const step4 = this.state.step4;
         const dietRestrictClassName = "reg-diet-restrict-form";
         const dietLifestyleClassName = "reg-diet-lifestyle-form";
+
+        const perPersonCost = (this.state.people * 2.50).toFixed(2);
+        const minBudget = (this.state.meals * perPersonCost).toFixed(2);
+
+        const schema = yup.object().shape({
+            budget: yup.number().moreThan(minBudget-0.5, "Must be greater than min budget amount.").required(),
+        });
 
         /* Dynamically change number of options for snacks */
         var options = []
@@ -250,7 +259,22 @@ class Register extends Component {
         var meals =  snack === 0 ? (snack + this.state.mealTypeNum) : (snack + this.state.mealTypeNum - 1);
         var mealTypeDisable = parseInt(this.state.meals) > meals ? false : true;
 
+        if (this.props.searchLoading) {
+            return (
+                <Loading />
+            )
 
+        }
+        /*
+        else if (this.props.searchError) {
+            return (
+                <Container>
+                    <h1>Error: {this.props.searchErrorMessage}</h1>
+                </Container>
+            )
+        }
+        */
+        else {
         return (
             <Container>
                 <NavBarEntry />
@@ -275,7 +299,7 @@ class Register extends Component {
                             </div>
                             <Tab.Content>
 
-                                {/* Meal Plan Pref */}
+                                {/* Tab 1 */}
                                 <Tab.Pane eventKey={1}>
                                     {/* Meal Plan Type */}
                                     <h3 className="title">Meal Plan Type</h3>
@@ -308,82 +332,84 @@ class Register extends Component {
 
                                     {/* Meals Per Day */}
                                     <h3 className="title" style={{marginTop: '8%'}}>Meals Per Day</h3>
-                                    <Form.Row >
-                                        <Form.Check
-                                            custom
-                                            type='radio'
-                                            name="meals"
-                                            id='1'
-                                            label='1'
-                                            value={1}
-                                            disabled={meals > 1}
-                                            onChange={this.handleChange}
-                                            style={{marginLeft: 5, marginRight:20}}
-                                            className="BodyFontD"
- 
-                                        />
-                                        <Form.Check
-                                            custom
-                                            type='radio'
-                                            name="meals"
-                                            id='2'
-                                            label='2'
-                                            value={2}
-                                            disabled={meals > 2}
-                                            onChange={this.handleChange}
-                                            style={{marginRight:20}}
-                                            className="BodyFontD"
-                                        />
-                                        <Form.Check
-                                            custom
-                                            type='radio'
-                                            name="meals"
-                                            id='3'
-                                            label='3'
-                                            value={3}
-                                            disabled={meals > 3}
-                                            onChange={this.handleChange}
-                                            style={{marginRight:20}}
-                                            className="BodyFontD"
-                                            defaultChecked={true}
-                                        />
-                                        <Form.Check
-                                            custom
-                                            type='radio'
-                                            name="meals"
-                                            id='4'
-                                            label='4'
-                                            value={4}
-                                            disabled={meals > 4}
-                                            onChange={this.handleChange}
-                                            style={{marginRight:20}}
-                                            className="BodyFontD"
-                                        />
-                                        <Form.Check
-                                            custom
-                                            type='radio'
-                                            name="meals"
-                                            id='5'
-                                            label='5'
-                                            value={5}
-                                            disabled={meals > 5}
-                                            onChange={this.handleChange}
-                                            style={{marginRight:20}}
-                                            className="BodyFontD"
-                                        />
-                                        <Form.Check
-                                            custom
-                                            type='radio'
-                                            name="meals"
-                                            id='6'
-                                            label='6'
-                                            value={6}
-                                            disabled={meals > 6}
-                                            onChange={this.handleChange}
-                                            style={{marginRight:20}}
-                                            className="BodyFontD"
-                                        />
-                                    </Form.Row>
+                                    <Form.Group controlId="numOfMeals">
+                                        <Form.Row >
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="meals"
+                                                id='numOfMeals1'
+                                                label='1'
+                                                value={1}
+                                                disabled={meals > 1}
+                                                onChange={this.handleChange}
+                                                style={{marginLeft: 5, marginRight:20}}
+                                                className="BodyFontD"
+    
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="meals"
+                                                id='numOfMeals2'
+                                                label='2'
+                                                value={2}
+                                                disabled={meals > 2}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="meals"
+                                                id='numOfMeals3'
+                                                label='3'
+                                                value={3}
+                                                disabled={meals > 3}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                                defaultChecked={true}
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="meals"
+                                                id='numOfMeals4'
+                                                label='4'
+                                                value={4}
+                                                disabled={meals > 4}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="meals"
+                                                id='numOfMeals5'
+                                                label='5'
+                                                value={5}
+                                                disabled={meals > 5}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="meals"
+                                                id='numOfMeals6'
+                                                label='6'
+                                                value={6}
+                                                disabled={meals > 6}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                            />
+                                        </Form.Row>
+                                    </Form.Group>
 
                                     {/* Meal Types */}
                                     <h3 className="title" style={{marginTop: '8%'}}>Meal Types</h3>
@@ -457,30 +483,148 @@ class Register extends Component {
                                     </Row>
                                 </Tab.Pane>
 
-                                {/* Budget */}
+                                {/* Tab 2 */}
                                 <Tab.Pane eventKey={2}>
-                                    <h3 className="title">Budget</h3>
-                                    <Form.Group controlId="budget">
-                                    <Form.Label className="BodyFontB">Daily Meal Budget</Form.Label>
-                                    <InputGroup>
-                                        <InputGroup.Prepend>
-                                            <InputGroup.Text id="budgetPrepend" className="BodyFontD" style={{paddingTop:3, paddingBottom:3,}}>$</InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control 
-                                            type="number"
-                                            placeholder="ex. 30.00"
-                                            min="0"
-                                            name="budget"
-                                            value={this.state.budget}
-                                            onChange={this.handleChange}
-                                            className="BodyFontD"
-                                        />
-                                        </InputGroup>
+
+                                    {/* Number of People */}
+                                    
+                                        <h3 className="title" id="num-of-ppl-title">Number of People</h3>
+                                        <h4 className="BodyFontD">Feature coming soon!</h4>
+                                    
+
+                                    <Form.Group controlId="numOfPeople" >
+                                        <Form.Row >
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="people"
+                                                id='numOfPeople1'
+                                                label='1'
+                                                value={1}
+                                                onChange={this.handleChange}
+                                                style={{marginLeft: 5, marginRight:20}}
+                                                className="BodyFontD"
+                                                defaultChecked={true}
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="people"
+                                                id='numOfPeople2'
+                                                label='2'
+                                                value={2}
+                                                disabled={true}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="people"
+                                                id='numOfPeople3'
+                                                label='3'
+                                                value={3}
+                                                disabled={true}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="people"
+                                                id='numOfPeople4'
+                                                label='4'
+                                                value={4}
+                                                disabled={true}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="people"
+                                                id='numOfPeople5'
+                                                label='5'
+                                                value={5}
+                                                disabled={true}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                            />
+                                            <Form.Check
+                                                custom
+                                                type='radio'
+                                                name="people"
+                                                id='numOfPeople6'
+                                                label='6'
+                                                value={6}
+                                                disabled={true}
+                                                onChange={this.handleChange}
+                                                style={{marginRight:20}}
+                                                className="BodyFontD"
+                                            />
+                                        </Form.Row>
                                     </Form.Group>
-                                    <Row id="two-button-group">
-                                        <Button id="button1 button" onClick={(e) => this.handleSelect(1, "prev", e)}>Previous</Button>
-                                        <Button id="button2 button" onClick={(e) => this.handleSelect(3, "next", e)}>Next</Button>
-                                    </Row>
+
+                                    {/* Budget */}
+                                    <h3 className="title">Daily Meal Budget</h3>
+                                    <Formik
+                                        validationSchema={schema}
+                                        initialValues={{
+                                            budget: minBudget,
+                                        }}
+                                        onSubmit={(values) => {
+                                            const budget = parseFloat(values.budget).toFixed(2);
+                                            this.setState({budget: budget})
+                                            this.handleSelect(3, "next", this)
+                                        }}
+                                    >
+                                    {({
+                                        handleSubmit,
+                                        handleChange,
+                                        handleBlur,
+                                        values,
+                                        touched,
+                                        errors
+                                    }) => (
+                                        <Form noValidate onSubmit={handleSubmit}>
+                                            <Form.Group controlId="budget">
+                                            <Form.Label className="BodyFontD">Minimum budget ${minBudget} at $2.50/meal/person.</Form.Label>
+                                            <InputGroup>
+                                                <InputGroup.Prepend>
+                                                    <InputGroup.Text className="BodyFontD reg-budget-group" style={{paddingTop:3, paddingBottom:3,}}>$</InputGroup.Text>
+                                                </InputGroup.Prepend>
+                                                <Form.Control 
+                                                    type="number"
+                                                    placeholder="ex: 40.12"
+                                                    name="budget"
+                                                    value={values.budget}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    isValid={touched.budget && !errors.budget}
+                                                    className={touched.budget && errors.budget ? "reg-budget-error BodyFontD reg-budget-group" : "BodyFontD reg-budget-group" }
+                                                    
+                                                />
+                                            </InputGroup>
+                                            {touched.budget && errors.budget ? (
+                                                <div id="reg-budget-error-msg">{errors.budget}</div>
+                                            ): null}
+                                            
+                                            </Form.Group>
+                                            <Row id="two-button-group">
+                                            <Button id="button1 button" onClick={(e) => this.handleSelect(1, "prev", e)}>Previous</Button>
+                                            <Button id="button2 button" type="submit">Next</Button>
+                                        </Row>
+                                        </Form>
+                                        
+                                    )}
+                                    
+                                    </Formik>
+                                    
+                                            {/* onClick={(e) => this.handleSelect(3, "next", e)} */}
                                 </Tab.Pane>
 
                                 {/* Diet Preferences */}
@@ -510,12 +654,9 @@ class Register extends Component {
                                             type='checkbox'
                                             api="spoonacular" 
                                         />
-                                    { !this.state.allGood &&
-                                        <h3 className="BodyFontD" id="reg-error">Error: Enter a budget amount in step 2.</h3>
-                                    }
                                     <Row id="two-button-group">
                                         <Button id="button1 button" onClick={(e) => this.handleSelect(3, "prev", e)}>Previous</Button>
-                                        <Button variant="success" id="button2" disabled={!this.state.allGood} onClick={this.handleSubmit}>Submit</Button>
+                                        <Button variant="success" id="button2" onClick={this.handleSubmit}>Submit</Button>
                                     </Row>
                                 </Tab.Pane>
 
@@ -527,16 +668,19 @@ class Register extends Component {
                 <CustomFeedback feedback={true}/>
             </Container>
         )
+        }
     }
 }
 
 
 function mapStateToProps(state) {
-    return (state)
+    const { searchLoading, searchError, searchErrorMessage } = state.meals;
+    return ({searchLoading, searchError, searchErrorMessage})
 }
 
 const mapDispatchToProps = {
     register: usersActions.userRegistration,
+    searchMeals: mealsActions.searchMeals,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register)

@@ -5,13 +5,15 @@ import Landing from './Containers/Landing/landing';
 import Home from './Containers/Home/home';
 import Register from './Containers/Register/register';
 import Grocery from './Containers/Grocery/Grocery';
-import SaveToken from './Utils/SaveToken';
 import About from './Containers/About/about';
 import Meals from './Containers/Meals/MealsPage';
+
+import ScrollToTop from './Utils/ScrollToTop';
 
 
 const App = () => (
   <Router history={history}>
+    <ScrollToTop />
     <Switch>
       <Route exact path="/" component={Landing} />
       <Route exact path="/register" component={Register} />

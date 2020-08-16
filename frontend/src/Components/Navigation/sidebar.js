@@ -3,7 +3,7 @@ import React from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faSearch, faShoppingCart, faHistory, faCog, faSignOutAlt, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faShoppingCart, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import "./nav.css";
 
 function SideBar(props) {

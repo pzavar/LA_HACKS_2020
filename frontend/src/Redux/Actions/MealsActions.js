@@ -1,224 +1,118 @@
 import {mealsConstants} from './types';
 import {history} from '../../Utils/history';
-import {api, auth_config} from '../../Utils/url';
+import {api} from '../../Utils/url';
 
 
-export const mealsActions ={
-    getWeeklyMeals,
-    getDailyMeals, // Need verification
-    addFavMeal,
-    removeFavMeal,
-    swapMeal,
-    getHistoryMeals,
-    getFavMeals,
-    getGrocery,
+export const mealsActions = {
+    searchMeals,
+    setMeals,
+    setGroceryList,
+    setMacros,
 }
 
-function getWeeklyMeals() {
+
+function searchMeals(searchData) {
     return dispatch => {
         dispatch(request())
 
-        console.log(auth_config)
-
-        api.get("/meals/week", auth_config)
-        .then((response) =>{
-            console.log(response)
-
-            // Variables
-            var weekMeals = {
-                sunday: [],
-                monday: [],
-                tuesday: [],
-                wednesday: [],
-                thursday: [],
-                friday: [],
-                saturday: [],
-            };
-            var i, j, chunk = 3;
-
-            // Parse data from backend to meals day of the week
-            for (i=0, j=response.data.length; i < j; i+=chunk) {
-                switch(i) {
-                    // Sunday
-                    case 0:
-                        weekMeals.sunday = response.data.slice(i, i+chunk);
-                        break;
-
-                    // Monday
-                    case 3:
-                        weekMeals.monday = response.data.slice(i, i+chunk);
-                        break;
-
-                    // Tuesday
-                    case 6:
-                        weekMeals.tuesday = response.data.slice(i, i+chunk);
-                        break;
-
-                    // Wednesday
-                    case 9:
-                        weekMeals.wednesday = response.data.slice(i, i+chunk);
-                        break;
-
-                    // Thursday
-                    case 12:
-                        weekMeals.thursday = response.data.slice(i, i+chunk);
-                        break;
-
-                    // Friday
-                    case 15:
-                        weekMeals.friday = response.data.slice(i, i+chunk);
-                        break;
-
-                    // Saturday
-                    case 18:
-                        weekMeals.saturday = response.data.slice(i, i+chunk);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-            dispatch(success(weekMeals))
+        api.get("/meals/complex", searchData) 
+        .then((response) => {
+            dispatch(success(response.data));
+            history.push('/meals');
         })
         .catch(error => {
-            dispatch(failure(error))
+            console.log(error)
+            dispatch(failure(error.message))
         })
     }
 
-    function request() { return { type: mealsConstants.WEEK_REQUEST}}
-    function success(data) { return {type: mealsConstants.WEEK_SUCCESS, data}}
-    function failure(error) { return {type: mealsConstants.WEEK_FAILURE, error}}
+    function request() { return { type: mealsConstants.SEARCH_REQUEST}}
+    function success(data) { return {type: mealsConstants.SEARCH_SUCCESS, data}}
+    function failure(error) { return {type: mealsConstants.SEARCH_FAILURE, error}}
 }
 
-
-function getDailyMeals(day, weekMeals) {
+function setMeals(mealsData) {
     return dispatch => {
-        dispatch(request())
 
+        dispatch(success(mealsData))
+
+    }
+
+    function success(data) { return {type: mealsConstants.SET_MEALS_SUCCESS, data}}
+}
+
+// Add functionality to combine like ingredients
+function setGroceryList(ingredientsData) {
+    return dispatch => {
+        var groceryList = [];
+
+        for (let i=0; i < ingredientsData.length; i++) {
+            for(let j=0; j < ingredientsData[i].length; j++) {
+                groceryList.push(ingredientsData[i][j]);
+            }
+        }
+
+        dispatch(success(groceryList))
+
+    }
+
+    function success(data) { return {type: mealsConstants.SET_GROCERY_LIST_SUCCESS, data}}
+}
+
+// Add functionality to combine Macros 
+function setMacros(data) {
+    return dispatch => {
+        let macros = data;
+        let calories = 0;
+        let fat = 0;
+        let cholestral = 0;
+        let sodium = 0;
+        let sugar = 0;
+        let protein = 0;
+        let carbs = 0;
+
+        for(let i=0; i < macros.length; i++) {
+            
+
+            calories += parseFloat(macros[i][0].replace(/[^\d.-]/g, ''));
+            fat += parseFloat(macros[i][1].replace(/[^\d.-]/g, ''));
+            cholestral += parseFloat(macros[i][2].replace(/[^\d.-]/g, ''));
+            sodium += parseFloat(macros[i][3].replace(/[^\d.-]/g, ''));
+            sugar += parseFloat(macros[i][4].replace(/[^\d.-]/g, ''));
+            protein += parseFloat(macros[i][5].replace(/[^\d.-]/g, ''));
+            carbs += parseFloat(macros[i][6].replace(/[^\d.-]/g, ''));
+        }
+
+        let total = protein + fat + carbs;
+        let carbsPercent = parseFloat((carbs / total).toFixed(2));
+        let fatPercent = parseFloat((fat / total).toFixed(2));
+        let proteinPercent = parseFloat((protein / total).toFixed(2));
+
+        calories = calories.toFixed(2);
+        fat = fat.toFixed(2);
+        cholestral = cholestral.toFixed(2);
+        sodium = sodium.toFixed(2);
+        sugar = sugar.toFixed(2);
+        protein = protein.toFixed(2);
+        carbs = carbs.toFixed(2);
         
-        dispatch(success)
+        let macrosFinal = {
+            calories,
+            fat,
+            cholestral,
+            sodium,
+            sugar,
+            protein,
+            carbs,
+            carbsPercent,
+            fatPercent,
+            proteinPercent,
+        }    
+        
+
+        dispatch(success(macrosFinal))
+
     }
 
-    function request() { return { type: mealsConstants.WEEK_REQUEST}}
-    function success(data) { return {type: mealsConstants.WEEK_SUCCESS, data}}
-    function failure(error) { return {type: mealsConstants.WEEK_FAILURE, error}}
-
-}
-
-
-function addFavMeal(mealId) {
-    const data = {
-        mealId: mealId
-    }
-
-    return dispatch => {
-        dispatch(request())
-        api.put('/meals/add_fav', data, auth_config)
-        .then((response) => {
-            dispatch(success(response.data))
-        })
-        .catch(error => 
-            dispatch(failure(error)))
-    }
-
-    function request() { return { type: mealsConstants.ADD_FAVORITE_REQUEST}}
-    function success(data) { return {type: mealsConstants.ADD_FAVORITE_SUCCESS, data}}
-    function failure(error) { return {type: mealsConstants.ADD_FAVORITE_FAILURE, error}}
-
-}
-
-function removeFavMeal(mealId) {
-    const data = {
-        mealId: mealId
-    }
-
-    return dispatch => {
-        dispatch(request())
-        api.put('/meals/remove_fav', data, auth_config)
-        .then(() => {
-            dispatch(success(data))
-        })
-        .catch(error => 
-            dispatch(failure(error)))
-    }
-
-
-    function request() { return { type: mealsConstants.REMOVE_FAVORITE_REQUEST}}
-    function success(data) { return {type: mealsConstants.REMOVE_FAVORITE_SUCCESS, data}}
-    function failure(error) { return {type: mealsConstants.REMOVE_FAVORITE_FAILURE, error}}
-
-}
-
-function swapMeal(newMealId, oldMealId) {
-    const data = {
-        newMealId: newMealId,
-        oldMealId: oldMealId,
-    }
-
-    return dispatch => {
-        dispatch(request())
-        api.put('/meals/swap', data, auth_config)
-        .then(() => {
-            dispatch(success(data))
-        })
-        .catch(error => 
-            dispatch(failure(error)))
-    }
-
-    function request() { return { type: mealsConstants.SWAP_MEAL_REQUEST}}
-    function success(data) { return {type: mealsConstants.SWAP_MEAL_SUCCESS, data}}
-    function failure(error) { return {type: mealsConstants.SWAP_MEAL_FAILURE, error}}
-
-}
-
-function getHistoryMeals() {
-    return dispatch => {
-        dispatch(request())
-        api.get('/meals/history', '', auth_config)
-        .then((response) => {
-            dispatch(success(response.data))
-        })
-        .catch(error => 
-            dispatch(failure(error)))
-    }
-
-    function request() { return { type: mealsConstants.GET_HISTORY_REQUEST}}
-    function success(data) { return {type: mealsConstants.GET_HISTORY_SUCCESS, data}}
-    function failure(error) { return {type: mealsConstants.GET_HISTORY_FAILURE, error}}
-
-}
-
-function getFavMeals() {
-    return dispatch => {
-        dispatch(request())
-        api.get('/meals/favorite', '', auth_config)
-        .then((response) => {
-            dispatch(success(response.data))
-        })
-        .catch(error => 
-            dispatch(failure(error)))
-    }
-
-    function request() { return { type: mealsConstants.GET_FAVORITES_REQUEST}}
-    function success(data) { return {type: mealsConstants.GET_FAVORITES_SUCCESS, data}}
-    function failure(error) { return {type: mealsConstants.GET_FAVORITES_FAILURE, error}}
-
-}
-
-function getGrocery() {
-    return dispatch => {
-        dispatch(request())
-        api.get('/meals/grocery', '', auth_config)
-        .then((response) => {
-            dispatch(success(response.data))
-        })
-        .catch(error => 
-            dispatch(failure(error)))
-    }
-
-
-    function request() { return { type: mealsConstants.GET_GROCERY_REQUEST}}
-    function success(data) { return {type: mealsConstants.GET_GROCERY_SUCCESS, data}}
-    function failure(error) { return {type: mealsConstants.GET_GROCERY_FAILURE, error}}
-
+    function success(data) { return {type: mealsConstants.SET_MACROS_SUCESS, data}}
 }

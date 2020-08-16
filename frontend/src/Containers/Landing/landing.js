@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Col, Row, Button, Form, Jumbotron, InputGroup } from 'react-bootstrap';
+import { Container, Col, Row, Button, Form, Jumbotron, InputGroup, Spinner } from 'react-bootstrap';
 import { history } from '../../Utils/history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faInfoCircle, faList, faHandPointer, faDollarSign, faMoneyBillWaveAlt} from '@fortawesome/free-solid-svg-icons';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
 
 import { Daily } from '../../Components/Calendar/daily';
-import { authActions } from '../../Redux/Actions/AuthActions';
 import {connect} from 'react-redux';
 
 import './landing.css';
@@ -15,8 +14,14 @@ import { dummyData } from '../../Redux/Reducers/dummy';
 import { Link } from 'react-router-dom';
 
 import CustomFooter from '../../Components/Navigation/Footer';
+import { usersActions } from '../../Redux/Actions/UserActions';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 
+const schema = Yup.object().shape({
+    email: Yup.string().email("Please enter an appropiate email.").required("Please enter an appropiate email."),
+})
 
 class Landing extends Component {
     constructor(props) {
@@ -33,6 +38,22 @@ class Landing extends Component {
     handleStart(values) {
         history.push({
             pathname: '/register'});
+    }
+
+    handleEmailSubmit(email) {
+        this.props.signUp(email)
+    }
+
+    loading() {
+        return(
+            <Spinner
+            as="span"
+            animation="border"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+            />
+        )
     }
 
     render() {
@@ -108,7 +129,7 @@ class Landing extends Component {
                 <Jumbotron fluid>
                 <Row >
                     <Col md={{span: 4, offset: 4}} >
-                        <h1 className="BodyFontC" id="landing-subtitle-font">WHY MUNCHIES</h1>
+                        <h1 className="BodyFontC" id="landing-subtitle-font">WHY FORK & SPATULA</h1>
                     </Col>
                 </Row>   
                 <Row className="feature-wrapper" >
@@ -148,32 +169,72 @@ class Landing extends Component {
                 <Jumbotron>
                 <Row>
                     <Col md={{span: 6, offset: 3}} >
-                        <InputGroup id="landing-email-wrapper">
-                            <Form.Label className="BodyFontC" id="landing-email-label">Join our waitlist for updates on  full product release!</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" className="BodyFontE" id="landing-email-input-box"/>
-                            <InputGroup.Append>
-                                <Button id="landing-page-email-submit">Submit</Button>
-                            </InputGroup.Append>
-                        </InputGroup>
+                        <Formik
+                            validationSchema={schema}
+                            initialValues={{email: ""}}
+                            onSubmit={(values) => {
+                                this.handleEmailSubmit(values.email)
+                            }}
+                        >
+                        {({
+                            handleSubmit,
+                            handleChange,
+                            handleBlur,
+                            values,
+                            touched,
+                            errors
+                        }) => (
+                            <Form noValidate onSubmit={handleSubmit}>
+                                <InputGroup>
+                                <Form.Label className="BodyFontC" id="landing-email-label">Join our waitlist for updates on  full product release!</Form.Label>
+                                <Form.Control 
+                                    type="email"
+                                    name="email"
+                                    placeholder="Enter email" 
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    isValid={touched.email && !errors.email}
+                                    className={touched.email && errors.email ? "landing-email-error BodyFontD" : "BodyFontD" }
+                                    id="landing-email-input-box"/>
+                                <InputGroup.Append>
+                                    <Button id="landing-page-email-submit" type="submit" disabled={this.props.emailSignUpLoading}> {this.props.emailSignUpLoading ? (this.loading()) : "Submit"}</Button>
+                                </InputGroup.Append>
+                                </InputGroup>
+                                {touched.email && errors.email ? (
+                                    <div id="landing-email-error-msg">{errors.email}</div>
+                                ): null}
+                                { this.props.emailSignUpSuccess ? (
+                                    <div id="landing-email-success-msg">Email added!</div>
+                                ) : null
+                                }
+                                { this.props.emailSignUpError ? (
+                                    <div id="landing-email-error-msg">Error adding email. Try again later!</div>
+                                ) : null
+                                }
+                                
+                            </Form>
+                        )}
+                        </Formik>
+                        <div id="landing-email-wrapper" />
                     </Col>
                 </Row>
                 <CustomFooter />
                 </Jumbotron>
             </Container>
-            
-
         )
     }
 }
 
 function mapStateToProps (state) {
     const sampleMeals = dummyData.dummyMeals.slice(0,3)
+    const { emailSignUpLoading, emailSignUpSuccess, emailSignUpError} = state.user;
 
-    return {sampleMeals}
+    return {sampleMeals, emailSignUpLoading, emailSignUpSuccess, emailSignUpError}
 }
 
 const actionCreators = {
-    login: authActions.login,
+    signUp: usersActions.signUpWaitlist,
 }
 
 export default connect(mapStateToProps, actionCreators)(Landing);

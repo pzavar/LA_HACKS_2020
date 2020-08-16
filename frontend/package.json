@@ -12,7 +12,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "elliptical": "^2.3.0",
-    "formik": "^2.1.4",
+    "formik": "^2.1.5",
     "mongoose": "^5.9.6",
     "query-string": "^6.12.1",
     "react": "^16.13.1",
@@ -28,7 +28,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "yup": "^0.28.3"
+    "yup": "^0.28.5"
   },
   "scripts": {
     "svgr": "svgr -d src/Icons src/Assets",

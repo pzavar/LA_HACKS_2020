@@ -1,253 +1,34 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 import { connect } from 'react-redux';
-import { Card, Col, Row, Container, Button, Jumbotron, Modal } from 'react-bootstrap';
+import { Card, Col, Row, Container, Button, Jumbotron, Modal, Alert, InputGroup, Form, Spinner } from 'react-bootstrap';
 import NavBarEntry from '../../Components/Navigation/navBarEnty';
 import CustomFeedback from '../../Components/Feedback/CustomFeedback';
 import CustomFooter from '../../Components/Navigation/Footer';
-
+import { mealsActions } from '../../Redux/Actions/MealsActions';
 import { history } from '../../Utils/history';
+
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 import './MealsPage.css';
 
-const dummyMealOptions = {
-    breakfast: {
-        recipes: [
-            {
-                type: 'Breakfast',
-                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
-                label: 'Chunky Monkey Porridge',
-                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
-                pricePerServing: '10'
-            }, {
-                type: 'Breakfast',
-                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
-                label: 'Chunky Monkey Porridge',
-                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
-                pricePerServing: '6'
-            }, {
-                type: 'Breakfast',
-                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
-                label: 'Chunky Monkey Porridge',
-                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
-                pricePerServing: '6'
-            }, {
-                type: 'Breakfast',
-                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
-                label: 'Chunky Monkey Porridge',
-                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
-                pricePerServing: '6'
-            }, {
-                type: 'Breakfast',
-                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
-                label: 'Chunky Monkey Porridge',
-                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
-                pricePerServing: '6'
-            }
-        ],
-        macros: [
-            {
-                calories: '600',            
-                carbs: '30',               
-                fat: '22',                 
-                protein: '8',   
-            }, {
-                calories: '600',            
-                carbs: '30',               
-                fat: '22',                 
-                protein: '8',   
-            }, {
-                calories: '600',            
-                carbs: '30',               
-                fat: '22',                 
-                protein: '8',   
-            }, {
-                calories: '600',            
-                carbs: '30',               
-                fat: '22',                 
-                protein: '8',   
-            }, {
-                calories: '600',            
-                carbs: '30',               
-                fat: '22',                 
-                protein: '8',   
-            },
-        ],
-        ingredients: [
-            {
 
-            }
-        ],
-    },
-    lunch: {
-        recipes: [{
-            id: '8',
-            type: 'Lunch',
-            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
-            label: 'Rice Bowls with Flaky Cod',
-            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
-            pricePerServing: '12'
-        },{
-            id: '8',
-            type: 'Lunch',
-            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
-            label: 'Rice Bowls with Flaky Cod',
-            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
-            pricePerServing: '12'
-        },{
-            id: '8',
-            type: 'Lunch',
-            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
-            label: 'Rice Bowls with Flaky Cod',
-            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
-            pricePerServing: '12'
-        },{
-            id: '8',
-            type: 'Lunch',
-            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
-            label: 'Rice Bowls with Flaky Cod',
-            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
-            pricePerServing: '12'
-        },{
-            id: '8',
-            type: 'Lunch',
-            image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
-            label: 'Rice Bowls with Flaky Cod',
-            summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
-            pricePerServing: '12'
-        }],
-        macros: [{
-            calories: '600',            
-            carbs: '30',               
-            fat: '22',                 
-            protein: '8',   
-        },{
-            calories: '600',            
-            carbs: '30',               
-            fat: '22',                 
-            protein: '8',   
-        },{
-            calories: '600',            
-            carbs: '30',               
-            fat: '22',                 
-            protein: '8',   
-        },{
-            calories: '600',            
-            carbs: '30',               
-            fat: '22',                 
-            protein: '8',   
-        },{
-            calories: '600',            
-            carbs: '30',               
-            fat: '22',                 
-            protein: '8',   
-        },],
-        ingredients: [],
-    },
-    dinner: {
-        recipes: [],
-        macros: [],
-        ingredients: [],
-    },
-    snacks: {
-        recipes: [],
-        macros: [],
-        ingredients: [],
-    }
-}
+/*
+    Function Call Order
 
-const dummyMealOptions2 = {
-    option1: {
-        price: '38.00-43.00',
-        meals: [
-            {
-                id: '7',
-                type: 'Breakfast',
-                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/chunkymonkeyporridge.jpg',
-                label: 'Chunky Monkey Porridge',
-                summary: 'Healthy and flavorful twist to a morning oateal routine. Crunchy texture with nutty and fruity elements add to a wonderful breakfast favorite.',
-                pricePerServing: '10'
-            },{
-                id: '8',
-                type: 'Lunch',
-                image: 'https://assets.bonappetit.com/photos/5bcf769603dfa83457bf79a5/1:1/w_1600%2Cc_limit/Kedgeree-16x9-12102018.jpg',
-                label: 'Rice Bowls with Flaky Cod',
-                summary: "Kedgeree often calls for smoked fish, but for a light weeknight meal, we prefer steaming fresh fish right on top of the rice.",
-                pricePerServing: '12'
-            },{
-                id: '9',
-                type: 'Dinner',
-                image: 'https://www.feastingathome.com/wp-content/uploads/2019/02/15-minute-wonton-soup-100-1.jpg',
-                label: '15 Minute Wonton Soup!',
-                summary: '15 Minute Wonton Soup with flavorful Leek & Ginger Broth – loaded up with healthy vibrant greens – a fast and easy weeknight diner!  Vegan adaptable!',
-                pricePerServing: '16'
-            }
-        ],
-    },
-    option2: {
-        price: '42.00-45.00',
-        meals: [
-            {
-                id: '4',
-                type: 'Breakfast',
-                image: 'https://www.foodiecrush.com/wp-content/uploads/2018/03/microwaveeggcapresebreakfastcups.jpg',
-                label: 'Microwave Egg Caprese Breakfast Cups',
-                summary: 'This hot homemade ham, egg and caprese-flavored breakfast can be in yo’ belly in just two minutes thanks to a quick cook in the microwave. Yes, this is how you can easily cook eggs in the microwave.',
-                pricePerServing: '7'
-            },{
-                id: '5',
-                type: 'Lunch',
-                image: 'https://assets.bonappetit.com/photos/5ca4d3e6cab3b6a496e488dd/1:1/w_1600%2Cc_limit/Vegetarian-Noodles-2.jpg',
-                label: 'Peanutty Noodles with Tempeh Crumbles',
-                summary: "Tempeh skeptics, this recipe will make a convert of you.",
-                pricePerServing: '13'
-            },{
-                id: '6',
-                type: 'Dinner',
-                image: 'https://www.feastingathome.com/wp-content/uploads/2017/09/No-Boil-Mushroom-Baked-Ziti-100-4.jpg',
-                label: 'Baked Ziti with Mushrooms & Spinach (no boil!)',
-                summary: 'This delicious recipe for Baked Ziti with Spinach and Mushrooms– is a “no-boil” version! Meaning there is  no pre-boiling of the pasta- just cook it all in one-pot!  With only 15 minutes of hands-on time before baking in the oven, this is the perfect weeknight dinner the whole family will love!  GF and vegan adaptable! ',
-                pricePerServing: '22'
-            }
-        ],
-    },
-    option3: {
-        price: '34.00-39.00',
-        meals: [
-            {
-                id: '12',
-                type: 'Breakfast',
-                url: 'https://www.delish.com/cooking/recipe-ideas/a30899293/migas-recipe/',                
-                label: 'Best-Ever Migas',               
-                image: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-200212-migas-0104-portrait-pf-1582835980.jpg?crop=1.00xw:0.667xh;0,0.0443xh&resize=980:*',            
-                source: 'Delish',             
-                summary: "Traditional Mexican breakfast that makes crispy fried tortillas meet scrambled eggs, creating that magical crisp-gone-soggy texture that's irresistibly satisfying.",            
-                pricePerServing: '6',     
-                readyInMinutes: '40',      
-                servings: '2',            
-                calories: '600',            
-                carbs: '30',               
-                fat: '22',                 
-                protein: '8',   
-            },{
-                id: '2',
-                type: 'Lunch',
-                image: 'https://www.iheartnaptime.net/wp-content/uploads/2018/07/mediterranean-salad.jpg',
-                label: 'Mediterranean Salad with Creamy Balsamic Dressing',
-                summary: "This Mediterranean salad with creamy balsamic dressing is full of greens, protein and flavor! Comes together super quickly and tastes so fresh and delicious. Plus it’s healthier than most restaurants, too!",
-                pricePerServing: '12'
-            },{
-                id: '3',
-                type: 'Dinner',
-                image: 'https://www.iheartnaptime.net/wp-content/uploads/2017/02/Sheet-pan-balsamic-chicken-recipe-I-Heart-Naptime-4.jpg',
-                label: 'One-Pan Balsamic Chicken and Veggies',
-                summary: 'One-Pan Balsamic Chicken And Veggies – A Healthy, EASY And Delicious Dinner Recipe That’s Full Of Flavor! A Meal The Whole Family Will Love!',
-                pricePerServing: '16'
-            }
-        ],
-    }
-}
+    Home
+        --> mealOption(mealSet, macros, ingredients, mealNum, mealType, start) 
+            --> mealCard(meal, macros, ingredients, index, mealNum, mealType, styleId) 
+            --> onSelect(mealNum, mealType, index, mealPrice, meal, macros, ingredients, e)
+        --> renderSlider(meals, mealType, mealNumber)
+        --> handleSubmit(e)
 
+*/
+
+const schema = Yup.object().shape({
+    email: Yup.string().email("Please enter an appropiate email.").required("Please enter an appropiate email."),
+});
 
 export class MealsPage extends Component {
     constructor(props) {
@@ -260,10 +41,84 @@ export class MealsPage extends Component {
             lunch: false,
             dinner: false,
             snack: false,
+            mealsState: [],
+            numSelectedMeals: 0,
+            errorAlert: false,
         }
 
-        this.handleSelect = this.handleSelect.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.onSelect = this.onSelect.bind(this);
+    }
+
+    componentDidMount() {
+        // Initialize modal show array state
+        const spoonacularData = this.props.searchData;
+            
+        console.log(spoonacularData)
+        const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes);
+        
+        //const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes, spoonacularData.snacks.recipes);
+        const modalInit = meals.map(() => { return false });
+        this.setState({modalShowArray: modalInit});
+
+
+        
+        // Initialize meal number state
+        const mealsNum = this.props.meals;
+        var mealsState = [];
+
+        for (let i=0; i < mealsNum; i++) {
+            mealsState.push({
+                index: -1, 
+                price: 0, 
+                mealNum: -1, 
+                mealType: "", 
+                meal: {}, 
+                macros: {}, 
+                ingredients: {},
+                waitlistModalShow: false,
+            })
+        }
+        this.setState({mealsState: mealsState})
+
+
+        // Initialize meal type boolean
+        const breakfast = this.props.breakfast;
+        const lunch = this.props.lunch;
+        const dinner = this.props.dinner;
+        const snack = this.props.snack;
+        const snacks = this.props.snacks;
+        this.setState({
+            breakfast: breakfast,
+            lunch: lunch,
+            dinner: dinner,
+            snack: snack,
+            snacks: snacks,
+        })
+    }
+
+    // Loading spinner for email modal
+    loading() {
+        return(
+            <Spinner
+            as="span"
+            animation="border"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+            />
+        )
+    }
+
+    // Strip HTML tags from any string
+    removeTags(str) {
+        if ((str === null) || (str === '')) {
+            return false;
+        }
+        else {
+            str = str.toString();
+            return str.replace( /(<([^>]+)>)/ig, '');
+        }
     }
 
     /* Modal Show */
@@ -277,6 +132,8 @@ export class MealsPage extends Component {
                 }
             });
             return {modalShowArray,}
+
+            
         });
     }
 
@@ -296,13 +153,13 @@ export class MealsPage extends Component {
 
 
     /* Fills out a meal card */
-    mealCard(meal, macros, index, mealNum, styleId) {
+    mealCard(meal, macros, ingredients, index, mealNum, mealType, styleId) {
         var price = ((meal.pricePerServing / 100) * meal.servings).toFixed(2);
 
         return (
             <React.Fragment>
-            <Card id={styleId} onClick={this.onSelect.bind(this, mealNum, index, meal.pricePerServing)}>
-                <Card.Img variant="top" src={meal.image} className="meal-card-img"/>
+            <Card id={styleId} className="meal-option-card" onClick={this.onSelect.bind(this, mealNum, mealType, index, price, meal, macros, ingredients)}>
+                <Card.Img variant="top" src={meal.image} className="meal-card-img" alt="MealImage"/>
                 <Card.Body>
                     <Card.Title className="meal-card-title" id="meal-options-card-title">{meal.title}</Card.Title>
                         <Card.Text  className="meal-card-text" id="meal-options-card-txt">
@@ -328,18 +185,18 @@ export class MealsPage extends Component {
                 <Modal.Body>
                     <Row>
                         <Col md={5} id="meals-option-modal-img-wrapper">
-                            <a href={meal.url} id="week-img"><img src={meal.image} id="meals-option-modal-img"/></a>
+                            <a href={meal.url} id="week-img"><img src={meal.image} id="meals-option-modal-img" alt="Meal Pic"/></a>
                         </Col>
                         <Col>
-                            <p className="BodyFont" id="meals-option-modal-summary">{meal.summary}</p>
+                            <p className="BodyFont" id="meals-option-modal-summary">{this.removeTags(meal.summary)}</p>
                             <p className="BodyFont" id="meals-option-modal-body">
                                 Servings: {meal.servings} <br />
                                 Price per Serving: ${meal.pricePerServing} <br/>
                                 Time: {meal.readyInMinutes} mins <br/>
-                                Calories: {macros.calories} <br/>
-                                Carbs: {macros.carbs} <br/>
-                                Protein: {macros.protein} <br/>
-                                Fat: {macros.fat} <br/>
+                                {macros[0]} <br/> {/* calories */}
+                                {macros[6]} <br/> {/* carbs */}
+                                {macros[5]} <br/> {/* protein */}
+                                {macros[1]} <br/> {/* fat */}
                             </p>
                         </Col>
                     </Row>
@@ -354,7 +211,7 @@ export class MealsPage extends Component {
     }
 
     /* Displays meal option cards in a row */
-    mealOption(mealSet, macros, mealNum, start) {
+    mealOption(mealSet, macros, ingredients, mealNum, mealType, start) {
         
         // Map meals according to if it is highlighted or not
         var meals = [];
@@ -366,13 +223,13 @@ export class MealsPage extends Component {
             if ((i+start) === this.state.mealsState[mealNum].index) {
                 meals.push(
                     <Col id="meal-option-col" key={i}>
-                        {this.mealCard(mealSet[i], macros[i], i+start, mealNum, selectedStyle)}
+                        {this.mealCard(mealSet[i], macros[i], ingredients[i], i+start, mealNum, mealType, selectedStyle)}
                     </Col>
                 )
             } else {
                 meals.push(
                     <Col id="meal-option-col" key={i}>
-                        {this.mealCard(mealSet[i], macros[i], i+start, mealNum, nonSelectedStyle)}
+                        {this.mealCard(mealSet[i], macros[i],  ingredients[i], i+start, mealNum, mealType, nonSelectedStyle)}
                     </Col>
                 )
             }
@@ -394,7 +251,7 @@ export class MealsPage extends Component {
             }
 
             sliderMenu.push(
-                <div>
+                <div key={i}>
                     <Row id="meal-option-row">
                         {set}
                     </Row>
@@ -418,7 +275,7 @@ export class MealsPage extends Component {
     renderSlider(meals, mealType, mealNumber) {
         
         return (
-            <Jumbotron id="meals-option-jumbotron">
+            <Jumbotron id="meals-option-jumbotron" key={mealNumber}>
             <h1 className="BodyFont" id="meal-option-title">Meal Option {mealNumber}: {mealType}</h1>
                 {meals}
             </Jumbotron>
@@ -426,28 +283,50 @@ export class MealsPage extends Component {
     }
 
  
-    onSelect(mealNum, index, mealPrice, e) {
+    /* For selecting meal a meal */
+    onSelect(mealNum, mealType, index, mealPrice, meal, macros, ingredients, e) {
         e.preventDefault();
         let mealsState = [...this.state.mealsState];
         let mealState = {...mealsState[mealNum]};
-        let price = parseInt(mealPrice);
-        var budget = this.state.budget;
+        let price = parseFloat(mealPrice);
+        let numSelectedMeals = this.state.numSelectedMeals;
+        var budget = this.state.budget.toFixed(2);
 
         // If index is equal to current meal number
         // Change state to -1
         // Add meal price to budget
         if (mealState.index === index) {
-            budget = budget + mealState.price;
-            mealState = {index: -1, price: 0}
+            budget = budget - mealState.price;
+            mealState = {
+                index: -1, 
+                price: 0, 
+                mealNum: 0, 
+                mealType: "", 
+                meal: {}, 
+                macros: {}, 
+                ingredients: {}
+            }
+            numSelectedMeals --;
         } 
         // Else
         // Add existing meal price to budget
         // Change state to index
         // Remove index meal price from budget
         else {
-            budget = budget + mealState.price;
-            budget = budget - price;
-            mealState = {index: index, price: price}
+            budget = budget - mealState.price;
+            budget = budget + price;
+            mealState = {
+                    index: index, 
+                    price: price, 
+                    mealNum: mealNum, 
+                    mealType: mealType, 
+                    meal: meal, 
+                    macros: macros, 
+                    ingredients: ingredients,
+            }
+
+            if (mealNum !== this.state.mealsState[mealNum].mealNum) 
+                numSelectedMeals++;
         }
 
         mealsState[mealNum] = mealState;
@@ -456,69 +335,64 @@ export class MealsPage extends Component {
         this.setState({
             mealsState: mealsState,
             budget: budget,
+            numSelectedMeals: numSelectedMeals,
         })
     }
 
-    /* Select button */
-    handleSelect() {
-        // Add functionality to update user's meals in redux
+    /* Submit button */
+    handleSubmit(e) {
+        e.preventDefault();
+        let userSelectedMeals = this.state.numSelectedMeals;
+        let totalMeals = parseInt(this.props.meals);
 
-        history.push('/home')
-    }
-
-    componentDidMount() {
-        // Initialize modal show array state
-        const spoonacularData = this.props.location.state.meals;
-        console.log(spoonacularData)
-        const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes);
-        
-        //const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes, spoonacularData.snacks.recipes);
-        const modalInit = meals.map((item, i) => { return false });
-        this.setState({modalShowArray: modalInit});
-
-
-        
-        // Initialize meal number state
-        const mealsNum = this.props.meals;
-        var mealsState = [];
-
-        for (let i=0; i < mealsNum; i++) {
-            mealsState.push({index: -1, price: 0})
+        if(userSelectedMeals === totalMeals) {
+            const meals = this.state.mealsState;
+            let userMeals = [];
+            let userMacros = [];
+            let userIngredients = [];
+    
+            for(let i=0; i < meals.length; i++) {
+                let meal = {
+                    mealNum: meals[i].mealNum,
+                    mealType: meals[i].mealType,
+                    price: meals[i].price,
+                    meal: meals[i].meal,
+                    macros: meals[i].macros,
+                }
+                userMeals.push(meal);
+                userMacros.push(meals[i].macros);
+                userIngredients.push(meals[i].ingredients);
+            }
+    
+            this.props.setMeals(userMeals);
+            this.props.setMacros(userMacros);
+            this.props.setGrocery(userIngredients);
+    
+            history.push('/home')
+        } else {
+            this.setState({errorAlert: true})
         }
-        this.setState({mealsState: mealsState})
 
-        // Initialize initial budget
-        const budget = this.props.budget;
-        this.setState({budget: budget});
 
-        // Initialize meal type boolean
-        const breakfast = this.props.breakfast;
-        const lunch = this.props.lunch;
-        const dinner = this.props.dinner;
-        const snack = this.props.snack;
-        const snacks = this.props.snacks;
-        this.setState({
-            breakfast: breakfast,
-            lunch: lunch,
-            dinner: dinner,
-            snack: snack,
-            snacks: snacks,
-        })
     }
+
+    
 
 
 
     render() {
-        const mealOptions = this.props.location.state.meals;
+        var mealOptions = this.props.searchData;
 
         var mealCount = 0;
         var mealOptionNum = 0;
-        var renderedMeals = []
+        var renderedMeals = [];
+        const selectedPrice = this.state.budget.toFixed(2);
+
 
         // Setup the meals to render
         // Setup breakfast
         if (this.state.breakfast) {
-            var breakfast = this.mealOption(mealOptions.breakfast.recipes, mealOptions.breakfast.macros, mealOptionNum, mealCount);
+            var breakfast = this.mealOption(mealOptions.breakfast.recipes, mealOptions.breakfast.macros, mealOptions.breakfast.ingredients, mealOptionNum, "Breakfast", mealCount);
             renderedMeals.push(this.renderSlider(breakfast, "Breakfast", mealOptionNum+1));
             mealOptionNum += 1;
             mealCount += mealOptions.breakfast.recipes.length;
@@ -526,7 +400,7 @@ export class MealsPage extends Component {
 
         // Setup lunch
         if (this.state.lunch) {
-            var lunch = this.mealOption(mealOptions.lunch.recipes, mealOptions.lunch.macros, mealOptionNum, mealCount);
+            var lunch = this.mealOption(mealOptions.lunch.recipes, mealOptions.lunch.macros, mealOptions.lunch.ingredients, mealOptionNum, "Lunch", mealCount);
             renderedMeals.push(this.renderSlider(lunch, "Lunch", mealOptionNum+1));
             mealOptionNum += 1;
             mealCount += mealOptions.lunch.recipes.length;
@@ -534,7 +408,7 @@ export class MealsPage extends Component {
 
         // Setup dinner
         if (this.state.dinner) {
-            var dinner = this.mealOption(mealOptions.dinner.recipes, mealOptions.dinner.macros, mealOptionNum, mealCount);
+            var dinner = this.mealOption(mealOptions.dinner.recipes, mealOptions.dinner.macros, mealOptions.dinner.ingredients, mealOptionNum, "Dinner", mealCount);
             renderedMeals.push(this.renderSlider(dinner, "Dinner", mealOptionNum+1));
             mealOptionNum += 1;
             mealCount += mealOptions.dinner.recipes.length;
@@ -547,14 +421,14 @@ export class MealsPage extends Component {
             let i = 0, size;
 
             if(n < 2) {
-                let snackOption = this.mealOption(mealOptions.snacks.recipes, mealOptions.snacks.macros, "Snack", mealOptionNum, mealCount);
+                let snackOption = this.mealOption(mealOptions.snacks.recipes, mealOptions.snacks.macros, "Snack", mealOptionNum, "Snack", mealCount);
                 renderedMeals.push(this.renderSlider(snackOption, "snack", mealOptionNum));
                 mealOptionNum += 1;
                 mealCount += mealOptions.snacks.recipes.length;
             } else if (len % n === 0) {
                 size = Math.floor(len / n);
                 while (i < len) {
-                    let snackOption = this.mealOption(mealOptions.snacks.recipes.slice(i, i += size), mealOptions.snacks.macros.slice(i, i += size), "Snack", mealOptionNum, mealCount);
+                    let snackOption = this.mealOption(mealOptions.snacks.recipes.slice(i, i += size), mealOptions.snacks.macros.slice(i, i += size), "Snack", mealOptionNum, "Snack", mealCount);
                     renderedMeals.push(this.renderSlider(snackOption, "snack", mealOptionNum));
                     mealOptionNum += 1;
                     mealCount += mealOptions.snacks.recipes.slice(i, i += size).length;
@@ -589,11 +463,98 @@ export class MealsPage extends Component {
                 
                 <Row id="submit-bar-row">
                     <div id="submit-bar-wrapper">
-                        <h3 className="BodyFontD" id="meals-budget-txt">Budget: ${this.state.budget}</h3>
-                        <Button id="meals-submit-btn">Submit</Button>
+                        <Col>
+                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Selected Meals Price: ${selectedPrice}</h3>
+                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Budget: ${this.props.budget}</h3>
+                        </Col>
+                        <Col>
+                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Selected Meals: {this.state.numSelectedMeals}</h3>
+                            <h3 className="BodyFontD" id="meals-footer-bar-txt">Meals: {this.props.meals}</h3>
+                        </Col>
+                        
+                        <Col>
+                        {this.state.errorAlert 
+                            ? (<Alert variant="danger" onClose={() => this.setState({errorAlert: false})} dismissible>
+                                <Alert.Heading>Error</Alert.Heading>
+                                <p>Make sure to select a meal in each meal option!</p>
+                            </Alert>)
+                        
+                            : (
+                                <React.Fragment>
+                                    <Row>
+                                        <Button id="meals-submit-btn" onClick={() => {this.setState({waitlistModalShow: true})}}>Auto Select</Button>
+                                    </Row>
+                                    <Row>
+                                        <Button id="meals-submit-btn" onClick={this.handleSubmit}>Submit</Button>
+                                    </Row>
+                                </React.Fragment>
+                            )
+                        }
+                        </Col>
                     </div>
                 </Row>
 
+                {/* Waitlist Modal */}
+                <Modal
+                    show={this.state.waitlistModalShow}
+                    onHide={() => this.setState({waitlistModalShow: false})}
+                    centered
+                >
+                    <Modal.Header closeButton />
+                    <Modal.Body>
+                        <h1 className="BodyFont" id="custom-feedback-title">Feature coming soon! </h1>
+                        <h1 className="BodyFont" id="custom-feedback-title">Sign up on our waitlist for updates on product release!</h1>
+                        <Formik
+                        validationSchema={schema}
+                        initialValues={{email: ""}}
+                        onSubmit={(values) => {
+                            this.props.signUp(values.email)
+                        }}
+                    >
+                    {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        errors
+                    }) => (
+                        <Form noValidate onSubmit={handleSubmit}>
+                            <InputGroup>
+                            <Form.Control 
+                                type="email"
+                                name="email"
+                                placeholder="Enter email" 
+                                value={values.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                isValid={touched.email && !errors.email}
+                                className={touched.email && errors.email ? "landing-email-error BodyFontD" : "BodyFontD FormBox" }
+                            />
+                            <InputGroup.Append>
+                                <Button id="landing-page-email-submit" type="submit" disabled={this.props.emailSignUpLoading}> {this.props.emailSignUpLoading ? (this.loading()) : "Submit"}</Button>
+                            </InputGroup.Append>
+                            </InputGroup>
+                            {touched.email && errors.email ? (
+                                <div id="landing-email-error-msg">{errors.email}</div>
+                            ): null}
+                            { this.props.emailSignUpSuccess ? (
+                                <div id="landing-email-success-msg">Email added!</div>
+                            ) : null
+                            }
+                            { this.props.emailSignUpError ? (
+                                <div id="landing-email-error-msg">Error adding email. Try again later!</div>
+                            ) : null
+                            }
+                            
+                        </Form>
+                    )}
+                    </Formik>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div />
+                    </Modal.Footer>
+                </Modal>
                 <CustomFeedback />
                 <CustomFooter />
             </Container>
@@ -610,7 +571,17 @@ function mapStateToProps(state) {
         dinner,
         snack,
         snacks,
+        emailSignUpLoading, 
+        emailSignUpSuccess, 
+        emailSignUpError,
     } = state.user;
+
+    const {
+        searchData,
+        searchError,
+        searchLoading,
+        
+    } = state.meals;
 
     return ({
         meals,
@@ -620,12 +591,20 @@ function mapStateToProps(state) {
         dinner,
         snack,
         snacks,
+        searchLoading,
+        searchData,
+        searchError,
+        emailSignUpLoading, 
+        emailSignUpSuccess, 
+        emailSignUpError,
     })
 }
 
 // Add function to update meals
 const mapDispatchToProps = {
-    
+    setMeals: mealsActions.setMeals,
+    setGrocery: mealsActions.setGroceryList,
+    setMacros: mealsActions.setMacros,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MealsPage);
