@@ -4,14 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mealsRouter  = require('./routes/meals');
-var groceryList = require('./routes/groceryList')
+var groceryList = require('./routes/groceryList');
+var emailSignUp = require('./routes/email');
 const config = require('../backend/config')
 var cors = require('cors')
 
 
 //
 //mongoose configures mongoose for later
-require('./db.js')
+//require('./db.js')
 
 const bodyParser = require('body-parser');
 var app = express();
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
 // ======================
 app.use('/meals',  mealsRouter);
 app.use('/groceryList', groceryList);
+app.use('/signup', emailSignUp);
 
 
 // ===========================
