@@ -19,7 +19,7 @@ function signUpWaitlist(email) {
     return dispatch => {
         dispatch(request())
 
-        api.post("/signUp", email)
+        api.post("email/signup", email)
         .then((response) => {
             dispatch(success(response.data))
         })
