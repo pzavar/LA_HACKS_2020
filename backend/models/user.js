@@ -7,6 +7,7 @@ var bcrypt = require('bcrypt')
 const saltRounds = 10;
 
 var UserSchema = new mongoose.Schema({
+<<<<<<< HEAD
 	userid: {type: String, unique: true},
 	isLoggedIn: {type: Boolean},
 	email: {type:String, unique: true},
@@ -29,6 +30,15 @@ var UserSchema = new mongoose.Schema({
 
 UserSchema.static('register', function(user) {
     return this.find({ breed });
+=======
+    firstname:          { type: String },
+    lastname:           { type: String },
+    email:              { type: String },
+    dietaryrestriction: { type: String },
+    goal:               { type: String },
+    username:           { type: String },
+    password:           { type: String }
+>>>>>>> testBranch
 });
 
 UserSchema.plugin(passportLocalMongoose)

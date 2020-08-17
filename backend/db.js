@@ -21,12 +21,9 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-const dbName = "munchies_db";
-const collectionName = "Users";
-var db = null; 
-
-								//Writes to the test
-const dbConnectionUrl = 'mongodb+srv://jchou:klitz8@cluster0-rf1yl.gcp.mongodb.net/test?retryWrites=true&w=majority';
+const dbConnectionUrl = 'mongodb+srv://lahacker20:Munchies135@cluster0-rf1yl.gcp.mongodb.net/test?retryWrites=true&w=majority';
+// const dbConnectionUrl = 'mongodb+srv://ashkan:hal0freak@cluster0-rf1yl.gcp.mongodb.net/test?retryWrites=true&w=majority';
+// const dbConnectionUrl = 'mongodb+srv://jchou:klitz8@cluster0-rf1yl.gcp.mongodb.net/test?retryWrites=true&w=majority';
 
 mongoose.connect(dbConnectionUrl, { useNewUrlParser: true });
 
