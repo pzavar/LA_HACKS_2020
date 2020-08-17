@@ -48,7 +48,6 @@ class Grocery extends Component {
         const {name, value} = e.target;
 
         if (this.state[name].includes(value)) {
-            console.log("item exists")
             const items = this.state[name].filter((i) => i !== value)
             this.setState({[name]: items})
         } else {

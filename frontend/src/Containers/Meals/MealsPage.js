@@ -53,8 +53,7 @@ export class MealsPage extends Component {
     componentDidMount() {
         // Initialize modal show array state
         const spoonacularData = this.props.searchData;
-            
-        console.log(spoonacularData)
+
         const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes);
         
         //const meals = spoonacularData.breakfast.recipes.concat(spoonacularData.lunch.recipes, spoonacularData.dinner.recipes, spoonacularData.snacks.recipes);

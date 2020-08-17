@@ -189,16 +189,6 @@ class Register extends Component {
             numberOfMeals: meals, // int: number of meals
         }
 
-        /*
-        axios.get('http://localhost:4000/meals/complex', {searchData})
-        .then((response) => {
-            console.log(response.data)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-        */
-
         // Call user registration redux
         // - meals, budget, snacks
 
@@ -215,15 +205,6 @@ class Register extends Component {
 
         // REMOVE AFTER TESTING
         history.push('/meals');
-        /*
-        axios.get('http://localhost:4000/meals/complex', {searchData})
-        .then((response) => {
-            history.push('/meals', {meals: response.data});
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-        */
         
     }
 

@@ -4,8 +4,6 @@ import { CardDeck } from 'react-bootstrap';
 import './calendar.css';
 
 function populateCards(props) {
-    console.log("populateCards props = " + JSON.stringify(props))
-
     var cards = [];
     for (let i = 0; i < props.length; i++) {
         cards.push(
@@ -31,7 +29,6 @@ function populateCards(props) {
 }
 
 export function Daily(props) {
-    console.log(props)
     var todaysMeals = populateCards(props.daily)
     
     return(
