@@ -19,9 +19,16 @@ function signUpWaitlist(email) {
     return dispatch => {
         dispatch(request())
 
-        api.post("/signup", email)
+        const sendData = {email: email};
+
+        console.log(sendData)
+        
+        api.post("/email/signup", sendData)
         .then((response) => {
-            dispatch(success(response.data))
+            if (response.data.success)
+                dispatch(success(response.data))
+            else    
+                dispatch(failure(response.data.message))
         })
         .catch((error) => {
             dispatch(failure(error))

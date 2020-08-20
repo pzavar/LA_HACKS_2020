@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 // ======================
 app.use('/meals',  mealsRouter);
 app.use('/groceryList', groceryList);
-app.use('/signup', emailSignUp);
+app.use('/email', emailSignUp);
 
 
 // ===========================

@@ -1,4 +1,5 @@
 require('dotenv').config()
+
 // Parameters imported from .env file (environment variables)
 var config = {}
 config.apiBaseUrl = process.env.API_BASE_URL;
@@ -17,5 +18,8 @@ config.googleClientId = process.env.GOOGLE_CLIENT_ID
 config.googleClientSecret = process.env.GOOGLE_CLIENT_SECRET
 
 config.JWTSecret = process.env.JWTSecret
+
+config.newsletterGmailAcc = process.env.NEWSLETTER_GMAIL_ACC
+config.newsletterGmailKey = process.env.NEWSLETTER_GMAIL_PW
 
 module.exports = config;
