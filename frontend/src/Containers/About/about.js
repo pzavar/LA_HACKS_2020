@@ -28,20 +28,20 @@ export default class About extends Component {
                         <h1 className="PageTitleFont" style={{marginTop:'10%', marginBottom: '5%'}}>Meet the Team</h1>
                             <Row>
                             <Col>
-                                <Image src={John} roundedCircle id="about-profile-img"/>
-                                <h2 className="BodyFont" id="about-profile-title">Johnson Chou</h2>
-                                <p className="BodyFont" id="about-profile-subtitle">CEO, Founder</p>
+                                <Image src={Parham} roundedCircle id="about-profile-img"/>
+                                <h2 className="BodyFont" id="about-profile-title">Parham Hajzavar</h2>
+                                <p className="BodyFont" id="about-profile-subtitle">Co-Founder, CEO</p>
                             </Col>
                             <Col>
                                 <Image src={Ash} roundedCircle id="about-profile-img"/>
                                 <h2 className="BodyFont" id="about-profile-title">Ashkan Faghihi</h2>
-                                <p className="BodyFont" id="about-profile-subtitle">Founder</p>
+                                <p className="BodyFont" id="about-profile-subtitle">Co-Founder, CTO</p>
 
                             </Col>
                             <Col>
-                                <Image src={Parham} roundedCircle id="about-profile-img"/>
-                                <h2 className="BodyFont" id="about-profile-title">Parham Hajzavar</h2>
-                                <p className="BodyFont" id="about-profile-subtitle">Founder</p>
+                                <Image src={John} roundedCircle id="about-profile-img"/>
+                                <h2 className="BodyFont" id="about-profile-title">Johnson Chou</h2>
+                                <p className="BodyFont" id="about-profile-subtitle">Co-Founder, CFO</p>
                             </Col>
         
                         </Row>
