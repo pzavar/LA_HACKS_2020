@@ -189,14 +189,6 @@ class Register extends Component {
             numberOfMeals: meals, // int: number of meals
         }
 
-        axios.post('http://localhost:4000/meals/complex', {searchData})
-        .then((response) => {
-            console.log(response.data)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-
         // Call user registration redux
         // - meals, budget, snacks
 
