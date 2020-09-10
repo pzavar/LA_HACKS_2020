@@ -185,9 +185,17 @@ class Register extends Component {
             breakfast: breakfast, // bool
             lunch: lunch, // bool
             dinner: dinner, // bool
-            snack: snack, // bool
+            snacks: snacks, // int
             numberOfMeals: meals, // int: number of meals
         }
+
+        axios.post('http://localhost:4000/meals/complex', {searchData})
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 
         // Call user registration redux
         // - meals, budget, snacks
