@@ -158,7 +158,7 @@ async function fetchMealType(numberOfResults,numberOfMeals,limit,mealType,diet,e
  * excludeIngredients = list
  * numberOfMeals = int for number of meals to return for each catagory
  */
-router.post('/complex',async function(req,res,next){
+router.get('/complex',async function(req,res,next){
   console.log(req.body)
   const {
     costPerMeal = 200,
@@ -168,6 +168,7 @@ router.post('/complex',async function(req,res,next){
     snacks = 0,
     numberOfMeals = 1
   } = req.body
+
   var numberOfResults = numberOfMeals * 2
   var flexibility = 1
 
@@ -192,10 +193,12 @@ router.post('/complex',async function(req,res,next){
     snackSet = fetchMealType(numberOfResults * snacks,numberOfMeals,limit,"snack",diet,excludeIngredients,res)
   }
 
-  // console.log(breakfastSet)
-  // console.log(lunchSet)
-  // console.log(dinnerSet)
-  // console.log(snackSet)
+  console.log("Breakfast set is here:")
+
+  console.log(breakfastSet)
+  console.log(lunchSet)
+  console.log(dinnerSet)
+  console.log(snackSet)
 
   /*
    *breakfast: {
@@ -210,30 +213,39 @@ router.post('/complex',async function(req,res,next){
         [...]
 ]
    * */
-  res.json({
-    "breakfast" : { 
-      "recipes": breakfastSet,
-      "macros" : breakfastSet.map(recipe => extractMacro(recipe)),
-      "ingredients" : breakfastSet.map(recipe => extractIngredients(recipe))
-    },
-    "lunch" : {
-      "recipes": lunchSet,
-      "macros" : lunchSet.map(recipe => extractMacro(recipe)),
-      "ingredients" : lunchSet.map(recipe => extractIngredients(recipe))
-    },
-    "dinner" : {
-      "recipes": dinnerSet,
-      "macros" : dinnerSet.map(recipe => extractMacro(recipe)),
-      "ingredients" : dinnerSet.map(recipe => extractIngredients(recipe))
-    },
 
-    "snack" : {
-      "recipes": snackSet,
-      "macros" : snackSet.map(recipe => extractMacro(recipe)),
-      "ingredients" : snackSet.map(recipe => extractIngredients(recipe))
-    }}
-  )
+  result = {}
+  map = ["breakfast", "lunch", "dinner", "snack"]
+  Promise.all([breakfastSet,lunchSet,dinnerSet,snackSet]).then((sets) => {
+    breakfastSet = sets[0]
+    lunchSet = sets[1]
+    dinnerSet = sets[2]
+    snackSet = sets[3]
+    res.json({
+      "breakfast" : { 
+        "recipes": breakfastSet,
+        "macros" : breakfastSet.map(recipe => extractMacro(recipe)),
+        "ingredients" : breakfastSet.map(recipe => extractIngredients(recipe))
+      },
+      "lunch" : {
+        "recipes": lunchSet,
+        "macros" : lunchSet.map(recipe => extractMacro(recipe)),
+        "ingredients" : lunchSet.map(recipe => extractIngredients(recipe))
+      },
+      "dinner" : {
+        "recipes": dinnerSet,
+        "macros" : dinnerSet.map(recipe => extractMacro(recipe)),
+        "ingredients" : dinnerSet.map(recipe => extractIngredients(recipe))
+      },
 
+      "snack" : {
+        "recipes": snackSet,
+        "macros" : snackSet.map(recipe => extractMacro(recipe)),
+        "ingredients" : snackSet.map(recipe => extractIngredients(recipe))
+      }
+    })
+
+  })
 })
 
 //
@@ -242,7 +254,7 @@ router.post('/complex',async function(req,res,next){
 //Nutrition
 //Ingredients
 router.get('/groceryList',async function(req,res,next){
-  var ids = "17281,175323"
+  var ids = "17281"
   console.log(ids)
 
   var search = await fetch(`https://api.spoonacular.com/recipes/informationBulk?apiKey=${config.spoonacularApiKey}&ids=${ids}&includeNutrition=true`)
