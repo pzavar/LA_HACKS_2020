@@ -10,6 +10,16 @@ import Meals from './Containers/Meals/MealsPage';
 
 import ScrollToTop from './Utils/ScrollToTop';
 
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-178737024-1',{
+  debug: true,
+})
+
+history.listen(location => {
+  ReactGA.set ({page: location.pathname });
+  ReactGA.pageview(location.pathname);
+})
 
 const App = () => (
   <Router history={history}>
