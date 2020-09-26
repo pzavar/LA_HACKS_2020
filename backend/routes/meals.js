@@ -119,6 +119,8 @@ async function fetchMealType(numberOfResults,numberOfMeals,limit,mealType,diet,e
   var search = await fetch(call)
   json = await search.json()
   results = json["results"]
+  console.log('Results')
+  console.log(results)
   set = results.filter(recipe => (getCost(recipe) < limit)).slice(0,numberOfMeals)
   console.log("set is ")
   console.log(set)
@@ -159,7 +161,8 @@ async function fetchMealType(numberOfResults,numberOfMeals,limit,mealType,diet,e
  * numberOfMeals = int for number of meals to return for each catagory
  */
 router.get('/complex',async function(req,res,next){
-  console.log(req.body)
+  console.log('complex endpoint called')
+  console.log(req.query)
   const {
     costPerMeal = 200,
     diet = "",
@@ -167,7 +170,7 @@ router.get('/complex',async function(req,res,next){
     breakfast = true, lunch = true, dinner = true, 
     snacks = 0,
     numberOfMeals = 1
-  } = req.body
+  } = req.query
 
   var numberOfResults = numberOfMeals * 2
   var flexibility = 1

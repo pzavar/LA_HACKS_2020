@@ -15,7 +15,7 @@ function searchMeals(searchData) {
     return dispatch => {
         dispatch(request())
 
-        api.get("/meals/complex", searchData) 
+        api.get("/meals/complex", {params: searchData}) 
         .then((response) => {
             dispatch(success(response.data));
             history.push('/meals');
