@@ -1,3 +1,6 @@
+# use the remote-url
+mv ./src/Utils/url.js ./src/Utils/local-url.js
+mv ./src/Utils/remote-url.js ./src/Utils/url.js
 
 # Make the production build
 npm run build 
@@ -10,3 +13,7 @@ ssh forkandspatula "rm -r ~/forkandspatula.com/public && unzip -o -d ~/forkandsp
 # Remove the build locally
 rm -r build.zip
 
+
+# move the local-url
+mv ./src/Utils/url.js ./src/Utils/remote-url.js
+mv ./src/Utils/local-url.js ./src/Utils/url.js
