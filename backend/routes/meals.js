@@ -1,3 +1,9 @@
+/*
+ * TODO: 
+ * Fix lunch dinner
+ * exlude ingredients might not be working
+*/
+
 const measurement = require('../utils/measurements')
 var express = require('express');
 var router = express.Router();
@@ -11,6 +17,17 @@ var Meal = require('../models/meals')
 
 // Also, looking at the Spoonacular API, the Search by Complex might be the approach. The logic flow would be setting query to breakfast, lunch, and dinner. Setting the type to breakfast, lunch and dinner. Setting other preferences according to the user. Then we do 5 searches on each breakfast, lunch and dinner, then from those 15, pick out the meal combination that meets the budget crietria. and and set addRecipeInformation boolean to true.
 
+// https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
 
 function nutrientToIndex(nutrient){
   nutrientToIndexMap = {
@@ -113,15 +130,16 @@ function buildComplexCall(numberOfResults,type,diet,excludeIngredients) {
   return url
 }
 
+/*
+  * 
+*/
 async function fetchMealType(numberOfResults,numberOfMeals,limit,mealType,diet,excludeIngredients,res){
   set = []
   call = buildComplexCall(numberOfResults,mealType,diet,excludeIngredients)
   var search = await fetch(call)
   json = await search.json()
   results = json["results"]
-  console.log('Results')
-  console.log(results)
-  set = results.filter(recipe => (getCost(recipe) < limit)).slice(0,numberOfMeals)
+  set = shuffle(results).filter(recipe => (getCost(recipe) < limit)).slice(0,numberOfMeals)
   console.log("set is ")
   console.log(set)
   console.log(set.length)
@@ -180,28 +198,17 @@ router.get('/complex',async function(req,res,next){
 
   results = []
   breakfastSet = []
-  lunchSet = []
-  dinnerSet = []
+  lunchAndDinnerSet = []
   snackSet = []
   if (breakfast){
     breakfastSet = fetchMealType(numberOfResults,numberOfMeals,limit,"breakfast",diet,excludeIngredients,res)
   }
-  if (lunch) {
-    lunchSet = fetchMealType(numberOfResults,numberOfMeals,limit,"main course",diet,excludeIngredients,res)
-  }
-  if (dinner) {
-    dinnerSet = fetchMealType(numberOfResults,numberOfMeals,limit,"main course",diet,excludeIngredients,res)
+  if (lunch && dinner) {
+    lunchAndDinnerSet = fetchMealType(numberOfResults * 2,numberOfMeals * 2,limit,"main course",diet,excludeIngredients,res)
   }
   if (snacks != 0) {
     snackSet = fetchMealType(numberOfResults * snacks,numberOfMeals,limit,"snack",diet,excludeIngredients,res)
   }
-
-  console.log("Breakfast set is here:")
-
-  console.log(breakfastSet)
-  console.log(lunchSet)
-  console.log(dinnerSet)
-  console.log(snackSet)
 
   /*
    *breakfast: {
@@ -217,13 +224,27 @@ router.get('/complex',async function(req,res,next){
 ]
    * */
 
+
+
   result = {}
-  map = ["breakfast", "lunch", "dinner", "snack"]
-  Promise.all([breakfastSet,lunchSet,dinnerSet,snackSet]).then((sets) => {
+  // map = ["breakfast", "lunch", "dinner", "snack"]
+  Promise.all([breakfastSet,lunchAndDinnerSet,snackSet]).then((sets) => {
     breakfastSet = sets[0]
-    lunchSet = sets[1]
-    dinnerSet = sets[2]
-    snackSet = sets[3]
+    lunchAndDinnerSet = sets[1]
+    snackSet = sets[2]
+
+    var half_length = Math.ceil(lunchAndDinnerSet.length / 2);    
+    console.log('Full length and half length')
+    console.log(lunchAndDinnerSet.length)
+    console.log(half_length)
+    var lunchSet = lunchAndDinnerSet.slice(0,half_length);
+    var dinnerSet = lunchAndDinnerSet.slice(half_length,lunchAndDinnerSet.length);
+    
+    console.log("lunch set length ")
+    console.log(lunchSet.length)
+    console.log("dinner set length")
+    console.log(dinnerSet.length)
+
     res.json({
       "breakfast" : { 
         "recipes": breakfastSet,
